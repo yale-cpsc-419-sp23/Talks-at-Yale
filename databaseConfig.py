@@ -1,6 +1,12 @@
 import sqlite3
 import os
 
+def getEventsDatabase():
+    """returns the database object"""
+    c = sqlite3.connect('events.db')
+    events = c.execute("SELECT * FROM events")
+    return events
+
 def createDatabase():
     # Connect to a database (creates a new database if it doesn't exist)
     conn = sqlite3.connect('events.db')
@@ -53,10 +59,8 @@ def createDatabase():
                 FOREIGN KEY (department_id) REFERENCES departments(id),
                 PRIMARY KEY (id, department_id, type_id, speaker_id, host_id, location_id))''')
 
-    # Save (commit) the changes
+    # Save (commit) the changes, and then close the connection
     conn.commit()
-
-    # Close the connection
     conn.close()
 
 def populateDatabase(verbose=False):
@@ -92,16 +96,16 @@ def populateDatabase(verbose=False):
         c.execute("INSERT INTO departments (department, id) VALUES (?, ?)", (departments[i], i))
 
     # populates the events table
-    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (0, 0, 'CS Talk - Faculty Recruit', 0, 0, 'Tuesday, February 28', '4:00 p.m.', 0, 'This is a work in progress', 0)")       # done
-    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (1, 1, 'Automatically Preventing, Detecting, and Repairing Crucial Errors in Programs', 1, 0, 'March 6th, 2023', '1 PM EST.', 1, 'This is a work in progress', 0)")      # done
-    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (2, 2, 'NA', 2, 2, 'Thursday, March 9, 2023', '10:00 AM.', 6, 'This is a work in progress', 0)")       # done
-    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (3, 3, 'Robot Abuse: Is it okay for me to hit my robot?', 8, 6, 'February 28', '5:00 p.m.', 2, 'This is a work in progress', 0)")      # done
-    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (4, 0, 'Learning Systems in Adaptive Environments. Theory, Algorithms and Design', 3, 2, 'Tue Feb 21, 2023', '4pm - 5pm (EST).', 3, 'This is a work in progress', 0)")     # done
-    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (5, 1, 'Fusing Symbolic and Subsymbolic Approaches for Natural and Effective Human-Robot Collaboration', 4, 3, 'Monday, February 27, 2023', '11:45am (EST)', 0, 'This is a work in progress', 0)")     # done
-    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (6, 3, 'SIGecom Winter Meeting', 8, 6, 'Wednesday, February 22nd', '11am - 5pm ET.', 6, 'This is a work in progress', 0)")    # done
-    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (7, 2, 'Reinforcement Learning for Automated Exploration and Detection of Cache-Timing Attacks', 5, 4, 'Thu Feb 16, 2023', '4pm - 5pm (EST).', 6, 'This is a work in progress', 0)")       # done
-    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (8, 1, 'Messages, Secrets, and Catalysts in Population Protocols with Probabilistic Scheduling', 6, 5, 'Monday, March 20, 2023', '4 PM (ET)', 4, 'This is a work in progress', 0)")    # done
-    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (9, 3, 'NA', 7, 6, 'NA', '2:30 - 3:50 p.m.', 5, 'This is a work in progress', 0)")    # done
+    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (0, 0, 'CS Talk - Faculty Recruit', 'Jay Lim', 0, 'Tuesday, February 28', '4:00 p.m.', 0, 'This is a work in progress', 0)")
+    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (1, 1, 'Automatically Preventing, Detecting, and Repairing Crucial Errors in Programs', 1, 0, 'March 6th, 2023', '1 PM EST.', 1, 'This is a work in progress', 0)")
+    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (2, 2, 'NA', 2, 2, 'Thursday, March 9, 2023', '10:00 AM.', 6, 'This is a work in progress', 0)")
+    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (3, 3, 'Robot Abuse: Is it okay for me to hit my robot?', 8, 6, 'February 28', '5:00 p.m.', 2, 'This is a work in progress', 0)")
+    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (4, 0, 'Learning Systems in Adaptive Environments. Theory, Algorithms and Design', 3, 2, 'Tue Feb 21, 2023', '4pm - 5pm (EST).', 3, 'This is a work in progress', 0)")
+    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (5, 1, 'Fusing Symbolic and Subsymbolic Approaches for Natural and Effective Human-Robot Collaboration', 4, 3, 'Monday, February 27, 2023', '11:45am (EST)', 0, 'This is a work in progress', 0)")
+    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (6, 3, 'SIGecom Winter Meeting', 8, 6, 'Wednesday, February 22nd', '11am - 5pm ET.', 6, 'This is a work in progress', 0)")
+    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (7, 2, 'Reinforcement Learning for Automated Exploration and Detection of Cache-Timing Attacks', 5, 4, 'Thu Feb 16, 2023', '4pm - 5pm (EST).', 6, 'This is a work in progress', 0)")
+    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (8, 1, 'Messages, Secrets, and Catalysts in Population Protocols with Probabilistic Scheduling', 6, 5, 'Monday, March 20, 2023', '4 PM (ET)', 4, 'This is a work in progress', 0)")
+    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (9, 3, 'NA', 7, 6, 'NA', '2:30 - 3:50 p.m.', 5, 'This is a work in progress', 0)")
 
 
     # print the databases if verbose is true
@@ -128,8 +132,12 @@ def main():
     os.remove('events.db')          # delete the database if it already exists. Only used for ease of testing
     createDatabase()
 
-    printDatabases = False
+    printDatabases = 0
     populateDatabase(printDatabases)
+
+    events = getEventsDatabase()
+    for event in events:
+        print(event)
 
 if __name__ == '__main__':
     main()
