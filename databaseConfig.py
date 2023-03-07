@@ -1,6 +1,18 @@
 import sqlite3
 import os
 
+def searchEventsDatabase(searchTerm):
+    """returns a list of events that match the search term"""
+    c = sqlite3.connect('events.db')
+    query = """SELECT * 
+        FROM events
+        LEFT JOIN speakers ON events.speaker_id = speakers.id
+        LEFT JOIN hosts ON events.host_id = hosts.id
+        WHERE title LIKE :searchTerm OR speaker_name LIKE :searchTerm OR host_name LIKE :searchTerm"""
+    events = c.execute(query, {"searchTerm": f'%{searchTerm}%'})
+    return events.fetchall()
+
+
 def getEventsDatabase():
     """returns the database object"""
     c = sqlite3.connect('events.db')
@@ -23,12 +35,12 @@ def createDatabase():
 
     c.execute('''CREATE TABLE speakers(
                 id INTEGER,
-                name TEXT,
+                speaker_name TEXT,
                 PRIMARY KEY (id))''')
 
     c.execute('''CREATE TABLE hosts(
                 id INTEGER,
-                name TEXT,
+                host_name TEXT,
                 PRIMARY KEY (id))''')
 
     c.execute('''CREATE TABLE locations(
@@ -78,12 +90,12 @@ def populateDatabase(verbose=False):
     # populates the speakers table
     speakers = ['Jay Lim', 'Jialu Zhang', 'Dr. Shuwen Deng', 'Aldo Pacchiano', 'Jake Brawer', 'Wenjie Xiong', 'Talley Amir', 'Weijie Su', 'NA']
     for i in range(len(speakers)):
-        c.execute("INSERT INTO speakers (name, id) VALUES (?, ?)", (speakers[i], i))
+        c.execute("INSERT INTO speakers (speaker_name, id) VALUES (?, ?)", (speakers[i], i))
 
     # populates the hosts table
     hosts = ['Ruzica Piskac', 'Professor Jakub Szefer', 'Steve Zucker', 'Brian Scassellati', 'Jakub Szefer', 'James Aspnes', 'NA']
     for i in range(len(hosts)):
-        c.execute("INSERT INTO hosts (name, id) VALUES (?, ?)", (hosts[i], i))
+        c.execute("INSERT INTO hosts (host_name, id) VALUES (?, ?)", (hosts[i], i))
 
     # populates the locations table
     locations = ['AWK 200', 'AKW 307', 'LC 105', 'AKW 200, 51 Prospect Street', 'TBD', '87 Trumbull St, Room B120', 'NA']
@@ -135,10 +147,12 @@ def main():
     printDatabases = 0
     populateDatabase(printDatabases)
 
-    events = getEventsDatabase()
-    for event in events:
-        print(type(event))
-        print(event)
+    # events = getEventsDatabase()
+    # for event in events:
+    #     print(type(event))
+    #     print(event)
+
+    # print(searchEventsDatabase('Ruzica'))
 
 if __name__ == '__main__':
     main()
