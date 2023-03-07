@@ -137,6 +137,7 @@ def main():
 
     events = getEventsDatabase()
     for event in events:
+        print(type(event))
         print(event)
 
 if __name__ == '__main__':
