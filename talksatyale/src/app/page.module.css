@@ -1,0 +1,151 @@
+/* our styles */
+.header {
+  display: flex;
+  font-family: Inter;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+
+}
+
+
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+}
+
+
+.search {
+  display: flex;
+}
+
+.searchResults {
+  display: flex;
+  color: #9bcad1;
+  font-size: 0.8em;
+  align-self: flex-end;
+  margin-bottom: 5px;
+}
+.pageWrapper {
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.logInButton {
+  background-color: #FF5A5F;
+  border-color: #FF5A5F;
+  color: white;
+  width: 12em;
+  height: 3em;
+  border-style: solid;
+  border-radius: 12px;
+}
+
+.searchBar {
+  display: flex;
+  width: 40em;
+  height: 3em;
+  font-size: 1em;
+  border-radius: 12px;
+  border: solid;
+  border-color: #9bcad1;
+  padding-left: 1em;
+  margin-right: 20px;
+
+}
+
+.searchBar::placeholder {
+  color: #9bcad1;
+}
+
+
+.title {
+  font-size: 2em;
+  font-weight: bold;
+  display: inline-block;
+  margin-right: 30px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.eventCard {
+  background-color: #eef4f4;
+  border-radius: 12px;
+  padding: 1em;
+  z-index: 1;
+  padding-left: 2.5em;
+}
+
+.cardLocation {
+  font-size: 1em;
+  font-weight: 600;
+  
+}
+
+.cardHeader {
+  margin-top: .3em;
+  margin-bottom: .3em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1.7em;
+
+
+}
+
+.cardDescription {
+  color: #777777;
+  margin-bottom: .5em;
+  font-size: 1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+
+}
+
+.cardDept{
+  color: #065CB1;
+  font-weight: 500;
+  font-size: .8em;
+  letter-spacing: .005em;
+
+}
+
+.cardTime {
+  text-align: center;
+  border-radius: 12px;
+  border: 2.5px solid #FF5A5F;
+  background-color: white;
+  height: 45%;
+  width: 40%;
+  margin: auto;
+  align-items: center;
+  padding-top: 0.6em;
+  padding-bottom: 0.6em;
+  padding-left: 0;
+  padding-right: 0;
+  margin-right: -1.3em;
+  z-index: 2;
+
+}
+
+.cardDate {
+  font-size: 1.7em;
+  font-weight: 700;
+}
+
+.cardDay, .cardMonth {
+  font-size: 1.05em;
+  font-weight: 700;
+
+}
+
+.cardContainer {
+  display: flex;
+  font-family: Inter;
+}
