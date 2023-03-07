@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import styles from './page.module.css'
 import Header from './header'
+import EventCard from './eventCard'
 
 
 export default function Home() {
@@ -8,7 +9,8 @@ export default function Home() {
     <div className={styles.pageWrapper}>
       <Header />
       <main className={styles.main}>
-        <div className={styles.description}>
+        <div>
+          <EventCard />
         </div>
       </main>
     </div>
