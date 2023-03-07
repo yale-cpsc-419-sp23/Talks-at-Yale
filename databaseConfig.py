@@ -53,8 +53,6 @@ def createDatabase():
                 FOREIGN KEY (department_id) REFERENCES departments(id),
                 PRIMARY KEY (id, department_id, type_id, speaker_id, host_id, location_id))''')
 
-
-
     # Save (commit) the changes
     conn.commit()
 
@@ -66,67 +64,32 @@ def populateDatabase(verbose=False):
 
     # Connect to a database (creates a new database if it doesn't exist)
     conn = sqlite3.connect('events.db')
-
-    # Create a cursor object to execute SQL commands
     c = conn.cursor()
 
     # populates the types table
-    c.execute("INSERT INTO types (type, id) VALUES ('CS Talk - Faculty Recruit', 0)")
-    c.execute("INSERT INTO types (type, id) VALUES ('Dissertation Defense', 1)")
-    c.execute("INSERT INTO types (type, id) VALUES ('EE Seminar', 2)")
-    c.execute("INSERT INTO types (type, id) VALUES ('other', 3)")
-
-    if verbose:
-        test = c.execute("SELECT * FROM types")
-        print(test.fetchall())
+    types = ['CS Talk - Faculty Recruit', 'Dissertation Defense', 'EE Seminar', 'other']
+    for i in range(len(types)):
+        c.execute("INSERT INTO types (type, id) VALUES (?, ?)", (types[i], i))
 
     # populates the speakers table
-    c.execute("INSERT INTO speakers (name, id) VALUES ('Jay Lim', 0)")
-    c.execute("INSERT INTO speakers (name, id) VALUES ('Jialu Zhang', 1)")
-    c.execute("INSERT INTO speakers (name, id) VALUES ('Dr. Shuwen Deng', 2)")
-    c.execute("INSERT INTO speakers (name, id) VALUES ('Aldo Pacchiano', 3)")
-    c.execute("INSERT INTO speakers (name, id) VALUES ('Jake Brawer', 4)")
-    c.execute("INSERT INTO speakers (name, id) VALUES ('Wenjie Xiong', 5)")
-    c.execute("INSERT INTO speakers (name, id) VALUES ('Talley Amir', 6)")
-    c.execute("INSERT INTO speakers (name, id) VALUES ('Weijie Su', 7)")
-    c.execute("INSERT INTO speakers (name, id) VALUES ('NA', 8)")
-
-    if verbose:
-        test = c.execute("SELECT * FROM speakers")
-        print(test.fetchall())
+    speakers = ['Jay Lim', 'Jialu Zhang', 'Dr. Shuwen Deng', 'Aldo Pacchiano', 'Jake Brawer', 'Wenjie Xiong', 'Talley Amir', 'Weijie Su', 'NA']
+    for i in range(len(speakers)):
+        c.execute("INSERT INTO speakers (name, id) VALUES (?, ?)", (speakers[i], i))
 
     # populates the hosts table
-    c.execute("INSERT INTO hosts (name, id) VALUES ('Ruzica Piskac', 0)")
-    c.execute("INSERT INTO hosts (name, id) VALUES ('Professor Jakub Szefer', 1)")
-    c.execute("INSERT INTO hosts (name, id) VALUES ('Steve Zucker', 2)")
-    c.execute("INSERT INTO hosts (name, id) VALUES ('Brian Scassellati', 3)")
-    c.execute("INSERT INTO hosts (name, id) VALUES ('Jakub Szefer', 4)")
-    c.execute("INSERT INTO hosts (name, id) VALUES ('James Aspnes', 5)")
-    c.execute("INSERT INTO hosts (name, id) VALUES ('NA', 6)")
-
-    if verbose:
-        test = c.execute("SELECT * FROM hosts")
-        print(test.fetchall())
+    hosts = ['Ruzica Piskac', 'Professor Jakub Szefer', 'Steve Zucker', 'Brian Scassellati', 'Jakub Szefer', 'James Aspnes', 'NA']
+    for i in range(len(hosts)):
+        c.execute("INSERT INTO hosts (name, id) VALUES (?, ?)", (hosts[i], i))
 
     # populates the locations table
-    c.execute("INSERT INTO locations (location, id) VALUES ('AWK 200', 0)")
-    c.execute("INSERT INTO locations (location, id) VALUES ('AKW 307', 1)")
-    c.execute("INSERT INTO locations (location, id) VALUES ('LC 105', 2)")
-    c.execute("INSERT INTO locations (location, id) VALUES ('AKW 200, 51 Prospect Street', 3)")
-    c.execute("INSERT INTO locations (location, id) VALUES ('TBD', 4)")
-    c.execute("INSERT INTO locations (location, id) VALUES ('87 Trumbull St, Room B120', 5)")
-    c.execute("INSERT INTO locations (location, id) VALUES ('NA', 6)")
-
-    if verbose:
-        test = c.execute("SELECT * FROM locations")
-        print(test.fetchall())
+    locations = ['AWK 200', 'AKW 307', 'LC 105', 'AKW 200, 51 Prospect Street', 'TBD', '87 Trumbull St, Room B120', 'NA']
+    for i in range(len(locations)):
+        c.execute("INSERT INTO locations (location, id) VALUES (?, ?)", (locations[i], i))
 
     # populates the departments table
-    c.execute("INSERT INTO departments (department, id) VALUES ('Computer Science', 0)")
-
-    if verbose:
-        test = c.execute("SELECT * FROM departments")
-        print(test.fetchall())
+    departments = ['Computer Science']
+    for i in range(len(departments)):
+        c.execute("INSERT INTO departments (department, id) VALUES (?, ?)", (departments[i], i))
 
     # populates the events table
     c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (0, 0, 'CS Talk - Faculty Recruit', 0, 0, 'Tuesday, February 28', '4:00 p.m.', 0, 'This is a work in progress', 0)")       # done
@@ -140,16 +103,24 @@ def populateDatabase(verbose=False):
     c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (8, 1, 'Messages, Secrets, and Catalysts in Population Protocols with Probabilistic Scheduling', 6, 5, 'Monday, March 20, 2023', '4 PM (ET)', 4, 'This is a work in progress', 0)")    # done
     c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (9, 3, 'NA', 7, 6, 'NA', '2:30 - 3:50 p.m.', 5, 'This is a work in progress', 0)")    # done
 
+
+    # print the databases if verbose is true
     if verbose:
+        test = c.execute("SELECT * FROM types")
+        print(test.fetchall())
+        test = c.execute("SELECT * FROM speakers")
+        print(test.fetchall())
+        test = c.execute("SELECT * FROM hosts")
+        print(test.fetchall())
+        test = c.execute("SELECT * FROM locations")
+        print(test.fetchall())
+        test = c.execute("SELECT * FROM departments")
+        print(test.fetchall())
         test = c.execute("SELECT * FROM events")
         print(test.fetchall())
 
-
-
-    # Save (commit) the changes
+    # Save (commit) the changes, and then close the connection
     conn.commit()
-
-    # Close the connection
     conn.close()
 
 
