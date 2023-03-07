@@ -6,11 +6,11 @@ export default function Header() {
   return (
     <header className={styles.header}>
         <div className={styles.titleSearch}>
-            <h1 className={styles.title}>Talks at Yale</h1>
-            <input className={styles.searchBar} placeholder="Search by title, department, topic, etc."></input>
+            <h2 className={styles.title}>Talks at Yale</h2>
+            <input className={styles.searchBar} placeholder="Search by title, department, topic, etc..."></input>
 
         </div>
-        <button className={styles.logInButton}><h1>Log In</h1></button>
+        <button className={styles.logInButton}><h2>Log In</h2></button>
     </header>
   )
 }
