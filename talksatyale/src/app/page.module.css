@@ -77,6 +77,8 @@
   padding: 1em;
   z-index: 1;
   padding-left: 2.5em;
+  width: 1500px;
+  display: inline-block;
 }
 
 .cardLocation {
@@ -116,7 +118,7 @@
 
 }
 
-.cardTime {
+.cardLeft {
   text-align: center;
   border-radius: 12px;
   border: 2.5px solid #FF5A5F;
@@ -131,6 +133,8 @@
   padding-right: 0;
   margin-right: -1.3em;
   z-index: 2;
+  width: 100px;
+  max-width: 100px;
 
 }
 
@@ -148,4 +152,5 @@
 .cardContainer {
   display: flex;
   font-family: Inter;
+  width: em;
 }
