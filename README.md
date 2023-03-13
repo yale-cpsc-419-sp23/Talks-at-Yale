@@ -6,4 +6,4 @@ cd talksatyale
 npm run dev
 
 
-Inssia, Wini, Martin, Elon
+Inssia, Wini, Martin, Elon, Abuu
