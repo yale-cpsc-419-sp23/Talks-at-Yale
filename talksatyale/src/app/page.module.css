@@ -4,7 +4,7 @@
   font-family: Inter;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
 
 }
 
@@ -39,7 +39,7 @@
   border-color: #FF5A5F;
   color: white;
   width: 12em;
-  height: 3em;
+  height: 4em;
   border-style: solid;
   border-radius: 12px;
 }
@@ -71,14 +71,14 @@
   text-align: center;
 }
 
-.eventCard {
+.cardRight {
   background-color: #eef4f4;
   border-radius: 12px;
   padding: 1em;
   z-index: 1;
   padding-left: 2.5em;
   width: 1500px;
-  display: inline-block;
+  display: block;
 }
 
 .cardLocation {
@@ -91,9 +91,11 @@
   margin-top: .3em;
   margin-bottom: .3em;
   white-space: nowrap;
+  font-size: 1.7em;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 1.7em;
+  display: inline-block;  
+  width: 1200px;
 
 
 }
@@ -152,5 +154,7 @@
 .cardContainer {
   display: flex;
   font-family: Inter;
-  width: em;
+  width:100%;
+  max-width: 100%;
+  margin-bottom: 20px;
 }

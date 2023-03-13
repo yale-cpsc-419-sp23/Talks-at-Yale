@@ -10,7 +10,7 @@ export default function EventCard({ event }) {
             <h2 className={styles.cardDate}>28</h2>
             <h2 className={styles.cardMonth}>FEB</h2>
         </div>
-        <div className={styles.eventCard}>
+        <div className={styles.cardRight}>
             <h6 className={styles.cardDept}>COMPUTER SCIENCE</h6>
             <h2 className={styles.cardHeader}>{event[2]}</h2>
             {/* <p className={styles.cardDescription}>
