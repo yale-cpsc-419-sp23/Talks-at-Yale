@@ -1,14 +1,14 @@
 "use client";
 
 import Image from 'next/image'
-import styles from './page.module.css'
-import Header from './header'
-import EventCard from './eventCard'
+import styles from '../page.module.css'
+import Header from '../header'
+import EventCard from '../eventCard'
 import React, { useState, useEffect, use } from 'react'
 
 
 export default function Home() {
-  console.log("Component but just page!");
+  console.log("Component but inside hello!");
 
   // get search results from search term, passed from child (header)
   const [searchResults, setSearchResults] = useState([]);

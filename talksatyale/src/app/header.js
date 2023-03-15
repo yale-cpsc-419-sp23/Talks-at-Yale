@@ -5,23 +5,25 @@ import styles from './page.module.css'
 import React, { useState, useEffect, use } from 'react'
 
 export default function Header(props) {
-
+  // store data and the search term
   const[data, setData] = useState([{}])
 
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchResults, setSearchResults] = useState('');
+  // const [searchResults, setSearchResults] = useState('');
 
 
 
+   // store the search term
+  // send search term back to parent (page) function
   useEffect(() => {
-    async function fetchResults() {
+  async function fetchResults() {
       const response = await fetch(`http://127.0.0.1:5000/events/${searchTerm}`).then(
         res => res.json()
       ).then(
         data => {
           setData(data)
-          setSearchResults(data)
+          // setSearchResults(data)
           console.log(data)
           props.handleSearchResults(data);
         }
@@ -30,6 +32,9 @@ export default function Header(props) {
     fetchResults();
   }, [searchTerm]);
 
+
+  // when enter key is pressed in search box,
+  // call function to retrieve results based on search
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       const value = event.target.value;
