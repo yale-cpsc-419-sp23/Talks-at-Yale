@@ -1,15 +1,7 @@
 import sqlite3
 import os
-from flask import Flask
-from json import dumps
-from flask_cors import CORS
-
-app = Flask(__name__)
-CORS(app)
 
 
-
-@app.route('/events/<searchTerm>')
 def searchEventsDatabase(searchTerm):
     """returns a list of events that match the search term"""
     print(searchTerm)
@@ -21,7 +13,7 @@ def searchEventsDatabase(searchTerm):
         WHERE title LIKE :searchTerm OR speaker_name LIKE :searchTerm OR host_name LIKE :searchTerm"""
     events = c.execute(query, {"searchTerm": f'%{searchTerm}%'})
     # print(events.fetchall())
-    return dumps(events.fetchall())
+    return events.fetchall()
 
 
 def getEventsDatabase():
@@ -168,5 +160,4 @@ def main():
     # print(searchEventsDatabase('Ruzica'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    # main()
+    main()
