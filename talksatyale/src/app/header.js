@@ -3,27 +3,62 @@
 import Image from 'next/image'
 import styles from './page.module.css'
 import React, { useState, useEffect, use } from 'react'
+import Cookies from "js-cookie"
 
 export default function Header(props) {
-  // store data and the search term
+
   const[data, setData] = useState([{}])
 
 
   const [searchTerm, setSearchTerm] = useState('');
-  // const [searchResults, setSearchResults] = useState('');
+  const [searchResults, setSearchResults] = useState('');
 
+  // Keeping track of user status
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
 
+  // checking login status
+  const checkLoginStatus = async () => {
+    try {
+      const headers = new Headers();
+      const accessToken = localStorage.getItem('access_token');
+      if (accessToken) {
+        headers.append('Authorization', `Bearer ${accessToken}`);
+      }
 
-   // store the search term
-  // send search term back to parent (page) function
+      const response = await fetch('http://localhost:5000/is_logged_in', {
+        credentials: 'include',
+        headers: headers,
+      });
+      const data = await response.json();
+      console.log(data)
+      if (data.logged_in) {
+        setLoggedIn(true);
+        setUsername(data.username);
+      } else {
+        setLoggedIn(false);
+        setUsername('');
+      }
+
+    } catch (error) {
+      console.error('Error checking login status:', error);
+    }
+  };
+
   useEffect(() => {
-  async function fetchResults() {
+    checkLoginStatus();
+}, []);
+
+
+
+  useEffect(() => {
+    async function fetchResults() {
       const response = await fetch(`http://127.0.0.1:5000/events/${searchTerm}`).then(
         res => res.json()
       ).then(
         data => {
           setData(data)
-          // setSearchResults(data)
+          setSearchResults(data)
           console.log(data)
           props.handleSearchResults(data);
         }
@@ -32,9 +67,6 @@ export default function Header(props) {
     fetchResults();
   }, [searchTerm]);
 
-
-  // when enter key is pressed in search box,
-  // call function to retrieve results based on search
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       const value = event.target.value;
@@ -44,9 +76,47 @@ export default function Header(props) {
     }
   };
 
+  // Handles the login function
+  function handlelogin() {
+    try {
+      const frontend_callback_url = `${window.location.origin}`;
+      const login_url = `http://localhost:5000/login?frontend_callback=${encodeURIComponent(frontend_callback_url)}`;
+      window.location.href = login_url;
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  }
+  useEffect(() => {
+  const accessToken = Cookies.get('access_token');
+  if (accessToken) {
+    localStorage.setItem('access_token', accessToken);
+    Cookies.remove('access_token');
+  }
+  checkLoginStatus();
+}, []);
 
-    
-    
+
+// Handles logout
+async function handleLogout() {
+  try {
+    // Remove the access token from localStorage
+    localStorage.removeItem('access_token');
+    // Redirect to the backend /logout route
+    const logout_url = 'http://localhost:5000/logout';
+    const response = await fetch(logout_url, { credentials: 'include' });
+    const data = await response.json();
+    if (!data.logged_in) {
+      setLoggedIn(false);
+      setUsername('');
+
+      // Redirect to the CAS logout page
+      window.location.href = data.cas_logout_url;
+    }
+  } catch (error) {
+    console.error('Error during logout:', error);
+  }
+}
+
 
   return (
     <header className={styles.header}>
@@ -59,8 +129,16 @@ export default function Header(props) {
             </div>
         </div>
         <div className={styles.headerRight}>
-            <button className={styles.profileButton}><h2>My Profile</h2></button>
-        </div>
+      {loggedIn ? (
+          <button className={styles.logInButton} onClick={handleLogout}>
+            <h2>Log Out</h2>
+          </button>
+      ) : (
+        <button className={styles.logInButton} onClick={handlelogin}>
+          <h2>Log In</h2>
+        </button>
+      )}
+    </div>
     </header>
   )
 }
