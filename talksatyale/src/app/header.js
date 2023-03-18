@@ -59,7 +59,7 @@ export default function Header(props) {
             </div>
         </div>
         <div className={styles.headerRight}>
-            <button className={styles.logInButton}><h2>Log In</h2></button>
+            <button className={styles.profileButton}><h2>My Profile</h2></button>
         </div>
     </header>
   )

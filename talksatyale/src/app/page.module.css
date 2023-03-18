@@ -4,7 +4,7 @@
   font-family: Inter;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 50px;
+  padding-bottom: 50px;
 
 }
 
@@ -34,7 +34,7 @@
   margin-bottom: 2%;
 }
 
-.logInButton {
+.profileButton {
   background-color: #FF5A5F;
   border-color: #FF5A5F;
   color: white;
