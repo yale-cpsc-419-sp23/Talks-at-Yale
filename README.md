@@ -6,7 +6,8 @@
 First, run the backend:
 
 ```
-python app.py
+cd flask-api
+flask run
 ```
 
 Then, run the frontend:
