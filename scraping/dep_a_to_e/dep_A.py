@@ -4,8 +4,8 @@ This is script for getting all the events for departments starting with letter A
 import requests
 from bs4 import BeautifulSoup
 import sys
-from DateTime import getDate, getTime
-from dep_events import all_department_links, get_dep_events
+from scraping.DateTime import getDate, getTime
+from scraping.dep_events import all_department_links, get_dep_events
 
 ##-------------------African American Dep---------------##
 def african_american_studies(main_url, calendar, dep):

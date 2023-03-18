@@ -9,17 +9,23 @@ This folder contains Python scripts that are intended for scraping events from d
 * BeautifulSoup library
 
 ## How it Works
-Note that different websites have different html structure, therefore, there is the need to create a webscraping script for each individual website.
-
-For each script, there is a function:
-
-### get_(department)_events()
-
-upon calling the above function, it will scrape the upcoming events of the selected department. The function returns a list of events, with each event as a dictionary of different parts of the events:
-
+The scraping folder is modularized, in a way that scraping department events is separated into different folders,
 #### Example
+departments starting with letter a to e are in folder *dep_a_to_e*
 
-calling the function *get_cs_events()* will return a list of the cs_department upcoming events as a list, each item in the list will contain an event as a dictionary
+There is a file main.py which has function *all_events*, import this function and call it to get all events, this events will only be upcoming events
+
+#### Example Usage
+
+``` python
+# Import
+from scraping.main import all_events
+
+# call function
+events = all_events()
+
+```
+the return value will be a list of dictionary. Each dictionary representing an event. For example, all cs department events will have the following format
 The keys will be:
 * type -> type of event
 * title -> title of event
@@ -30,18 +36,6 @@ The keys will be:
 * location
 * abstract -> The abstract of the event
 * bio -> bio of the speaker of the event
-
-## How to Use
-To use functions in another file in another python file in the applictaion, you need to import the function that you need to use.
-### Example
-* If you want to use the function that gets events from cs department in the *databaseConfig.py* file, you need to import the function as shown:
-```python
-from scraping.cs_dept_events import get_cs_events
-
-# List of events
-events = get_cs_events()
-
-```
 
 ## Disclaimer
 The downside of webscraping is that the scripts may sometimes fail if the owners of websites decide to change the structure of their websites. Therefore, we need to regularly confime if the scripts actually get any data from the websites.
