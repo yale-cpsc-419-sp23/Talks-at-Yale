@@ -6,7 +6,6 @@ import './globals.css'
 import Header from './header'
 import EventCard from './eventCard'
 import React, { useState, useEffect, use } from 'react'
-import axios from 'axios'
 
 
 export default function Home() {
@@ -31,12 +30,12 @@ export default function Home() {
           setSearchResults(data);
         }
       );
-  
+
     }
     fetchResults();
   }, []);
 
-   
+
 
 
 
@@ -49,10 +48,10 @@ export default function Home() {
           {searchResults.map((result) => (
           <EventCard key={result.id} event={result} />
           ))}
- 
+
         </div>
       </main>
     </div>
-    
+
   )
 }
