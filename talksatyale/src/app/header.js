@@ -49,43 +49,6 @@ export default function Header(props) {
     checkLoginStatus();
 }, []);
 
-  // Keeping track of user status
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [username, setUsername] = useState('');
-
-  // checking login status
-  const checkLoginStatus = async () => {
-    try {
-      const headers = new Headers();
-      const accessToken = localStorage.getItem('access_token');
-      if (accessToken) {
-        headers.append('Authorization', `Bearer ${accessToken}`);
-      }
-
-      const response = await fetch('http://localhost:5000/is_logged_in', {
-        credentials: 'include',
-        headers: headers,
-      });
-      const data = await response.json();
-      console.log(data)
-      if (data.logged_in) {
-        setLoggedIn(true);
-        setUsername(data.username);
-      } else {
-        setLoggedIn(false);
-        setUsername('');
-      }
-
-    } catch (error) {
-      console.error('Error checking login status:', error);
-    }
-  };
-
-  useEffect(() => {
-    checkLoginStatus();
-}, []);
-
-
 
   useEffect(() => {
     async function fetchResults() {
@@ -165,7 +128,6 @@ async function handleLogout() {
             </div>
         </div>
         <div className={styles.headerRight}>
-<<<<<<< HEAD
       {loggedIn ? (
           <button className={styles.logInButton} onClick={handleLogout}>
             <h2>Log Out</h2>
@@ -176,10 +138,6 @@ async function handleLogout() {
         </button>
       )}
     </div>
-=======
-            <button className={styles.logInButton}><h2>Log In</h2></button>
-        </div>
->>>>>>> 8fe9db2 (Implimented user login with CAS)
     </header>
   )
 }
