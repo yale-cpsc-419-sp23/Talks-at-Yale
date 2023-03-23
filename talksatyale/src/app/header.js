@@ -26,7 +26,7 @@ export default function Header(props) {
         headers.append('Authorization', `Bearer ${accessToken}`);
       }
 
-      const response = await fetch('http://localhost:5000/is_logged_in', {
+      const response = await fetch('http://127.0.0.1:5000/is_logged_in', {
         credentials: 'include',
         headers: headers,
       });
@@ -48,9 +48,8 @@ export default function Header(props) {
   useEffect(() => {
     checkLoginStatus();
 }, []);
-
-
-  useEffect(() => {
+  // fetching current events when new term entered (not connected to new backend)
+  (() => {
     async function fetchResults() {
       const response = await fetch(`http://127.0.0.1:5000/events/${searchTerm}`).then(
         res => res.json()
@@ -79,7 +78,7 @@ export default function Header(props) {
   function handlelogin() {
     try {
       const frontend_callback_url = `${window.location.origin}`;
-      const login_url = `http://localhost:5000/login?frontend_callback=${encodeURIComponent(frontend_callback_url)}`;
+      const login_url = `http://127.0.01:5000/login?frontend_callback=${encodeURIComponent(frontend_callback_url)}`;
       window.location.href = login_url;
     } catch (error) {
       console.error("Error during login:", error);
@@ -101,7 +100,7 @@ async function handleLogout() {
     // Remove the access token from localStorage
     localStorage.removeItem('access_token');
     // Redirect to the backend /logout route
-    const logout_url = 'http://localhost:5000/logout';
+    const logout_url = 'http://127.0.01:5000/logout';
     const response = await fetch(logout_url, { credentials: 'include' });
     const data = await response.json();
     if (!data.logged_in) {
@@ -120,7 +119,7 @@ async function handleLogout() {
   return (
     <header className={styles.header}>
         <div className={styles.headerLeft}>
-            <h2 className={styles.title}>Talks at Yale</h2>
+            <h2 className={styles.title}><a href="/">Talks at Yale</a></h2>
             <div className={styles.search}>
                 <input className={styles.searchBar} onKeyDown={handleKeyDown}
                 placeholder="Search by title, department, topic, etc..."></input>
@@ -129,11 +128,11 @@ async function handleLogout() {
         </div>
         <div className={styles.headerRight}>
       {loggedIn ? (
-          <button className={styles.logInButton} onClick={handleLogout}>
+          <button className={styles.profileButton} onClick={handleLogout}>
             <h2>Log Out</h2>
           </button>
       ) : (
-        <button className={styles.logInButton} onClick={handlelogin}>
+        <button className={styles.profileButton} onClick={handlelogin}>
           <h2>Log In</h2>
         </button>
       )}
