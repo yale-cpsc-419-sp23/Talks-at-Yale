@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import styles from './page.module.css'
+import { FaPlus } from "react-icons/fa";
 
 // Handles card clicked
 
@@ -20,6 +21,7 @@ export default function EventCard({ event }) {
             <h2 className={styles.cardMonth}>FEB</h2>
         </div>
         <div className={styles.cardRight}>
+            <FaPlus className={styles.cardFaPlus}/>
             <h6 className={styles.cardDept}>COMPUTER SCIENCE</h6>
             <h2 className={styles.cardHeader}>{event[2]}</h2>
             {/* <p className={styles.cardDescription}>

@@ -93,6 +93,15 @@
   
 }
 
+.cardFaPlus {
+  position: absolute;
+  right: 4em;
+}
+
+.cardFaPlus:hover {
+  color: #FF5A5F;
+}
+
 .cardHeader {
   margin-top: .3em;
   margin-bottom: .3em;
