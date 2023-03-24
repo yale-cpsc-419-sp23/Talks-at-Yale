@@ -83,6 +83,10 @@
   display: block;
 }
 
+.cardRight:hover {
+  background-color: aliceblue;
+}
+
 .cardLocation {
   font-size: 1em;
   font-weight: 600;

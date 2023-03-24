@@ -1,10 +1,19 @@
 import Image from 'next/image'
 import styles from './page.module.css'
 
+// Handles card clicked
+
+function handleCardClicked() {
+  try {
+    console.log("Card clicked!");
+  } catch (error) {
+    console.error('Error when card clicked:', error);
+  }
+}
 
 export default function EventCard({ event }) {
   return (
-    <div className={styles.cardContainer}>
+    <div className={styles.cardContainer} onClick={handleCardClicked}>
         <div className={styles.cardLeft}>
             <h2 className={styles.cardDay}>THU</h2>
             <h2 className={styles.cardDate}>28</h2>
