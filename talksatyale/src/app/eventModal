@@ -1,0 +1,5 @@
+import styles from './page.module.css'
+import { FaPlus } from "react-icons/fa";
+
+export default function EventModal() {
+}

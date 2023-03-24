@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import styles from './page.module.css'
 import { FaPlus } from "react-icons/fa";
+import EventModal from './eventModal';
 
 // Handles card clicked
 
@@ -15,6 +16,7 @@ function handleCardClicked() {
 export default function EventCard({ event }) {
   return (
     <div className={styles.cardContainer} onClick={handleCardClicked}>
+      <EventModal />
         <div className={styles.cardLeft}>
             <h2 className={styles.cardDay}>THU</h2>
             <h2 className={styles.cardDate}>28</h2>

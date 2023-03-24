@@ -67,12 +67,10 @@ export default function Header(props) {
   }, [searchTerm]);
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
       const value = event.target.value;
       setSearchTerm(value);
       // Do something with the search term, such as calling a function
       console.log(`Search term entered: ${value}`);
-    }
   };
 
   // Handles the login function
