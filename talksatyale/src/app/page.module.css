@@ -23,6 +23,7 @@
 .searchResults {
   display: flex;
   color: #9bcad1;
+  font-family: Inter;
   font-size: 0.8em;
   align-self: flex-end;
   margin-bottom: 5px;
@@ -66,6 +67,7 @@
   font-size: 2em;
   font-weight: bold;
   display: inline-block;
+  font-family: Inter;
   margin-right: 30px;
   white-space: nowrap;
   text-align: center;
@@ -141,6 +143,7 @@
 }
 
 .cardDate {
+  font-family: Inter;
   font-size: 1.7em;
   font-weight: 700;
 }
