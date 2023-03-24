@@ -22,6 +22,7 @@ export default function Header(props) {
     try {
       const headers = new Headers();
       const accessToken = localStorage.getItem('access_token');
+      console.log(accessToken);
       if (accessToken) {
         headers.append('Authorization', `Bearer ${accessToken}`);
       }
@@ -49,7 +50,7 @@ export default function Header(props) {
     checkLoginStatus();
 }, []);
   // fetching current events when new term entered (not connected to new backend)
-  (() => {
+  useEffect(() => {
     async function fetchResults() {
       const response = await fetch(`http://127.0.0.1:5000/events/${searchTerm}`).then(
         res => res.json()
@@ -88,7 +89,7 @@ export default function Header(props) {
   const accessToken = Cookies.get('access_token');
   if (accessToken) {
     localStorage.setItem('access_token', accessToken);
-    Cookies.remove('access_token');
+    // Cookies.remove('access_token');
   }
   checkLoginStatus();
 }, []);

@@ -67,7 +67,7 @@ def after_login():
     # Send cookie to the front end
     frontend_url = 'http://localhost:3000'
     resp = make_response(redirect(frontend_url))
-    resp.set_cookie('access_token', access_token)
+    resp.set_cookie('access_token', access_token, secure=False)
     return resp
 
 @bp_users.route('/is_logged_in', methods=['GET'])
@@ -75,6 +75,7 @@ def after_login():
 def is_logged_in():
     """A function that Checks if a user is logged in"""
     identity = get_jwt_identity()
+    print("Identity:", identity)
     if identity:
         print("In session")
         return jsonify({'logged_in': True, 'username': identity})

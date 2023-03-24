@@ -26,7 +26,7 @@ cas = CAS(app)
 @app.route('/events/<searchTerm>')
 @cross_origin(supports_credentials=True)
 def index(searchTerm=""):
-    print("hello")
+    print("Search term: ", searchTerm)
 
 
     return dumps(searchEventsDatabase(searchTerm))
