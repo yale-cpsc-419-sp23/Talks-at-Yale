@@ -45,6 +45,11 @@
   border-radius: 12px;
 }
 
+.profileButton:hover {
+  background-color: white;
+  color:#FF5A5F;
+}
+
 .searchBar {
   display: flex;
   width: 40em;
