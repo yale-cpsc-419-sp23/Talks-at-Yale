@@ -9,3 +9,6 @@ env.bak/
 venv.bak/
 scraping/test.py
 test.py
+__pycache__/
+flask-api/__pycache__/
+flask-api/app/__pycache__/
