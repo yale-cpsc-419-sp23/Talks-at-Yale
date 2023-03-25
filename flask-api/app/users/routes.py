@@ -28,6 +28,7 @@ def login():
     return redirect(cas_login_url)
 
 @bp_users.route('/cas-callback', methods=['GET'])
+@jwt_required(optional=True)
 def after_login():
     """A function that validates the ticket sent by Yale CAS and gets netid of the user"""
 
@@ -64,6 +65,7 @@ def after_login():
     user = User.query.filter_by(username=net_id).first()
     # Create JWT access token
     access_token = create_access_token(identity=net_id)
+    print(access_token)
     # Send cookie to the front end
     frontend_url = 'http://localhost:3000'
     resp = make_response(redirect(frontend_url))
@@ -75,7 +77,7 @@ def after_login():
 def is_logged_in():
     """A function that Checks if a user is logged in"""
     identity = get_jwt_identity()
-    print("Identity:", identity)
+    print(identity)
     if identity:
         print("In session")
         return jsonify({'logged_in': True, 'username': identity})
