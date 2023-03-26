@@ -2,21 +2,44 @@ import Image from 'next/image'
 import styles from './page.module.css'
 import { FaPlus } from "react-icons/fa";
 import EventModal from './eventModal';
+import React, { useState, useEffect, use } from 'react';
 
 // Handles card clicked
 
-function handleCardClicked() {
-  try {
-    console.log("Card clicked!");
-  } catch (error) {
-    console.error('Error when card clicked:', error);
-  }
-}
+
 
 export default function EventCard({ event }) {
+
+  const [isShown, setIsShown] = useState(false);
+
+  // function handleCardClicked() {
+  //   try {
+  //     console.log("Card clicked!");
+  //     return <EventModal />
+  //   } catch (error) {
+  //     console.error('Error when card clicked:', error);
+  //   }
+  // }
+
+  const handleCardClicked = event => {
+
+    try {
+        setIsShown(true);
+        console.log("Card clicked!");
+        console.log("is shown", isShown);
+      } catch (error) {
+        console.error('Error when card clicked:', error);
+      }
+  
+  };
+
+
   return (
+    
     <div className={styles.cardContainer} onClick={handleCardClicked}>
-      <EventModal />
+      {isShown && (
+        <EventModal />
+      )}
         <div className={styles.cardLeft}>
             <h2 className={styles.cardDay}>THU</h2>
             <h2 className={styles.cardDate}>28</h2>

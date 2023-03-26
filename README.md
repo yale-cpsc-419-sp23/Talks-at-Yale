@@ -24,3 +24,9 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+
+### Requirements
+(add requirements you come across here)
+``` npm install --save font-awesome ```
+``` npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons ```
