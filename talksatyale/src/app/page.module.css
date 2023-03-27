@@ -1,4 +1,4 @@
-/* our styles */
+/* HEADER STYLES */
 .header {
   display: flex;
   font-family: Inter;
@@ -7,8 +7,6 @@
   padding-bottom: 50px;
 
 }
-
-
 
 .headerLeft {
   display: flex;
@@ -78,6 +76,8 @@
   text-align: center;
 }
 
+/* EVENT CARD STYLES */
+
 .cardRight {
   background-color: #eef4f4;
   border-radius: 12px;
@@ -89,7 +89,7 @@
 }
 
 .cardRight:hover {
-  background-color: aliceblue;
+  background-color: #E7EEEF;
 }
 
 .cardLocation {
@@ -104,7 +104,7 @@
 }
 
 .cardFaPlus:hover {
-  color: #FF5A5F;
+  color: #625F5F;
 }
 
 .cardHeader {
@@ -180,6 +180,9 @@
   margin-bottom: 20px;
 }
 
+
+/* MODAL STYLES */
+
 .modal {
   position: fixed; 
   z-index: 3; 
@@ -202,4 +205,12 @@
   width: 60%; 
   height: 80%;
   border-radius: 12px;
+}
+
+.modalBookmark {
+  color:#FF5A5F;
+}
+
+.modalBookmark:hover {
+  color: #FA777B;
 }

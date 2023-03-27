@@ -12,21 +12,11 @@ export default function EventCard({ event }) {
 
   const [isShown, setIsShown] = useState(false);
 
-  // function handleCardClicked() {
-  //   try {
-  //     console.log("Card clicked!");
-  //     return <EventModal />
-  //   } catch (error) {
-  //     console.error('Error when card clicked:', error);
-  //   }
-  // }
-
   const handleCardClicked = event => {
 
     try {
         setIsShown(true);
         console.log("Card clicked!");
-        console.log("is shown", isShown);
       } catch (error) {
         console.error('Error when card clicked:', error);
       }
@@ -38,7 +28,7 @@ export default function EventCard({ event }) {
     
     <div className={styles.cardContainer} onClick={handleCardClicked}>
       {isShown && (
-        <EventModal />
+        <EventModal event= {event}/>
       )}
         <div className={styles.cardLeft}>
             <h2 className={styles.cardDay}>THU</h2>
