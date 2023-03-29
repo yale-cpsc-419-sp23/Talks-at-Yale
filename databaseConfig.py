@@ -27,6 +27,20 @@ def searchEventsDatabase(searchTerm=None):
     # print(events.fetchall())
     return events.fetchall()
 
+def addFavorite(user_id, event_id):
+    """adds an event to the user's favorites list."""
+    c = sqlite3.connect('events.db')
+    c.execute("INSERT INTO user_events (user_id, event_id) VALUES (?, ?)", (user_id, event_id))
+    c.commit()
+    c.close()
+
+def removeFavorite(user_id, event_id):
+    """removes an event from the user's favorites list."""
+    c = sqlite3.connect('events.db')
+    c.execute("DELETE FROM user_events WHERE user_id = ? AND event_id = ?", (user_id, event_id))
+    c.commit()
+    c.close()
+
 def createDatabase():
     # Connect to a database (creates a new database if it doesn't exist)
     conn = sqlite3.connect('events.db')
@@ -78,6 +92,16 @@ def createDatabase():
                 FOREIGN KEY (location_id) REFERENCES locations(id),
                 FOREIGN KEY (department_id) REFERENCES departments(id),
                 PRIMARY KEY (id, department_id, type_id, speaker_id, host_id, location_id))''')
+
+    c.execute('''CREATE TABLE users(
+                user_id INTEGER
+                PRIMARY KEY (id))''')
+    
+    c.execute('''CREATE TABLE user_events(
+                user_id INTEGER,
+                event_id INTEGER,
+                FOREIGN KEY (user_id) REFERENCES users(id),
+                FOREIGN KEY (event_id) REFERENCES events(id))''')
 
     # Save (commit) the changes, and then close the connection
     conn.commit()
