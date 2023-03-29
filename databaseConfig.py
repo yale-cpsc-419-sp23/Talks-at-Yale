@@ -127,7 +127,9 @@ def populateDatabase(verbose=False):
     conn = sqlite3.connect('events.db')
     c = conn.cursor()
 
+    # get all events from the web scraper
     events = all_events()
+
     for event in events:
 
         # get the event data from the passed in dict
@@ -191,16 +193,29 @@ def populateDatabase(verbose=False):
 
         # print the databases if verbose is true
     if verbose:
+        print("\nverbose mode in populateDatabase():\n")
+
+        print("types:\n")
         test = c.execute("SELECT * FROM types")
         print(test.fetchall())
+
+        print("speakers:\n")
         test = c.execute("SELECT * FROM speakers")
         print(test.fetchall())
+
+        print("hosts:\n")
         test = c.execute("SELECT * FROM hosts")
         print(test.fetchall())
+        
+        print("locations:\n")
         test = c.execute("SELECT * FROM locations")
         print(test.fetchall())
+        
+        print("departments:\n")
         test = c.execute("SELECT * FROM departments")
         print(test.fetchall())
+
+        print("events:\n")
         test = c.execute("SELECT * FROM events")
         print(test.fetchall())
 
@@ -275,8 +290,7 @@ def populateDatabaseOld(verbose=False):
 
     # Save (commit) the changes, and then close the connection
     conn.commit()
-    conn.close()
-
+    conn.close()    
 
 def main():
     os.remove('events.db')          # delete the database if it already exists. Only used for ease of testing
