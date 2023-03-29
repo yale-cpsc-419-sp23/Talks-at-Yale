@@ -40,8 +40,8 @@ def update_events():
     print(f'Added Events: {counter} events.')
 
 def update_events_periodic():
-    # run every hour
-    schedule.every().second.do(update_events)
+    # run every day
+    schedule.every().minute.do(update_events)
 
     while True:
         schedule.run_pending()

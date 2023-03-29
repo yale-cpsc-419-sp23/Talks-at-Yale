@@ -5,6 +5,12 @@ from hashlib import sha256
 from app import db
 from flask_login import UserMixin
 
+
+# create association table
+favorites = db.Table('favorites',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('event_id', db.Integer, db.ForeignKey('event.id'), primary_key=True)
+)
 class Event(db.Model):
     """A class representing an event"""
     id = db.Column(db.Integer, primary_key=True)
@@ -64,6 +70,8 @@ class Event(db.Model):
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
+    favorite_events = db.relationship('Event', secondary=favorites, backref=db.backref('favorited_by', lazy='dynamic'))
+
 
     def __repr__(self):
         return f'<User {self.username}>'
