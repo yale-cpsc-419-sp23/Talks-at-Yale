@@ -45,6 +45,13 @@ def removeFavorite(user_id, event_id):
     c.commit()
     c.close()
 
+def searchUserFavorites(user_id)
+    """returns the user's favorite events."""
+    c = sqlite3.connect('events.db')
+    events = c.execute("SELECT * FROM user_events WHERE user_id = ?", (user_id,)).fetchall()
+    c.close()
+    return events
+
 def createDatabase():
     # Connect to a database (creates a new database if it doesn't exist)
     conn = sqlite3.connect('events.db')
