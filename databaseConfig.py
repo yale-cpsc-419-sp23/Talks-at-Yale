@@ -1,5 +1,6 @@
 import sqlite3
 import os
+from scraping.main import all_events
 
 
 def searchEventsDatabase(searchTerm=None):
@@ -82,8 +83,10 @@ def createDatabase():
                 speaker_id INTEGER,
                 host_id INTEGER,
                 date TEXT,
+                iso_date TEXT,
                 time TEXT,
                 location_id INTEGER,
+                bio, TEXT,
                 info TEXT,
                 department_id INTEGER,
                 FOREIGN KEY (type_id) REFERENCES types(id),
@@ -94,8 +97,8 @@ def createDatabase():
                 PRIMARY KEY (id, department_id, type_id, speaker_id, host_id, location_id))''')
 
     c.execute('''CREATE TABLE users(
-                user_id INTEGER
-                PRIMARY KEY (id))''')
+                user_id INTEGER,
+                PRIMARY KEY (user_id))''')
     
     c.execute('''CREATE TABLE user_events(
                 user_id INTEGER,
@@ -108,7 +111,80 @@ def createDatabase():
     conn.close()
 
 def populateDatabase(verbose=False):
-    """adds preformatted events to the created database."""
+    """adds events to the events database.
+        events are pulled from the department website, through the use of the web scraper."""
+
+    conn = sqlite3.connect('events.db')
+    c = conn.cursor()
+
+    events = all_events()
+    for event in events:
+
+        # get the event data from the passed in dict
+        title = event.get('title')
+        department = event.get('department')
+        event_type = event.get('type')
+        speaker = event.get('speaker')
+        speaker_title = event.get('speaker_title')
+        host = event.get('host')
+        date = event.get('date')
+        time = event.get('time')
+        location = event.get('location')
+        iso_date = event.get('iso_date')
+        bio = event.get('bio')
+
+        # add the type to the types table, and get the type id
+        if event_type is None:
+            event_type = "N/A"
+        c.execute("INSERT OR IGNORE INTO types (type) VALUES (?)", (event_type,))
+        type_id = c.execute("SELECT id FROM types WHERE type = ?", (event_type,)).fetchone()[0]
+
+        # add the speaker to the speakers table, and get the speaker id
+        # if speaker_title:                                 # can be implemented later, but adds a lot of extra words to the speaker name
+        #     speaker = speaker + ", " + speaker_title
+        if speaker is None:
+            speaker = "N/A"
+        c.execute("INSERT OR IGNORE INTO speakers (speaker_name) VALUES (?)", (speaker,))
+        speaker_id = c.execute("SELECT id FROM speakers WHERE speaker_name = ?", (speaker,)).fetchone()[0]
+        
+        # add the host to the hosts table, and get the host id
+        if host is None:
+            host = "N/A"
+        c.execute("INSERT OR IGNORE INTO hosts (host_name) VALUES (?)", (host,))
+        host_id = c.execute("SELECT id FROM hosts WHERE host_name = ?", (host,)).fetchone()[0]
+
+        # add the location to the locations table, and get the location id
+        if location is None:
+            location = "N/A"
+        c.execute("INSERT OR IGNORE INTO locations (location) VALUES (?)", (location,))
+        location_id = c.execute("SELECT id FROM locations WHERE location = ?", (location,)).fetchone()[0]
+
+        # add the department to the departments table, and get the department id
+        if department is None:
+            department = "N/A"
+        c.execute("INSERT OR IGNORE INTO departments (department) VALUES (?)", (department,))
+        department_id = c.execute("SELECT id FROM departments WHERE department = ?", (department,)).fetchone()[0]
+
+        # add the event to the events table
+        # we make the assumption that the events being passed in are unique
+        if title is None:
+            title = "N/A"
+        if date is None:
+            date = "N/A"
+        if iso_date is None:
+            iso_date = "N/A"
+        if time is None:
+            time = "N/A"
+        if bio is None:
+            bio = "N/A"
+        c.execute("INSERT INTO events (type_id, title, speaker_id, host_id, date, iso_date, time, location_id, bio, department_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (type_id, title, speaker_id, host_id, date, iso_date, time, location_id, bio, department_id))
+
+
+def populateDatabaseOld(verbose=False):
+    """adds preformatted events to the created database.
+    
+        THIS IS AN OLD VERSION OF THE DATABASE POPULATOR. USE populateDatabase() INSTEAD.
+        This function is kept for reference purposes, and will be removed in the future."""
 
     # Connect to a database (creates a new database if it doesn't exist)
     conn = sqlite3.connect('events.db')
@@ -140,16 +216,16 @@ def populateDatabase(verbose=False):
         c.execute("INSERT INTO departments (department, id) VALUES (?, ?)", (departments[i], i))
 
     # populates the events table
-    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (0, 0, 'CS Talk - Faculty Recruit', 'Jay Lim', 0, 'Tuesday, February 28', '4:00 p.m.', 0, 'This is a work in progress', 0)")
-    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (1, 1, 'Automatically Preventing, Detecting, and Repairing Crucial Errors in Programs', 1, 0, 'March 6th, 2023', '1 PM EST.', 1, 'This is a work in progress', 0)")
-    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (2, 2, 'NA', 2, 2, 'Thursday, March 9, 2023', '10:00 AM.', 6, 'This is a work in progress', 0)")
-    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (3, 3, 'Robot Abuse: Is it okay for me to hit my robot?', 8, 6, 'February 28', '5:00 p.m.', 2, 'This is a work in progress', 0)")
-    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (4, 0, 'Learning Systems in Adaptive Environments. Theory, Algorithms and Design', 3, 2, 'Tue Feb 21, 2023', '4pm - 5pm (EST).', 3, 'This is a work in progress', 0)")
-    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (5, 1, 'Fusing Symbolic and Subsymbolic Approaches for Natural and Effective Human-Robot Collaboration', 4, 3, 'Monday, February 27, 2023', '11:45am (EST)', 0, 'This is a work in progress', 0)")
-    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (6, 3, 'SIGecom Winter Meeting', 8, 6, 'Wednesday, February 22nd', '11am - 5pm ET.', 6, 'This is a work in progress', 0)")
-    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (7, 2, 'Reinforcement Learning for Automated Exploration and Detection of Cache-Timing Attacks', 5, 4, 'Thu Feb 16, 2023', '4pm - 5pm (EST).', 6, 'This is a work in progress', 0)")
-    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (8, 1, 'Messages, Secrets, and Catalysts in Population Protocols with Probabilistic Scheduling', 6, 5, 'Monday, March 20, 2023', '4 PM (ET)', 4, 'This is a work in progress', 0)")
-    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, info, department_id) VALUES (9, 3, 'NA', 7, 6, 'NA', '2:30 - 3:50 p.m.', 5, 'This is a work in progress', 0)")
+    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, department_id) VALUES (0, 0, 'CS Talk - Faculty Recruit', 'Jay Lim', 0, 'Tuesday, February 28', '4:00 p.m.', 0, 0)")
+    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, department_id) VALUES (1, 1, 'Automatically Preventing, Detecting, and Repairing Crucial Errors in Programs', 1, 0, 'March 6th, 2023', '1 PM EST.', 1, 0)")
+    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, department_id) VALUES (2, 2, 'NA', 2, 2, 'Thursday, March 9, 2023', '10:00 AM.', 6, 0)")
+    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, department_id) VALUES (3, 3, 'Robot Abuse: Is it okay for me to hit my robot?', 8, 6, 'February 28', '5:00 p.m.', 2, 0)")
+    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, department_id) VALUES (4, 0, 'Learning Systems in Adaptive Environments. Theory, Algorithms and Design', 3, 2, 'Tue Feb 21, 2023', '4pm - 5pm (EST).', 3, 0)")
+    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, department_id) VALUES (5, 1, 'Fusing Symbolic and Subsymbolic Approaches for Natural and Effective Human-Robot Collaboration', 4, 3, 'Monday, February 27, 2023', '11:45am (EST)', 0, 0)")
+    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, department_id) VALUES (6, 3, 'SIGecom Winter Meeting', 8, 6, 'Wednesday, February 22nd', '11am - 5pm ET.', 6, 0)")
+    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, department_id) VALUES (7, 2, 'Reinforcement Learning for Automated Exploration and Detection of Cache-Timing Attacks', 5, 4, 'Thu Feb 16, 2023', '4pm - 5pm (EST).', 6, 0)")
+    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, department_id) VALUES (8, 1, 'Messages, Secrets, and Catalysts in Population Protocols with Probabilistic Scheduling', 6, 5, 'Monday, March 20, 2023', '4 PM (ET)', 4, 0)")
+    c.execute("INSERT INTO events (id, type_id, title, speaker_id, host_id, date, time, location_id, department_id) VALUES (9, 3, 'NA', 7, 6, 'NA', '2:30 - 3:50 p.m.', 5, 0)")
 
 
     # print the databases if verbose is true
@@ -176,8 +252,10 @@ def main():
     os.remove('events.db')          # delete the database if it already exists. Only used for ease of testing
     createDatabase()
 
-    printDatabases = False      # True or False. If true, the databases will be printed after they are populated. WARNING: This will print a lot of data
-    populateDatabase(printDatabases)
+    # printDatabases = False      # True or False. If true, the databases will be printed after they are populated. WARNING: This will print a lot of data
+    # populateDatabaseOld(printDatabases)
+
+    populateDatabase()
 
     events = searchEventsDatabase()
     for event in events:
