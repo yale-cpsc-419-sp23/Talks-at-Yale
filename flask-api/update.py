@@ -31,7 +31,6 @@ def update_events():
 
             # generate hash for event
             event.event_hash = event.generate_hash()
-
             if not event.event_exists(event.title, event.date, event.time, event.iso_date):
                 # add event to database
                 db.session.add(event)
@@ -42,7 +41,7 @@ def update_events():
 
 def update_events_periodic():
     # run every hour
-    schedule.every().day.do(update_events)
+    schedule.every().second.do(update_events)
 
     while True:
         schedule.run_pending()

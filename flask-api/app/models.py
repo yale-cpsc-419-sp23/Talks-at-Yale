@@ -44,6 +44,22 @@ class Event(db.Model):
         sha.update(f'{title}{date}{time}{iso_date}'.encode('utf-8'))
         return sha.hexdigest()
 
+    def to_dict(self):
+        """A function that represent an event as a dict"""
+        return {
+            'type' : self.type,
+            'title' : self.title,
+            'speaker' : self.speaker,
+            'speaker_title' : self.speaker_title,
+            'host' : self.host,
+            'department' : self.department,
+            'date' : self.date,
+            'time' : self.time,
+            'location' : self.location,
+            'bio' : self.bio,
+            'description' : self.description,
+        }
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)

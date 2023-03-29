@@ -163,7 +163,9 @@ def american_studies(main_url, calendar, dep):
     table = soup.find('table', class_='view-calendar-list')
 
     # Extract all the links within the table
-    links = [a['href'] for a in table.find_all('a')]
+    links = []
+    if table:
+        links = [a['href'] for a in table.find_all('a')]
 
     def get_event(link):
         """Getting events"""

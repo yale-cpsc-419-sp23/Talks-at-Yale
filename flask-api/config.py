@@ -20,5 +20,6 @@ class Config(object):
     # SESSION_PERMANENT = True
     PERMANENT_SESSION_LIFETIME = timedelta(days=1)
     SESSION_TYPE = 'filesystem'
-    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY') or 'oursecretkey'
+    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY') or 'project-group-1'
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
+    PRODUCTION = False

@@ -28,7 +28,6 @@ def login():
     return redirect(cas_login_url)
 
 @bp_users.route('/cas-callback', methods=['GET'])
-@jwt_required(optional=True)
 def after_login():
     """A function that validates the ticket sent by Yale CAS and gets netid of the user"""
 
@@ -60,24 +59,24 @@ def after_login():
         user = User(username=net_id)
         db.session.add(user)
         db.session.commit()
-
-    # add user to session
-    user = User.query.filter_by(username=net_id).first()
     # Create JWT access token
     access_token = create_access_token(identity=net_id)
     print(access_token)
+    is_production = app.config.get('PRODUCTION', False)
     # Send cookie to the front end
     frontend_url = 'http://localhost:3000'
     resp = make_response(redirect(frontend_url))
-    resp.set_cookie('access_token', access_token, secure=False)
+    resp.set_cookie('access_token', access_token, secure=is_production)
     return resp
 
 @bp_users.route('/is_logged_in', methods=['GET'])
 @jwt_required(optional=True)
 def is_logged_in():
     """A function that Checks if a user is logged in"""
+    token = request.headers.get('Authorization')
+    print("Received token:", token)
     identity = get_jwt_identity()
-    print(identity)
+    print("Identity:", identity)
     if identity:
         print("In session")
         return jsonify({'logged_in': True, 'username': identity})
@@ -90,14 +89,6 @@ def logout():
     """A function that Logs out the user from the system"""
     print("In logout.")
     # clear JWT token cookie
-    response = make_response(redirect(url_for('users.cas_logout')))
-    response.set_cookie('access_token', '', expires=0)
-    # Include the CAS logout URL in the response
-    cas_logout_url = app.config['CAS_SERVER'] + app.config['CAS_LOGOUT_ROUTE']
-    return jsonify(logged_in=False, cas_logout_url=cas_logout_url)
-
-@bp_users.route('/cas_logout', methods=['GET'])
-def cas_logout():
-    # Redirect the user to the CAS logout page
-    cas_logout_url = app.config['CAS_SERVER'] + app.config['CAS_LOGOUT_ROUTE']
-    return redirect(cas_logout_url)
+    response = make_response(jsonify({"cas_logout_url": app.config['CAS_SERVER'] + app.config['CAS_LOGOUT_ROUTE']}))
+    response.delete_cookie('access_token')
+    return response
