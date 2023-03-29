@@ -10,8 +10,11 @@ def searchEventsDatabase(searchTerm=None):
         searchTerm (str): the search term to search the database for."""
 
     
-    print(searchTerm)
+    # print(searchTerm)
     c = sqlite3.connect('events.db')
+
+    # we now print the entire database
+    # print(c.execute("SELECT * FROM events").fetchall())
 
     # default behavior is to return the full database if the search term is empty
     if searchTerm is None:
@@ -53,27 +56,27 @@ def createDatabase():
 
     c.execute('''CREATE TABLE types(
                 id INTEGER,
-                type TEXT,
+                type TEXT UNIQUE,
                 PRIMARY KEY (id))''')
 
     c.execute('''CREATE TABLE speakers(
                 id INTEGER,
-                speaker_name TEXT,
+                speaker_name TEXT UNIQUE,
                 PRIMARY KEY (id))''')
 
     c.execute('''CREATE TABLE hosts(
                 id INTEGER,
-                host_name TEXT,
+                host_name TEXT UNIQUE,
                 PRIMARY KEY (id))''')
 
     c.execute('''CREATE TABLE locations(
                 id INTEGER,
-                location TEXT,
+                location TEXT UNIQUE,
                 PRIMARY KEY (id))''')
 
     c.execute('''CREATE TABLE departments(
                 id INTEGER,
-                department TEXT,
+                department TEXT UNIQUE,
                 PRIMARY KEY (id))''')
 
     c.execute('''CREATE TABLE events(
@@ -179,6 +182,26 @@ def populateDatabase(verbose=False):
             bio = "N/A"
         c.execute("INSERT INTO events (type_id, title, speaker_id, host_id, date, iso_date, time, location_id, bio, department_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (type_id, title, speaker_id, host_id, date, iso_date, time, location_id, bio, department_id))
 
+        # print the databases if verbose is true
+    if verbose:
+        test = c.execute("SELECT * FROM types")
+        print(test.fetchall())
+        test = c.execute("SELECT * FROM speakers")
+        print(test.fetchall())
+        test = c.execute("SELECT * FROM hosts")
+        print(test.fetchall())
+        test = c.execute("SELECT * FROM locations")
+        print(test.fetchall())
+        test = c.execute("SELECT * FROM departments")
+        print(test.fetchall())
+        test = c.execute("SELECT * FROM events")
+        print(test.fetchall())
+
+
+    # Save (commit) the changes, and then close the connection
+    conn.commit()
+    conn.close()
+
 
 def populateDatabaseOld(verbose=False):
     """adds preformatted events to the created database.
@@ -250,21 +273,25 @@ def populateDatabaseOld(verbose=False):
 
 def main():
     os.remove('events.db')          # delete the database if it already exists. Only used for ease of testing
+
+    print("Creating database...")
     createDatabase()
 
     # printDatabases = False      # True or False. If true, the databases will be printed after they are populated. WARNING: This will print a lot of data
     # populateDatabaseOld(printDatabases)
 
-    populateDatabase()
+    print("Populating database...")
+    populateDatabase(True)
 
-    events = searchEventsDatabase()
-    for event in events:
-        print(type(event))
-        print(event)
+    # print("\nTesting searchEventsDatabase():")
+    # events = searchEventsDatabase()
+    # for event in events:
+    #     print(type(event))
+    #     print(event)
 
-    for event in searchEventsDatabase('Ruzica'):
-        print(event)
-    print(searchEventsDatabase('Ruzica'))
-
+    # print("\nTesting searchEventsDatabase('Feimster'):")
+    # for event in searchEventsDatabase('Feimster'):
+    #     print(event)
+    
 if __name__ == '__main__':
     main()
