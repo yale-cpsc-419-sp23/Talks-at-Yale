@@ -1,8 +1,7 @@
-from scraping.dep_a_to_e.dep_A import get_all_events_A
+from dep_a_to_e.dep_A import get_all_events_A
 from scraping.dep_a_to_e.dep_C import get_all_events_C
 
 
-# List of functions
 functions = [get_all_events_A, get_all_events_C]
 def all_events():
     # a list of all events
