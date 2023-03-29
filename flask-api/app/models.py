@@ -5,6 +5,12 @@ from hashlib import sha256
 from app import db
 from flask_login import UserMixin
 
+
+# create association table
+favorites = db.Table('favorites',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('event_id', db.Integer, db.ForeignKey('event.id'), primary_key=True)
+)
 class Event(db.Model):
     """A class representing an event"""
     id = db.Column(db.Integer, primary_key=True)
@@ -21,6 +27,7 @@ class Event(db.Model):
     location = db.Column(db.String, nullable=True)
     bio = db.Column(db.Text, nullable=True)
     description = db.Column(db.Text, nullable=True)
+    is_upcoming = db.Column(db.Boolean, nullable=False, default=True)
 
     def __repr__(self):
         """How the object event will be represented"""
@@ -43,10 +50,28 @@ class Event(db.Model):
         sha.update(f'{title}{date}{time}{iso_date}'.encode('utf-8'))
         return sha.hexdigest()
 
+    def to_dict(self):
+        """A function that represent an event as a dict"""
+        return {
+            'type' : self.type,
+            'title' : self.title,
+            'speaker' : self.speaker,
+            'speaker_title' : self.speaker_title,
+            'host' : self.host,
+            'department' : self.department,
+            'date' : self.date,
+            'time' : self.time,
+            'location' : self.location,
+            'bio' : self.bio,
+            'description' : self.description,
+        }
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
+    favorite_events = db.relationship('Event', secondary=favorites, backref=db.backref('favorited_by', lazy='dynamic'))
+
 
     def __repr__(self):
         return f'<User {self.username}>'

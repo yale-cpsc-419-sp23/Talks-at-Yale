@@ -103,7 +103,9 @@ def african_studies(main_url, calendar, dep):
 
         # speaker
         name_div = soup.find('div', {'class': 'field-name-field-speaker-performer'})
-        speaker_name = name_div.find('div', {'class': 'field-item even'}).text.strip()
+        speaker_name = None
+        if name_div:
+            speaker_name = name_div.find('div', {'class': 'field-item even'}).text.strip()
 
         # time and date
         date_div = soup.find('div', {'class': 'field-name-field-event-time'})
@@ -161,7 +163,9 @@ def american_studies(main_url, calendar, dep):
     table = soup.find('table', class_='view-calendar-list')
 
     # Extract all the links within the table
-    links = [a['href'] for a in table.find_all('a')]
+    links = []
+    if table:
+        links = [a['href'] for a in table.find_all('a')]
 
     def get_event(link):
         """Getting events"""

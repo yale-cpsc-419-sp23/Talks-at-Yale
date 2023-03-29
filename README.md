@@ -7,7 +7,7 @@ To run the credential backend:
 
 ```
 cd flask-api
-flask run
+flask run --host=localhost
 ```
 
 OR to run the events filter backend:

@@ -2,4 +2,4 @@
 from flask import Blueprint
 bp_events = Blueprint('events', __name__)
 
-from app.users import routes
+from app.events import routes

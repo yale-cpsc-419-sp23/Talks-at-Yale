@@ -13,6 +13,6 @@ def all_events():
     return events
 
 # getting all events
-events = all_events()
-print(len(events))
-print(events)
+# events = all_events()
+# print(len(events))
+# print(events)

@@ -70,6 +70,7 @@ def computer_science(main_url, calendar, dep):
         event = {
             "type": type,
             "title": title,
+            "department": dep,
             "speaker": speaker_name,
             "host": host,
             "date": date,
