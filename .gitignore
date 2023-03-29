@@ -10,3 +10,4 @@ venv.bak/
 scraping/test.py
 test.py
 **/__pycache__/
+***/__pycache__/
