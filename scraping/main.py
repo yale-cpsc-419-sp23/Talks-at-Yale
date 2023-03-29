@@ -13,6 +13,7 @@ def all_events():
     return events
 
 # getting all events
-events = all_events()
-print(len(events))
-print(events)
+if __name__ == '__main__':
+    events = all_events()
+    print(len(events))
+    print(events)
