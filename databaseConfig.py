@@ -2,10 +2,22 @@ import sqlite3
 import os
 
 
-def searchEventsDatabase(searchTerm):
-    """returns a list of events that match the search term"""
+def searchEventsDatabase(searchTerm=None):
+    """returns the database object. If searchterm is empty, it will return the full database, otherwise If a search term is provided, it will return the search results instead.
+    
+    Args:
+        searchTerm (str): the search term to search the database for."""
+
+    
     print(searchTerm)
     c = sqlite3.connect('events.db')
+
+    # default behavior is to return the full database if the search term is empty
+    if searchTerm is None:
+        events = c.execute("SELECT * FROM events")
+        return events
+
+    # if a search term is provided, it will return the search results instead
     query = """SELECT * 
         FROM events
         LEFT JOIN speakers ON events.speaker_id = speakers.id
@@ -14,13 +26,6 @@ def searchEventsDatabase(searchTerm):
     events = c.execute(query, {"searchTerm": f'%{searchTerm}%'})
     # print(events.fetchall())
     return events.fetchall()
-
-
-def getEventsDatabase():
-    """returns the database object"""
-    c = sqlite3.connect('events.db')
-    events = c.execute("SELECT * FROM events")
-    return events
 
 def createDatabase():
     # Connect to a database (creates a new database if it doesn't exist)
@@ -147,17 +152,17 @@ def main():
     os.remove('events.db')          # delete the database if it already exists. Only used for ease of testing
     createDatabase()
 
-    printDatabases = 0
+    printDatabases = False      # True or False. If true, the databases will be printed after they are populated. WARNING: This will print a lot of data
     populateDatabase(printDatabases)
 
-    # events = getEventsDatabase()
-    # for event in events:
-    #     print(type(event))
-    #     print(event)
+    events = searchEventsDatabase()
+    for event in events:
+        print(type(event))
+        print(event)
 
-    # for event in searchEventsDatabase('Ruzica'):
-    #     print(event)
-    # print(searchEventsDatabase('Ruzica'))
+    for event in searchEventsDatabase('Ruzica'):
+        print(event)
+    print(searchEventsDatabase('Ruzica'))
 
 if __name__ == '__main__':
     main()
