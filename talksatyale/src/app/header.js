@@ -22,12 +22,12 @@ export default function Header(props) {
     try {
       const headers = new Headers();
       const accessToken = localStorage.getItem('access_token');
-      console.log(accessToken);
+      console.log('Access token:', accessToken);
       if (accessToken) {
         headers.append('Authorization', `Bearer ${accessToken}`);
       }
 
-      const response = await fetch('http://127.0.0.1:5000/is_logged_in', {
+      const response = await fetch('http://localhost:5000/is_logged_in', {
         credentials: 'include',
         headers: headers,
       });
@@ -46,13 +46,10 @@ export default function Header(props) {
     }
   };
 
-  useEffect(() => {
-    checkLoginStatus();
-}, []);
   // fetching current events when new term entered (not connected to new backend)
   useEffect(() => {
     async function fetchResults() {
-      const response = await fetch(`http://127.0.0.1:5000/events/${searchTerm}`).then(
+      const response = await fetch(`http://localhost:5000/events/search?search_term=${searchTerm}`).then(
         res => res.json()
       ).then(
         data => {
@@ -77,20 +74,25 @@ export default function Header(props) {
   function handlelogin() {
     try {
       const frontend_callback_url = `${window.location.origin}`;
-      const login_url = `http://127.0.01:5000/login?frontend_callback=${encodeURIComponent(frontend_callback_url)}`;
-      window.location.href = login_url;
+      const login_url = `http://localhost:5000/login?frontend_callback=${encodeURIComponent(frontend_callback_url)}`;
+      window.location.replace(login_url);
     } catch (error) {
       console.error("Error during login:", error);
     }
   }
   useEffect(() => {
   const accessToken = Cookies.get('access_token');
+  console.log("Access Token from cookie:", accessToken);
   if (accessToken) {
     localStorage.setItem('access_token', accessToken);
-    // Cookies.remove('access_token');
+    checkLoginStatus();
+    Cookies.remove('access_token');
   }
+}, []);
+useEffect(() => {
   checkLoginStatus();
 }, []);
+
 
 
 // Handles logout
@@ -99,21 +101,22 @@ async function handleLogout() {
     // Remove the access token from localStorage
     localStorage.removeItem('access_token');
     // Redirect to the backend /logout route
-    const logout_url = 'http://127.0.01:5000/logout';
+    const logout_url = 'http://localhost:5000/logout';
     const response = await fetch(logout_url, { credentials: 'include' });
     const data = await response.json();
-    if (!data.logged_in) {
+    if (data.cas_logout_url) {
       setLoggedIn(false);
       setUsername('');
-
       // Redirect to the CAS logout page
       window.location.href = data.cas_logout_url;
+    } else {
+      // Handle the case when there's no CAS logout URL in the response
+      console.error('Error during logout: CAS logout URL not provided');
     }
   } catch (error) {
     console.error('Error during logout:', error);
   }
 }
-
 
   return (
     <header className={styles.header}>
