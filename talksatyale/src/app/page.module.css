@@ -214,3 +214,9 @@
 .modalBookmark:hover {
   color: #FA777B;
 }
+
+.modalHeader{
+  display: flex;
+  margin: 2%;
+}
+

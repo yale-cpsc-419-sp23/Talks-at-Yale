@@ -27,7 +27,7 @@ export default function Header(props) {
         headers.append('Authorization', `Bearer ${accessToken}`);
       }
 
-      const response = await fetch('http://localhost:5000/is_logged_in', {
+      const response = await fetch('http://localhost:8080/is_logged_in', {
         credentials: 'include',
         headers: headers,
       });
@@ -46,16 +46,15 @@ export default function Header(props) {
     }
   };
 
-  // fetching current events when new term entered (not connected to new backend)
+  // fetching current events when new term entered
   useEffect(() => {
     async function fetchResults() {
-      const response = await fetch(`http://localhost:5000/events/search?search_term=${searchTerm}`).then(
+      const response = await fetch(`http://localhost:8080/events/search?search_term=${searchTerm}`).then(
         res => res.json()
       ).then(
         data => {
-          setData(data)
-          setSearchResults(data)
-          console.log(data)
+          setData(data);
+          setSearchResults(data);
           props.handleSearchResults(data);
         }
       )
@@ -66,15 +65,13 @@ export default function Header(props) {
   const handleKeyDown = (event) => {
       const value = event.target.value;
       setSearchTerm(value);
-      // Do something with the search term, such as calling a function
-      console.log(`Search term entered: ${value}`);
   };
 
   // Handles the login function
   function handlelogin() {
     try {
       const frontend_callback_url = `${window.location.origin}`;
-      const login_url = `http://localhost:5000/login?frontend_callback=${encodeURIComponent(frontend_callback_url)}`;
+      const login_url = `http://localhost:8080/login?frontend_callback=${encodeURIComponent(frontend_callback_url)}`;
       window.location.replace(login_url);
     } catch (error) {
       console.error("Error during login:", error);
@@ -101,7 +98,7 @@ async function handleLogout() {
     // Remove the access token from localStorage
     localStorage.removeItem('access_token');
     // Redirect to the backend /logout route
-    const logout_url = 'http://localhost:5000/logout';
+    const logout_url = 'http://localhost:8080/logout';
     const response = await fetch(logout_url, { credentials: 'include' });
     const data = await response.json();
     if (data.cas_logout_url) {

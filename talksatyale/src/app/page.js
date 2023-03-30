@@ -23,7 +23,7 @@ export default function Home() {
   const[data, setData] = useState([{}])
   useEffect(() => {
     async function fetchResults() {
-      const response = await fetch(`http://127.0.0.1:5000/`).then(
+      const response = await fetch(`http://localhost:8080/`).then(
         res => res.json()
       ).then(
         data => {
