@@ -137,6 +137,7 @@
   font-weight: 500;
   font-size: .8em;
   letter-spacing: .005em;
+  text-transform: uppercase;
 
 }
 
@@ -164,11 +165,13 @@
   font-family: Inter;
   font-size: 1.7em;
   font-weight: 700;
+  
 }
 
 .cardDay, .cardMonth {
   font-size: 1.05em;
   font-weight: 700;
+  text-transform: uppercase;
 
 }
 
@@ -220,3 +223,6 @@
   margin: 2%;
 }
 
+.smallIcons {
+  padding-top: 6px;
+}

@@ -1,6 +1,9 @@
 import Image from 'next/image'
 import styles from './page.module.css'
 import { FaPlus } from "react-icons/fa";
+import { FaRegClock } from "react-icons/fa";
+import { FaMapMarkerAlt } from "react-icons/fa";
+
 import EventModal from './eventModal';
 import React, { useState, useEffect, use } from 'react';
 
@@ -31,16 +34,16 @@ export default function EventCard({ event }) {
         <EventModal event= {event}/>
       )}
         <div className={styles.cardLeft}>
-            <h2 className={styles.cardDay}>THU</h2>
-            <h2 className={styles.cardDate}>28</h2>
-            <h2 className={styles.cardMonth}>FEB</h2>
+            <h2 className={styles.cardDay}>{event.formatted_date.week_day}</h2>
+            <h2 className={styles.cardDate}>{event.formatted_date.exact_date}</h2>
+            <h2 className={styles.cardMonth}>{event.formatted_date.month}</h2>
         </div>
         <div className={styles.cardRight}>
             <FaPlus className={styles.cardFaPlus}/>
             <h6 className={styles.cardDept}>{event.department}</h6>
             <h2 className={styles.cardHeader}>{event.title}</h2>
             <p className={styles.cardDescription}>{event.description}</p>
-            <p className={styles.cardLocation}>{event.time} | {event.location} </p>
+            <p className={styles.cardLocation}><FaRegClock size={18} className={styles.smallIcons}/> {event.time} | <FaMapMarkerAlt size={18} className={styles.smallIcons}/> {event.location} </p>
         </div>
     </div>
     

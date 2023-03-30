@@ -2,7 +2,7 @@ import styles from './page.module.css'
 
 import { FaBookmark } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
-import { faBookmark } from "@fortawesome/free-solid-svg-icons";
+import { FaTimes } from "react-icons/fa";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -17,7 +17,7 @@ export default function EventModal({ event }) {
                 <div className={styles.modalDetails}>
                     <h2 className={styles.modalTitle}>{event.title}</h2>
                 </div>
-                <h2>X</h2>
+                <h2><FaTimes/></h2>
                 
             </div>
             <div className={styles.modalSubHeader}>
