@@ -71,7 +71,7 @@ export default function Header(props) {
       if (accessToken) {
         headers.append('Authorization', `Bearer ${accessToken}`);
       }
-      const response = await fetch(`http://localhost:5000/events/search?search_term=${searchTerm}`,
+      const response = await fetch(`http://localhost:8080/events/search?search_term=${searchTerm}`,
       {headers: headers,}
       ).then(
         res => res.json()

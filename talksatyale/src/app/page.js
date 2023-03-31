@@ -19,7 +19,20 @@ export default function Home() {
   }
 
   // get departments from backend
-  const [depts, setDepts] = useState([]);
+  // const [depts, setDepts] = useState([]);
+  // useEffect(() => {
+  //   console.log("Start fetch dept");
+  //   async function fetchDepts() {
+  //     const response = await fetch(`http://localhost:5000/departments/`);
+  //     const dept_json = response.json();
+  //     console.log("DEPT")
+  //     setDepts(dept_json);
+  //     console.log("DEPTS:", dept_json);
+  //   }
+  //   fetchDepts();
+  // }, []);
+
+
 
 
   // calls the function to get events
@@ -31,7 +44,7 @@ export default function Home() {
       headers.append('Authorization', `Bearer ${accessToken}`);
     }
     async function fetchResults() {
-      const response = await fetch(`http://localhost:5000/events/`,
+      const response = await fetch(`http://localhost:8080/events/`,
       {headers: headers,}
       ).then(
         res => res.json()
