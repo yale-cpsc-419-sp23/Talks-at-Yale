@@ -41,7 +41,7 @@ export default function EventCard({ event }) {
         <div className={styles.cardRight}>
             <FaPlus className={styles.cardFaPlus}/>
             <h6 className={styles.cardDept}>{event.department}</h6>
-            <h2 className={styles.cardHeader}>{event.title}</h2>
+            <h2 className={styles.cardTitle}>{event.title}</h2>
             <p className={styles.cardDescription}>{event.description}</p>
             <p className={styles.cardLocation}><FaRegClock size={18} className={styles.smallIcons}/> {event.time} | <FaMapMarkerAlt size={18} className={styles.smallIcons}/> {event.location} </p>
         </div>

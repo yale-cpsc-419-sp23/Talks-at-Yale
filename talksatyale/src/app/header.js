@@ -116,26 +116,34 @@ async function handleLogout() {
 }
 
   return (
-    <header className={styles.header}>
-        <div className={styles.headerLeft}>
-            <h2 className={styles.title}><a href="/">Talks at Yale</a></h2>
-            <div className={styles.search}>
-                <input className={styles.searchBar} onKeyDown={handleKeyDown}
-                placeholder="Search by title, department, topic, etc..."></input>
-                <p className={styles.searchResults}>Showing 20 results.</p>
-            </div>
-        </div>
-        <div className={styles.headerRight}>
-      {loggedIn ? (
-          <button className={styles.profileButton} onClick={handleLogout}>
-            <h2>Log Out</h2>
-          </button>
-      ) : (
-        <button className={styles.profileButton} onClick={handlelogin}>
-          <h2>Log In</h2>
-        </button>
-      )}
-    </div>
+    <header>
+      <div className={styles.header}>
+          <div className={styles.headerLeft}>
+              <h2 className={styles.title}><a href="/">Talks at Yale</a></h2>
+              <div className={styles.search}>
+                  <input className={styles.searchBar} onKeyUp={handleKeyDown}
+                  placeholder="Search by title, department, topic, etc..."></input>
+                  <p className={styles.searchResults}>Showing 20 results.</p>
+              </div>
+          </div>
+          <div className={styles.headerRight}>
+            {loggedIn ? (
+                <button className={styles.profileButton} onClick={handleLogout}>
+                  <h2>Log Out</h2>
+                </button>
+            ) : (
+              <button className={styles.profileButton} onClick={handlelogin}>
+                <h2>Log In</h2>
+              </button>
+            )}
+          </div>
+          
+      </div>
+      <div className={styles.filters}>
+        <button className={styles.filterList}>Department</button>
+        <button className={styles.filterList}>Upcoming</button>
+        <button className={styles.filterList}>Date</button>
+      </div>
     </header>
   )
 }

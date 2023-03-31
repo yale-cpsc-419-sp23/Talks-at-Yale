@@ -76,6 +76,7 @@
   text-align: center;
 }
 
+
 /* EVENT CARD STYLES */
 
 .cardRight {
@@ -107,7 +108,7 @@
   color: #625F5F;
 }
 
-.cardHeader {
+.cardTitle {
   margin-top: .3em;
   margin-bottom: .3em;
   white-space: nowrap;
@@ -116,6 +117,7 @@
   text-overflow: ellipsis;
   display: inline-block;  
   width: 1200px;
+  text-transform: capitalize;
 
 
 }
