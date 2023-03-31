@@ -9,6 +9,7 @@ from urllib.parse import urlencode
 import requests
 from xml.etree import ElementTree
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+import yalies
 
 ###--------------Logging Users In --------------####
 ###---------------------------------------------####
@@ -52,11 +53,12 @@ def after_login():
     net_id = username
 
     # Check if a user is already in the database
-    user = User.query.filter_by(username=net_id).first()
+    user = User.query.filter_by(netid=net_id).first()
 
     # If not, create a new user
     if not user:
-        user = User(username=net_id)
+        person = get_user(net_id)
+        user = User(netid=person.netid, email=person.email, first_name=person.first_name, last_name=person.last_name, year=person.year, college=person.college, birthday=person.birthday)
         db.session.add(user)
         db.session.commit()
     # Create JWT access token
@@ -92,3 +94,16 @@ def logout():
     response = make_response(jsonify({"cas_logout_url": app.config['CAS_SERVER'] + app.config['CAS_LOGOUT_ROUTE']}))
     response.delete_cookie('access_token')
     return response
+
+
+
+
+####----Helper Functions----##
+def get_user(netid):
+    """Getting user information from yalies.io"""
+    token = app.config['API_TOKEN']
+    api = yalies.API(token)
+
+    person = api.person(filters={'netid': netid})
+    print(person.raw)
+    return person
