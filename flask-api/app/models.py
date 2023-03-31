@@ -53,6 +53,7 @@ class Event(db.Model):
     def to_dict(self):
         """A function that represent an event as a dict"""
         return {
+            'id' : self.id,
             'type' : self.type,
             'title' : self.title,
             'speaker' : self.speaker,
@@ -69,9 +70,14 @@ class Event(db.Model):
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
+    netid = db.Column(db.String(80), unique=True)
     favorite_events = db.relationship('Event', secondary=favorites, backref=db.backref('favorited_by', lazy='dynamic'))
-
+    email = db.Column(db.String, nullable=True)
+    first_name = db.Column(db.String, unique=False, nullable=True)
+    last_name = db.Column(db.String, unique=False, nullable=True)
+    year = db.Column(db.String, unique=False, nullable=True)
+    college = db.Column(db.String, unique=False, nullable=True)
+    birthday = db.Column(db.String, unique=False, nullable=True)
 
     def __repr__(self):
         return f'<User {self.username}>'

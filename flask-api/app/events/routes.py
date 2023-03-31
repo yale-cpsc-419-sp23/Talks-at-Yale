@@ -3,8 +3,13 @@ from flask import request, jsonify
 from datetime import datetime
 from sqlalchemy import or_
 from app.events import bp_events
-from app.models import Event
+from app.models import Event, User
+from app import db
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from sqlalchemy import distinct
 
+
+@bp_events.route('/')
 @bp_events.route('/search', methods=['GET'])
 def search():
     """Search an event"""
@@ -46,6 +51,80 @@ def event_filter():
     # return json data
     return jsonify(events_json)
 
+@bp_events.route('/add_favorite', methods=['GET','POST'])
+@jwt_required()
+def add_favorite():
+    """Add favorite event"""
+    net_id = get_jwt_identity()
+    event_id = request.args.get('event_id', '')
+    # get user
+    user = User.query.filter_by(netid=net_id).first()
+    # get event
+    event = Event.query.filter_by(id=event_id).first()
+
+    if not user or not event:
+        return jsonify({"error": "User or event not found"}), 404
+
+    # Check if the event is already in the user's favorite events
+    if event in user.favorite_events:
+        return jsonify({"error": "Event already in favorites"}), 400
+
+    # Add favorite event
+    user.favorite_events.append(event)
+    db.session.commit()
+
+    return jsonify(event.to_dict())
+
+@bp_events.route('/remove_favorite', methods=['GET','POST'])
+@jwt_required()
+def remove_favorite():
+    """Remove favorite event"""
+    net_id = get_jwt_identity()
+    event_id = request.args.get('event_id', '')
+    # get user
+    user = User.query.filter_by(netid=net_id).first()
+    # get event
+    event = Event.query.filter_by(id=event_id).first()
+
+    if not user or not event:
+        return jsonify({"error": "User or event not found"}), 404
+
+    # Remove favorite event only if it's in the user's favorites
+    if event in user.favorite_events:
+        user.favorite_events.remove(event)
+        db.session.commit()
+    else:
+        return jsonify({"error": "Event not in favorites"}), 400
+
+    return jsonify({"message": "Event removed from favorites"})
+@bp_events.route('/favorite_events', methods=['GET'])
+@jwt_required(optional=True)
+def favorite_events():
+    """Get the favorited events for a given user"""
+    net_id = get_jwt_identity()
+    # get user
+    user = User.query.filter_by(netid=net_id).first()
+
+    favorite_events = {}
+    if user:
+        favorite_events = user.favorite_events
+    # get events dict
+    events_dict = [event.to_dict() for event in favorite_events]
+
+    return jsonify(events_dict)
+
+
+@bp_events.route('/departments', methods=['GET'])
+def get_departments():
+    unique_departments = db.session.query(distinct(Event.department)).all()
+
+    # extract department names
+    department_names = [row[0] for row in unique_departments]
+    return jsonify(department_names)
+
+
+
+####-----------Helper functions-----------------####
 def convert_date(date_str):
     """Convert date in a format to be used in the frontend"""
     # Parse the date string
