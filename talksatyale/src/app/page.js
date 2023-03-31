@@ -18,6 +18,9 @@ export default function Home() {
     setSearchResults(results);
   }
 
+  // get departments from backend
+  const [depts, setDepts] = useState([]);
+
 
   // calls the function to get events
   const[data, setData] = useState([{}])

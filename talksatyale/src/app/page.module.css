@@ -4,7 +4,6 @@
   font-family: Inter;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 50px;
 
 }
 
@@ -227,4 +226,69 @@
 
 .smallIcons {
   padding-top: 6px;
+}
+
+/* DROPDOWN FILTER STYLES */
+.filters {
+  margin-left: 225px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.filterList {
+  background-color: white;
+  color: #777777;
+  border: 1px solid #EEF4F4;
+  border-radius: 6px;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 2.5em;
+  margin-right: 15px;
+
+
+}
+
+.textIconContainer {
+  display: flex;
+  align-items: center;
+}
+
+.resetButton {
+  background-color: #065CB1;
+  color: white;
+  padding-left: 12px;
+  padding-right: 12px;
+  height: 2.5em;
+  border: 1px solid #065CB1;
+  border-radius: 8px;
+}
+
+.menu {
+  list-style-type: none;
+  border: 1px solid #EEF4F4;
+  border-radius: 8px;
+  width: 410px;
+  text-align: left;
+  position: fixed; 
+  z-index: 3;
+  background-color: white;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-top: 10px;
+  filter: drop-shadow(0 0 0.1rem grey);
+
+}
+
+.menuItem > button {
+  background-color: white;
+  color: #777777;
+  border: none;
+  padding-left: 10px;
+  width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+
 }
