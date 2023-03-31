@@ -49,7 +49,14 @@ export default function Header(props) {
   // fetching current events when new term entered
   useEffect(() => {
     async function fetchResults() {
-      const response = await fetch(`http://localhost:8080/events/search?search_term=${searchTerm}`).then(
+      const accessToken = localStorage.getItem('access_token');
+      const headers = new Headers();
+      if (accessToken) {
+        headers.append('Authorization', `Bearer ${accessToken}`);
+      }
+      const response = await fetch(`http://localhost:5000/events/search?search_term=${searchTerm}`,
+      {headers: headers,}
+      ).then(
         res => res.json()
       ).then(
         data => {
@@ -89,8 +96,6 @@ export default function Header(props) {
 useEffect(() => {
   checkLoginStatus();
 }, []);
-
-
 
 // Handles logout
 async function handleLogout() {
@@ -137,7 +142,7 @@ async function handleLogout() {
               </button>
             )}
           </div>
-          
+
       </div>
       <div className={styles.filters}>
         <button className={styles.filterList}>Department</button>

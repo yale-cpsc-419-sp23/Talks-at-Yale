@@ -22,8 +22,15 @@ export default function Home() {
   // calls the function to get events
   const[data, setData] = useState([{}])
   useEffect(() => {
+    const accessToken = localStorage.getItem('access_token');
+    const headers = new Headers();
+    if (accessToken) {
+      headers.append('Authorization', `Bearer ${accessToken}`);
+    }
     async function fetchResults() {
-      const response = await fetch(`http://localhost:8080/`).then(
+      const response = await fetch(`http://localhost:5000/events/`,
+      {headers: headers,}
+      ).then(
         res => res.json()
       ).then(
         data => {
