@@ -26,10 +26,17 @@ export default function EventCard({ event }) {
   
   };
 
+  const favoriteEvent = event => {
+    try {
+      console.log("Item favorited!");
+    } catch (error) {
+      console.error('Error when favoriting:', error);
+    }
+  }
 
   return (
     
-    <div className={styles.cardContainer} onClick={handleCardClicked}>
+    <div className={styles.cardContainer}>
       {isShown && (
         <EventModal event= {event}/>
       )}
@@ -39,9 +46,9 @@ export default function EventCard({ event }) {
             <h2 className={styles.cardMonth}>{event.formatted_date.month}</h2>
         </div>
         <div className={styles.cardRight}>
-            <FaPlus className={styles.cardFaPlus}/>
+            <FaPlus className={styles.cardFaPlus} onClick={favoriteEvent}/>
             <h6 className={styles.cardDept}>{event.department}</h6>
-            <h2 className={styles.cardTitle}>{event.title}</h2>
+            <h2 className={styles.cardTitle} onClick={handleCardClicked}>{event.title}</h2>
             <p className={styles.cardDescription}>{event.description}</p>
             <p className={styles.cardLocation}><FaRegClock size={18} className={styles.smallIcons}/> {event.time} | <FaMapMarkerAlt size={18} className={styles.smallIcons}/> {event.location} </p>
         </div>
