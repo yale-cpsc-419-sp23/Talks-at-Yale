@@ -22,10 +22,12 @@ export default function Header(props) {
     setOpenDate(!openDate);
   };
   // sort dropdown
-  const [openSort, setSort] = React.useState(false);
+  const [openSort, setOpenSort] = React.useState(false);
   const handleSortDrop = () => {
     setOpenSort(!openSort);
   };
+
+
 
   const[data, setData] = useState([{}])
   const [searchTerm, setSearchTerm] = useState('');
@@ -167,20 +169,34 @@ async function handleLogout() {
         </button>
         { openDept ? (
           <ul className={styles.menu}>
-            <li selected className={styles.menuItem}><button>All Departments</button></li>
-            <li className={styles.menuItem}><button>ACCT- Accounting</button></li>
-            <li className={styles.menuItem}><button>AFAM- African American Studies</button></li>
-            <li className={styles.menuItem}><button>CPSC- Computer Science</button></li>
-            <li className={styles.menuItem}><button>ENRG- Energy Studies</button></li>
-            <li className={styles.menuItem}><button>MATH- Mathematics</button></li>
+            <li selected disabled className={styles.menuItem}><button>All Departments</button></li>
+            {props.depts.map((dept) => (
+              <li className={styles.menuItem}><button value={dept} onClick={handleDeptClick}>{dept}</button></li>
+            ))}
+      
           </ul>
         ) : null}
         <button onClick={handleDateDrop} className={styles.filterList}>
           <div className={styles.textIconContainer}>Upcoming <FaTimes size={15} style={{marginLeft:"8px"}}/></div>
         </button>
+        { openDate ? (
+          <ul className={styles.menu}>
+            <li selected disabled className={styles.menuItem}><button>All Dates</button></li>
+            <li className={styles.menuItem}><button value="upcoming">Upcoming</button></li>
+            <li className={styles.menuItem}><button value="past">Past</button></li>
+          </ul>
+        ) : null}
+        <p className={styles.orderBy}>Order By</p>
         <button onClick={handleSortDrop}className={styles.filterList}>
           <div className={styles.textIconContainer}>Date <FaCaretDown size={20} style={{marginLeft:"8px"}}/></div>
         </button>
+        { openSort ? (
+          <ul className={styles.menu}>
+            <li selected disabled className={styles.menuItem}><button>Date</button></li>
+            <li className={styles.menuItem}><button value="title">Title</button></li>
+            <li className={styles.menuItem}><button value="department">Department</button></li>
+          </ul>
+        ) : null}
         <button className={styles.resetButton}>Reset</button>
       </div>
     </header>

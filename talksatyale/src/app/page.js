@@ -19,24 +19,32 @@ export default function Home() {
   }
 
   // get departments from backend
-  // const [depts, setDepts] = useState([]);
-  // useEffect(() => {
-  //   console.log("Start fetch dept");
-  //   async function fetchDepts() {
-  //     const response = await fetch(`http://localhost:5000/departments/`);
-  //     const dept_json = response.json();
-  //     console.log("DEPT")
-  //     setDepts(dept_json);
-  //     console.log("DEPTS:", dept_json);
-  //   }
-  //   fetchDepts();
-  // }, []);
+  const [depts, setDepts] = useState([]);
+  
+
+  const[data, setData] = useState([{}])
+
+  useEffect(() => {
+  
+    async function fetchDepts() {
+      console.log('Fetching departments')
+      const response = await fetch(`http://localhost:8080/events/departments`).then(
+        res => res.json()
+      ).then(
+        data => {
+          setDepts(data);
+          console.log('Dept data:', data);
+        }
+      );
+
+    }
+    fetchDepts();
+  }, []);
 
 
 
 
   // calls the function to get events
-  const[data, setData] = useState([{}])
   useEffect(() => {
     const accessToken = localStorage.getItem('access_token');
     const headers = new Headers();
@@ -62,11 +70,11 @@ export default function Home() {
 
   return (
     <div className={styles.pageWrapper}>
-      <Header handleSearchResults={handleSearchResults}/>
+      <Header handleSearchResults={handleSearchResults} depts={depts}/>
       <main className={styles.main}>
         <div>
           {searchResults.map((result) => (
-          <EventCard key={result.id} event={result} />
+          <EventCard key={result.id} event={result}/>
           ))}
 
         </div>

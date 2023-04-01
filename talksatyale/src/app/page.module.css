@@ -257,8 +257,8 @@
 .resetButton {
   background-color: #065CB1;
   color: white;
-  padding-left: 12px;
-  padding-right: 12px;
+  padding-left: 15px;
+  padding-right: 15px;
   height: 2.5em;
   border: 1px solid #065CB1;
   border-radius: 8px;
@@ -268,7 +268,7 @@
   list-style-type: none;
   border: 1px solid #EEF4F4;
   border-radius: 8px;
-  width: 410px;
+  width: 402px;
   text-align: left;
   position: fixed; 
   z-index: 3;
@@ -290,5 +290,17 @@
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;
+  font-size: 1em;
 
+}
+
+.menu > li > button:hover {
+  background-color: #E7EEEF;
+}
+
+.orderBy {
+  color: #777777;
+  display: inline;
+  font-size: .8em;
+  padding-right: 10px;
 }
