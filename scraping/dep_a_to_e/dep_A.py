@@ -6,6 +6,10 @@ from bs4 import BeautifulSoup
 import sys
 from DateTime import getDate, getTime
 from dep_events import all_department_links, get_dep_events
+import json
+import re
+from datetime import datetime
+
 
 ##-------------------African American Dep---------------##
 def african_american_studies(main_url, calendar, dep):
@@ -449,7 +453,6 @@ def Applied_Physics(main_url, calendar, dep):
         if link:
             links.append(link["href"])
     
-
     def get_event(link):
         """Get event details"""
         page = requests.get(link)
@@ -458,8 +461,14 @@ def Applied_Physics(main_url, calendar, dep):
         # title
         title = soup.find('h1', {'id': 'page-title'}).text.strip()
         # time and date
-        date_div = soup.find('div', {'class': 'field-name-field-event-time'})
-        date_str = date_div.find('span', {'class': 'date-display-single'})
+        
+
+        try:
+            date_div = soup.find('div', {'class': 'field-name-field-event-time'})
+            date_str = date_div.find('span', {'class': 'date-display-single'})
+        except:
+            date_div = None
+            date_str = None
 
         if date_str.has_attr('content'):
             content_attr = date_str['content']
@@ -467,33 +476,23 @@ def Applied_Physics(main_url, calendar, dep):
             date = getDate(content_attr)
             time = getTime(content_attr)
         else:
-            date_str = date_div.find('span', {'class': 'date-display-start'})
+            date_str = soup.find('h4', text=lambda t: "Date" in t)
             content_attr = date_str['content']
             iso = content_attr
             date = getDate(content_attr)
             time = getTime(content_attr)
         # Find the location div
-        location_div = soup.find('div', class_='location')
-        # Extract the fn and street-address content
-        address = None
-        fn = location_div.find('span', class_='fn')
-        if fn:
-            address = fn.text.strip()
-        # street address
-        street = location_div.find('div', class_='street-address')
-        if street:
-            address = street.text.strip()
 
-        # searching for event description
+        # try: 
+        location_tag = soup.find('h4', string=lambda s: s and 'Location:' in s)
+        if location_tag:
+            address  = location_tag.text.split('Location:', 1)[1].strip()
+        else:
+            address = 'TBD'
+            
         description = None
-        desc_tag = soup.find('div', class_='field-type-text-with-summary')
-        if desc_tag:
-            p_tags = desc_tag.find_all('p')
-            description = '\n'.join(p.get_text(strip=True) for p in p_tags)
-
+        
         speaker = None
-        if title.split(":")[1].strip():
-            speaker = title.split(":")[1].strip()
 
         # Event object as a dictionary
         event = {
@@ -512,6 +511,134 @@ def Applied_Physics(main_url, calendar, dep):
     return events
 
 
+##-------------------Architecture Studies Dep---------------##
+def Architecture(main_url, calendar, dep):
+    """Getting African American studies department's events"""
+    # send response to calendar page
+    response = requests.get(main_url + calendar)
+    soup = BeautifulSoup(response.content, "html.parser")
+    
+    event_links = []
+
+    all_links = soup.find_all("a", {"class": "hover-link-row", "data-modal-title": "Lectures"})
+    
+    for event in all_links:
+        link = event["href"]
+        event_links.append(link)
+   
+    # A function that goes to each link and gets the events details
+    def get_event(link):
+        page = requests.get(link)
+        soup = BeautifulSoup(page.content, "html.parser")
+        # title
+        title = soup.find('title').text.strip()
+        # speaker
+        speaker_name = soup.find('span', {'class': 'event__speaker-names'}).text.strip()
+
+        # speaker title
+        speaker_title = None
+        iso = None
+        address = None
+        # time and date
+        date_str = None
+
+        date_str = soup.find('h2', {'class': 'event__metadata-title h2'}).text.strip()
+        address = soup.find_all('h2', {'class': 'event__metadata-title h2'})[1].text.strip()
+        date_format = '%A, %B %d, %Y %I:%M %p'
+
+        try:
+            iso = datetime.strptime(date_str, date_format).isoformat()
+            
+        except:
+            iso = None
+            date = date_str
+            time = date_str
+        
+        if iso:
+            date = getDate(iso)
+            time = getTime(iso)
+        else:
+            date = None
+            time = None
+
+        event = {
+            "title": title,
+            "department": dep,
+            "speaker": speaker_name,
+            "speaker_title": speaker_title,
+            "date": date,
+            "time": time,
+            "location": address,
+            "iso_date": iso,
+        }
+        return event
+
+    # get all events for African american department
+    events = get_dep_events(main_url, get_event, event_links)
+    return events
+
+
+##-------------------Astronomy Dep---------------##
+def Astronomy(main_url, calendar, dep):
+    """Getting African American studies department's events"""
+    # send response to calendar page
+    response = requests.get(main_url + calendar)
+    soup = BeautifulSoup(response.content, "html.parser")
+    # get events links
+    event_links = []
+    events = soup.find_all('div', class_="views-field views-field-title")
+    for row in events:
+        link = row.find('a').get('href')
+        if link:
+            event_links.append(link)
+    
+
+    # A function that goes to each link and gets the events details
+    def get_event(link):
+        page = requests.get(link)
+        soup = BeautifulSoup(page.content, "html.parser")
+
+        # title
+        title = soup.find('title').text.strip()
+        
+        # speaker
+        speaker_name = soup.find('div', {'class': 'field-name-field-speaker'}).text.split(':')[-1].strip()
+
+        # time and date
+        date_div = soup.find('div', {'class': 'field-name-field-event-time'})
+        date_str = date_div.find('span', {'class': 'date-display-single'})
+
+        if date_str.has_attr('content'):
+            content_attr = date_str['content']
+            iso = content_attr
+            date = getDate(content_attr)
+            time = getTime(content_attr)
+        else:
+            date_str = date_div.find('span', {'class': 'date-display-start'})
+            content_attr = date_str['content']
+            iso = content_attr
+            date = getDate(content_attr)
+            time = getTime(content_attr)
+
+        address = soup.find('span', {'class': 'fn'}).text.strip()
+
+         # Event object as a dictionary
+        event = {
+            "title": title,
+            "department": dep,
+            "speaker": speaker_name,
+            "speaker_title": speaker_name,
+            "date": date,
+            "time": time,
+            "location": address,
+            "iso_date": iso,
+        }
+        return event
+
+    # get all events for African american department
+    events = get_dep_events(main_url, get_event, event_links)
+    return events
+
 
 
 ####---------------Get ALL Events for departments starting with letter A------####
@@ -524,9 +651,8 @@ department_parsers = {
     "https://medicine.yale.edu/anesthesiology/": anesthesiology,
     "https://applied.math.yale.edu/": applied_mathematics,
     "https://appliedphysics.yale.edu/": Applied_Physics,
-    # "https://archaeology.yale.edu/": Archaeological_Studies,
-    # "https://www.architecture.yale.edu/": Architecture,
-    # "https://astronomy.yale.edu/": Astronomy
+    "https://www.architecture.yale.edu/": Architecture,
+    "https://astronomy.yale.edu/": Astronomy
 
 
 }
