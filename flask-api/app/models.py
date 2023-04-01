@@ -78,6 +78,19 @@ class User(UserMixin, db.Model):
     year = db.Column(db.String, unique=False, nullable=True)
     college = db.Column(db.String, unique=False, nullable=True)
     birthday = db.Column(db.String, unique=False, nullable=True)
+    major = db.Column(db.String, unique=False, nullable=True)
 
     def __repr__(self):
         return f'<User {self.username}>'
+
+    def profile(self):
+        """Dict of user profile"""
+        return {
+            'email': self.email,
+            'fist_name': self.first_name,
+            'last_name': self.last_name,
+            'year': self.year,
+            'college': self.college,
+            'birthday': self.birthday,
+            'major': self.major,
+        }

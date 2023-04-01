@@ -58,7 +58,7 @@ def after_login():
     # If not, create a new user
     if not user:
         person = get_user(net_id)
-        user = User(netid=person.netid, email=person.email, first_name=person.first_name, last_name=person.last_name, year=person.year, college=person.college, birthday=person.birthday)
+        user = User(netid=person.netid, email=person.email, first_name=person.first_name, last_name=person.last_name, year=person.year, college=person.college, birthday=person.birthday, major=person.major)
         db.session.add(user)
         db.session.commit()
     # Create JWT access token
@@ -95,7 +95,16 @@ def logout():
     response.delete_cookie('access_token')
     return response
 
+@bp_users.route('/profile', methods=['GET'])
+@jwt_required(optional=True)
+def profile():
+    """Getting the profile of a user"""
+    net_id = get_jwt_identity()
+    user = User.query.filter_by(netid=net_id).first()
 
+    # get profile details
+    profile_json = user.profile()
+    return jsonify(profile_json)
 
 
 ####----Helper Functions----##
