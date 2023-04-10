@@ -71,7 +71,58 @@ def Biological_Biomedical_Sciences(main_url, calendar, dep):
             json_data = json.dumps(event_dict)
         except:
             address = ""
+        
+def Biomedical_Engineering(main_url, calendar, dep):
+    """Getting African American studies department's events"""
+    # send response to calendar page
+    response = requests.get(main_url + 'news-events/events')
+    soup = BeautifulSoup(response.content, "html.parser")
+    event_links = []
 
+    # get events links
+    all_links =soup.find_all("div",{"class": "views-field-title"})
+    try:
+        for div in all_links:
+            link = div.find('a').get('href')
+            event_links.append(link)
+    except:
+        event_links = []
+    # A function that goes to each link and gets the events details
+    def get_event(link):
+        page = requests.get(link)
+        soup = BeautifulSoup(page.content, "html.parser")
+       # title
+        try:
+            title = soup.find('title').text.strip()
+        except:
+            title = ""
+
+            # speaker
+        try:
+            speaker_name = soup.find('div', {'class':'event-presenter'}).text.strip()
+        except:
+            speaker_name = ""
+
+
+        start_date = None
+        try:
+            start_time = soup.find('span',{'class':'date-display-start'}).text.strip()
+            end_time = soup.find('span',{'class':'date-display-end'}).text.strip()
+            time = f"{start_time} - {end_time}"
+            
+        except:
+            time = ""
+        try:
+            date = soup.find('span',{'class':'date-display-single'}).text.strip()
+
+        except:
+            date = ""
+        
+        try:
+            address = soup.find('div', {'class': 'street-address'}).text.strip()
+            
+        except:
+            address = ""
          # Event object as a dictionary
         event = {
             "title": title,
@@ -93,8 +144,8 @@ def Biological_Biomedical_Sciences(main_url, calendar, dep):
 ####---------------Get ALL Events for departments starting with letter A------####
 # A dictionary of department links and functions to get events
 department_parsers = {
-"https://medicine.yale.edu",Biological_Biomedical_Sciences
-#"https://seas.yale.edu/departments/biomedical-engineering", Biomedical_Engineering
+"https://medicine.yale.edu",Biological_Biomedical_Sciences,
+"https://seas.yale.edu/", Biomedical_Engineering
 # "https://ysph.yale.edu/public-health-research-and-practice/department-research/biostatistics/",Biostatistics
 }
 
