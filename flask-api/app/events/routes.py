@@ -1,7 +1,7 @@
 """api endpoints dealing with events such as getting events will go in this file"""
 from flask import request, jsonify
 from datetime import datetime
-from sqlalchemy import or_
+from sqlalchemy import or_, and_
 from app.events import bp_events
 from app.models import Event, User
 from app import db
@@ -15,37 +15,121 @@ def search():
     """Search an event"""
     # get search term
     search_term = request.args.get('search_term', '')
-
-    # Query the database
-    events = Event.query.filter(
-        or_(
-            Event.title.ilike(f'%{search_term}%'),
-            Event.type.ilike(f'%{search_term}%'),
-            Event.speaker.ilike(f'%{search_term}%'),
-            Event.speaker_title.ilike(f'%{search_term}%'),
-            Event.host.ilike(f'%{search_term}%'),
-            Event.department.ilike(f'%{search_term}%'),
-            Event.bio.ilike(f'%{search_term}%'),
-            Event.description.ilike(f'%{search_term}%'),
-            Event.location.ilike(f'%{search_term}%'),
-        )
-    ).all()
-
-    events_dict = [event.to_dict() for event in events]
-    events_json = update_dates(events_dict)
-    # return json data
-    return jsonify(events_json)
-
-
-@bp_events.route('/filter', methods=['GET'])
-def event_filter():
-    """Search an event"""
-    # get search term
-    search_term = request.args.get('department', '')
     print(search_term)
-    # Query the database
-    events = Event.query.filter_by(department = search_term).all()
-    print(len(events))
+
+    # get selected department
+    selected_dept = request.args.get('department', 'All Departments')
+    print(selected_dept)
+
+    # get selected status
+    selected_status = request.args.get('status', 'Upcoming')
+    print(selected_status)
+
+    # get selected sort by
+    selected_sort = request.args.get('sort', 'Date')
+    print(selected_sort)
+
+    # define the mapping of sort options to database columns
+    sort_mapping = {
+        'Date': Event.iso_date,
+        'Title': Event.title,
+        'Department': Event.department
+    }
+    # check if the selected sort option is valid
+    if selected_sort not in sort_mapping:
+        selected_sort = 'Date'
+
+     # Query the database
+    if selected_dept == 'All Departments' and search_term != '':
+        if selected_status == 'All Dates':
+            events = Event.query.filter(
+                or_(
+                    Event.title.ilike(f'%{search_term}%'),
+                    Event.type.ilike(f'%{search_term}%'),
+                    Event.speaker.ilike(f'%{search_term}%'),
+                    Event.speaker_title.ilike(f'%{search_term}%'),
+                    Event.host.ilike(f'%{search_term}%'),
+                    Event.bio.ilike(f'%{search_term}%'),
+                    Event.description.ilike(f'%{search_term}%'),
+                    Event.location.ilike(f'%{search_term}%'),
+                )
+            ).order_by(sort_mapping[selected_sort]).all()
+        else:
+            now = datetime.now()
+            events = Event.query.filter(
+                and_(
+                    Event.iso_date >= now.strftime('%Y-%m-%d') if selected_status == 'Upcoming' else Event.iso_date < now.strftime('%Y-%m-%d'),
+                    or_(
+                        Event.title.ilike(f'%{search_term}%'),
+                        Event.type.ilike(f'%{search_term}%'),
+                        Event.speaker.ilike(f'%{search_term}%'),
+                        Event.speaker_title.ilike(f'%{search_term}%'),
+                        Event.host.ilike(f'%{search_term}%'),
+                        Event.bio.ilike(f'%{search_term}%'),
+                        Event.description.ilike(f'%{search_term}%'),
+                        Event.location.ilike(f'%{search_term}%'),
+                    )
+                )
+            ).order_by(sort_mapping[selected_sort]).all()
+    elif search_term == '' and selected_dept != 'All Departments':
+        if selected_status == 'All Dates':
+            events = Event.query.filter(
+                Event.department == selected_dept
+            ).order_by(sort_mapping[selected_sort]).all()
+        else:
+            now = datetime.now()
+            events = Event.query.filter(
+                and_(
+                    Event.iso_date >= now.strftime('%Y-%m-%d') if selected_status == 'Upcoming' else Event.iso_date < now.strftime('%Y-%m-%d'),
+                    Event.department == selected_dept
+                )
+            ).order_by(sort_mapping[selected_sort]).all()
+    elif search_term == '' and selected_dept == "All Departments":
+        if selected_status == 'All Dates':
+            events = Event.query.order_by(sort_mapping[selected_sort]).all()
+        else:
+            now = datetime.now()
+            events = Event.query.filter(
+                and_(
+                    Event.iso_date >= now.strftime('%Y-%m-%d') if selected_status == 'Upcoming' else Event.iso_date < now.strftime('%Y-%m-%d')
+                )
+            ).order_by(sort_mapping[selected_sort]).all()
+    else:
+        if selected_status == 'All Dates':
+            events = Event.query.filter(
+                and_(
+                    Event.department == selected_dept,
+                    or_(
+                        Event.title.ilike(f'%{search_term}%'),
+                        Event.type.ilike(f'%{search_term}%'),
+                        Event.speaker.ilike(f'%{search_term}%'),
+                        Event.speaker_title.ilike(f'%{search_term}%'),
+                        Event.host.ilike(f'%{search_term}%'),
+                        Event.bio.ilike(f'%{search_term}%'),
+                        Event.description.ilike(f'%{search_term}%'),
+                        Event.location.ilike(f'%{search_term}%'),
+                    )
+                )
+            ).order_by(sort_mapping[selected_sort]).all()
+        else:
+            now = datetime.now()
+            events = Event.query.filter(
+                and_(
+                    Event.iso_date >= now.strftime('%Y-%m-%d') if selected_status == 'Upcoming' else Event.iso_date < now.strftime('%Y-%m-%d'),
+                    Event.department == selected_dept,
+                    or_(
+                        Event.title.ilike(f'%{search_term}%'),
+                        Event.type.ilike(f'%{search_term}%'),
+                        Event.speaker.ilike(f'%{search_term}%'),
+                        Event.speaker_title.ilike(f'%{search_term}%'),
+                        Event.host.ilike(f'%{search_term}%'),
+                        Event.bio.ilike(f'%{search_term}%'),
+                        Event.description.ilike(f'%{search_term}%'),
+                        Event.location.ilike(f'%{search_term}%'),
+                    )
+                )
+            ).order_by(sort_mapping[selected_sort]).all()
+
     events_dict = [event.to_dict() for event in events]
     events_json = update_dates(events_dict)
     # return json data
