@@ -451,10 +451,13 @@ def Applied_Physics(main_url, calendar, dep):
     soup = BeautifulSoup(response.content, "html.parser")
       # get events links
     links = []
-    for row in soup.select("table.view-calendar-list tr"):
-        link = row.select_one("a[href^='/event/']")
-        if link:
-            links.append(link["href"])
+    try:
+        for row in soup.select("table.view-calendar-list tr"):
+            link = row.select_one("a[href^='/event/']")
+            if link:
+                links.append(link["href"])
+    except:
+        links = []
     
     def get_event(link):
         """Get event details"""

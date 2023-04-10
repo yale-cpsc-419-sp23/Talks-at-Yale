@@ -6,8 +6,8 @@ from dep_a_to_e.dep_B import Biological_Biomedical_Sciences
 # List of functions
 # events = african_studies("https://african.macmillan.yale.edu/", "calendar/", "african_studies")
 # events1 = anthropology("https://anthropology.yale.edu/", "calendar/", "anthropology")
-events2 = Architecture("https://americanstudies.yale.edu/", "calendar/", "american_studies")
-#events2 = Biological_Biomedical_Sciences("https://medicine.yale.edu/bbs/", "calendar/", "Biological_Biomedical_Sciences")
+#events2 = Architecture("https://americanstudies.yale.edu/", "calendar/", "american_studies")
+events2 = Biological_Biomedical_Sciences("https://medicine.yale.edu/bbs/", "calendar/", "Biological_Biomedical_Sciences")
 
 # print(events)
 # print("\n")

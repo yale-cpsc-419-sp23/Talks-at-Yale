@@ -21,57 +21,67 @@ def Biological_Biomedical_Sciences(main_url, calendar, dep):
 
     # get events links
     all_links =soup.find_all("div",{"class": "event-list-item__details"})
-    for div in all_links:
-        link = div.find('a').get('href')
-        event_links.append(link)
-
-
+    try:
+        for div in all_links:
+            link = div.find('a').get('href').split("/bbs")[1]
+            event_links.append(link)
+    except:
+        event_links = []
     # A function that goes to each link and gets the events details
     def get_event(link):
         page = requests.get(link)
         soup = BeautifulSoup(page.content, "html.parser")
+        
+       # title
+        try:
+            title = soup.find('title').text.strip()
+        except:
+            title = ""
 
-        # title
-        title = soup.find('h2', {'class': 'event-list-item__title'}).text.strip()
+            # speaker
+        try:
+            speaker_name = soup.find('span', {'class': 'profile-detailed-info-list-item__name'}).text.strip()
+        except:
+            speaker_name = ""
 
-        # speaker
-        speaker_name = soup.find('div', {'class': 'event-speaker-name'})
-
-        # speaker title
-       
-        speaker_title = None
 
         # time and date
-        date_div = soup.find('div', {'class': 'field-name-field-event-time'})
-        date_str = date_div.find('span', {'class': 'date-display-single'})
+        # date_div = soup.find('div', {'class': 'field-name-field-event-time'})
+        # date_str = date_div.find('span', {'class': 'date-display-single'})
+        start_date = None
+        try:
+            start_time = soup.find('span',{'class':'event-time__start-date'}).text.strip()
+            end_time = soup.find('span',{'class':'event-time__end-date'}).text.strip()
+            time = f"{start_time} - {end_time}"
+            
+        except:
+            time = ""
+        try:
+            start_time = soup.find('span',{'class':'event-date__month-year'}).text.strip()
+            end_time = soup.find('span',{'class':'event-date__day'}).text.strip()
+            date = f"{start_time} {end_time}"
+        except:
+            date = ""
         
-
-        if date_str.has_attr('content'):
-            content_attr = date_str['content']
-            iso = content_attr
-            date = getDate(content_attr)
-            time = getTime(content_attr)
-        else:
-            date_str = date_div.find('span', {'class': 'date-display-start'})
-            content_attr = date_str['content']
-            iso = content_attr
-            date = getDate(content_attr)
-            time = getTime(content_attr)
-
-        # adress:
-        # address = 
-
+        try:
+            json_str =  soup.find('script', {'type': 'application/ld+json'})
+            json_data = json_str.text.strip()
+            event_dict = json.loads(json_data)
+            address = event_dict['location']['address']['streetAddress']
+            json_data = json.dumps(event_dict)
+        except:
+            address = ""
 
          # Event object as a dictionary
         event = {
             "title": title,
             "department": dep,
             "speaker": speaker_name,
-            "speaker_title": speaker_title,
+            "speaker_title": None,
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": iso,
+            "iso_date": None,
         }
         return event
 
@@ -83,7 +93,7 @@ def Biological_Biomedical_Sciences(main_url, calendar, dep):
 ####---------------Get ALL Events for departments starting with letter A------####
 # A dictionary of department links and functions to get events
 department_parsers = {
-"https://medicine.yale.edu/bbs/",Biological_Biomedical_Sciences
+"https://medicine.yale.edu",Biological_Biomedical_Sciences
 #"https://seas.yale.edu/departments/biomedical-engineering", Biomedical_Engineering
 # "https://ysph.yale.edu/public-health-research-and-practice/department-research/biostatistics/",Biostatistics
 }
