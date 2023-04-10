@@ -123,6 +123,68 @@ def Biomedical_Engineering(main_url, calendar, dep):
             
         except:
             address = ""
+    
+def Biostatistics(main_url, calendar, dep):
+    """Getting African American studies department's events"""
+    # send response to calendar page
+    response = requests.get(main_url + calendar)
+    soup = BeautifulSoup(response.content, "html.parser")
+    event_links = []
+    
+    # get events links
+    all_links =soup.find_all("div",{"class": "event-list-item__details"})
+    try:
+        for div in all_links:
+            link = div.find('a').get('href')
+            event_links.append(link)
+    except:
+        event_links = []
+    # A function that goes to each link and gets the events details
+    def get_event(link):
+        page = requests.get(link)
+        soup = BeautifulSoup(page.content, "html.parser")
+       # title
+        try:
+            title = soup.find('title').text.strip()
+        except:
+            title = ""
+
+            # speaker
+        try:
+            speaker_name = soup.find('div', {'class':'profile-detailed-info-list-item__name'}).text.strip()
+        except:
+            speaker_name = ""
+
+        # we get the time of the event
+        start_date = None
+        try:
+            start_time = soup.find('span',{'class':'event-time__start-date'}).text.strip()
+            end_time = soup.find('span',{'class':'event-time__end-date'}).text.strip()
+            time = f"{start_time} - {end_time}"
+            
+        except:
+            time = ""
+        # we get the date of the event
+        try:
+            year = soup.find('span', {'class': {'event-date__month-year'}}).text.strip()
+            date__day = soup.find('span', {'class': {'event-date__day-of-week'}}).text.strip()
+            event_date__day= soup.find('span', {'class': {'event-date__day'}}).text.strip()
+            date = f"{date__day} {event_date__day} {year}"
+
+        except:
+            date = ""
+        # we get the address 
+        try:
+        
+            json_str =  soup.find('script', {'type': 'application/ld+json'})
+            json_data = json_str.text.strip()
+            event_dict = json.loads(json_data)
+            address = event_dict['location']['address']['streetAddress']
+            json_data = json.dumps(event_dict)
+            
+        except:
+            address = ""
+    
          # Event object as a dictionary
         event = {
             "title": title,
@@ -144,9 +206,9 @@ def Biomedical_Engineering(main_url, calendar, dep):
 ####---------------Get ALL Events for departments starting with letter A------####
 # A dictionary of department links and functions to get events
 department_parsers = {
-"https://medicine.yale.edu",Biological_Biomedical_Sciences,
-"https://seas.yale.edu/", Biomedical_Engineering
-# "https://ysph.yale.edu/public-health-research-and-practice/department-research/biostatistics/",Biostatistics
+"https://medicine.yale.edu/",Biological_Biomedical_Sciences,
+"https://seas.yale.edu/", Biomedical_Engineering,
+"https://ysph.yale.edu/",Biostatistics
 }
 
 def get_all_events_B():
