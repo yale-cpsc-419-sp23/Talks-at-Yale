@@ -1,18 +1,17 @@
 import Image from 'next/image'
-import styles from './page.module.css'
+import styles from '../page.module.css'
 import { FaPlus } from "react-icons/fa";
 import { FaRegClock } from "react-icons/fa";
 import { FaMapMarkerAlt } from "react-icons/fa";
 
-import EventModal from './eventModal';
+import EventModal from '../eventModal';
 import React, { useState, useEffect, use } from 'react';
 
 // Handles card clicked
 
 
 
-export default function EventCard({ event }) {
-  
+export default function ProfileEventCard({ event }) {
 
   const [isShown, setIsShown] = useState(false);
 

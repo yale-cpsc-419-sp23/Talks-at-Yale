@@ -200,6 +200,7 @@ async function handleLogout() {
               </div>
           </div>
           <div className={styles.headerRight}>
+          <img className={styles.icon} src="https://cdn-icons-png.flaticon.com/512/3940/3940403.png"/>
             {loggedIn ? (
                 <button className={styles.profileButton} onClick={handleLogout}>
                   <h2>Log Out</h2>

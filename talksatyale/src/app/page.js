@@ -9,7 +9,6 @@ import React, { useState, useEffect, use } from 'react'
 
 
 export default function Home() {
-  console.log("Component but just page!");
 
   // get search results from search term, passed from child (header)
   const [searchResults, setSearchResults] = useState([]);
