@@ -42,6 +42,25 @@ export default function Home() {
     fetchDepts();
   }, []);
 
+  // Getfavorited ids
+
+  useEffect(() => {
+    const fetchFavoriteEventIDs = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/events/events_status`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          },
+        });
+        const data = await response.json();
+        setFavoriteEventIDs(data.IDS);
+      } catch (error) {
+        console.error('Error fetching favorite event IDs:', error);
+      }
+    };
+
+    fetchFavoriteEventIDs();
+  }, []);
 
 
 
@@ -67,15 +86,13 @@ export default function Home() {
     fetchResults();
   }, []);
 
-
-
   return (
     <div className={styles.pageWrapper}>
       <Header handleSearchResults={handleSearchResults} depts={depts}/>
       <main className={styles.main}>
         <div>
           {searchResults.map((result) => (
-          <EventCard key={result.id} event={result} favoriteEventIDs={favoriteEventIDs} setFavoriteEventIDs={setFavoriteEventIDs}/>
+          <EventCard key={result.id} event={result} favoriteEventIDs={favoriteEventIDs} />
           ))}
 
         </div>

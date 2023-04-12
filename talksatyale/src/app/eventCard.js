@@ -30,24 +30,6 @@ export default function EventCard({ event, favoriteEventIDs, setFavoriteEventIDs
 
   };
 
-  useEffect(() => {
-    async function fetchFavoriteStatus() {
-      try {
-        const response = await fetch(`http://localhost:8080/events/events_status?event_ids=${event.id}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-          },
-        });
-        const data = await response.json();
-        setIsFavorited(data[event.id]);
-      } catch (error) {
-        console.error('Error fetching favorite status:', error);
-      }
-    }
-
-    fetchFavoriteStatus();
-  }, [event]);
-
   const toggleFavorite = async () => {
     try {
       if (isFavorited) {
@@ -86,6 +68,9 @@ export default function EventCard({ event, favoriteEventIDs, setFavoriteEventIDs
     setIsShown(false);
   };
 
+  useEffect(() => {
+    setIsFavorited(favoriteEventIDs.includes(event.id));
+  }, [favoriteEventIDs, event.id]);
 
   return (
     <div className={styles.cardContainer}>
