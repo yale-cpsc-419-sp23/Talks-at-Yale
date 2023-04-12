@@ -53,11 +53,17 @@ export default function UpcomingEvents({props}) {
     return (
       <div className={styles.upcomingEvents}>
         <h2>Upcoming Events</h2>
-        <div className={styles.upcomingBg}></div>
-        {searchResults.map((result) => (
+        <div className={styles.upcomingContainer}>
+          <ProfileEventCard/>
+          <ProfileEventCard/>
+          <ProfileEventCard/>
+          <ProfileEventCard/>
+          <ProfileEventCard/>
+        </div>
+        {/* {searchResults.map((result) => (
           <ProfileEventCard key={result.id} event={result}/>
-          ))}
-    
+          ))} */}
+
       </div>
       
     )

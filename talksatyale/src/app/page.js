@@ -51,7 +51,7 @@ export default function Home() {
       headers.append('Authorization', `Bearer ${accessToken}`);
     }
     async function fetchResults() {
-      const response = await fetch(`http://localhost:8080/events/`,
+      const response = await fetch(`http://localhost:8080/filter/`,
       {headers: headers,}
       ).then(
         res => res.json()

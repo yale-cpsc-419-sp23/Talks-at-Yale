@@ -365,11 +365,56 @@
   font-weight: normal;
 }
 
-.upcomingBg {
+.upcomingContainer {
+  display: flex;
   width: 100%;
-  height: 300px;
+  height: 400px;
   border-radius: 12px;
   background-color: #f3f3f3;
   margin-bottom: -15px;
   margin-top: 20px;
+  overflow-x: auto;
+}
+/* PROFILE EVENT CARD STYLES */
+
+.profileCardTitle {
+  font-size: large;
+  color: #065CB1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  display: inline-block;  
+  
+
+}
+
+.profileCardDescription {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  color: #777777;
+
+}
+
+.profileCardDetails {
+  margin-bottom:10px;
+
+}
+
+.profileCardContainer {
+  background-color: white;
+  flex: 0 0 auto; 
+  max-width: 250px;
+  margin: 15px;
+  padding: 10px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

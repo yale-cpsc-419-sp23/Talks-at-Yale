@@ -36,22 +36,17 @@ export default function ProfileEventCard({ event }) {
 
   return (
     
-    <div className={styles.cardContainer}>
+    <div className={styles.profileCardContainer}>
       {isShown && (
         <EventModal event= {event}/>
       )}
-        <div className={styles.cardLeft}>
-            <h2 className={styles.cardDay}>{event.formatted_date.week_day}</h2>
-            <h2 className={styles.cardDate}>{event.formatted_date.exact_date}</h2>
-            <h2 className={styles.cardMonth}>{event.formatted_date.month}</h2>
-        </div>
-        <div className={styles.cardRight}>
-            <FaPlus className={styles.cardFaPlus} onClick={favoriteEvent}/>
-            <h6 className={styles.cardDept}>{event.department}</h6>
-            <h2 className={styles.cardTitle} onClick={handleCardClicked}>{event.title}</h2>
-            <p className={styles.cardDescription}>{event.description}</p>
-            <p className={styles.cardLocation}><FaRegClock size={18} className={styles.smallIcons}/> {event.time} | <FaMapMarkerAlt size={18} className={styles.smallIcons}/> {event.location} </p>
-        </div>
+        <h2 className={styles.profileCardTitle} onClick={handleCardClicked}>Dean’s Dialogue: Doing It All: Engineering, Entrepreneurship and University Engagement</h2>
+        <p className={styles.profileCardDescription}>Join us for a conversation with Yale College Dean Pericles Lewis and Professor Anjelica Gonzalez on how basic science becomes impactful through a focus on human needs. Prof. Gonzalez is Associate Professor of Biomedical Engineering, Head of Davenport College, and Faculty Director at Tsai Center for Innovative Thinking at Yale. Her work focuses on engineering solutions for human diseases not addressed well in animal models. Prof. Gonzalez is co-founder of Aero Therapeutics, a company that develops respiratory devices for infants. PremieBreathe, a project based on human-centered design, is an outgrowth of her teaching and research. Attendees will have opportunities to ask questions. Refreshments will be provided at the conclusion of the event.</p>
+        <p className={styles.profileCardDetails}>4:00pm to 5:30pm</p>
+        <p className={styles.profileCardDetails}>Wednesday, March 29, 2023</p>
+        <p className={styles.profileCardDetails}>Yale Schwarzman Center SC, Presidents' Room
+168 Grove St
+New Haven, CT 06511 </p>
     </div>
     
   )

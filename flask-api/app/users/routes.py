@@ -10,7 +10,6 @@ import requests
 from xml.etree import ElementTree
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 import yalies
-
 ###--------------Logging Users In --------------####
 ###---------------------------------------------####
 @bp_users.route('/login', methods=['GET'])
@@ -52,7 +51,7 @@ def after_login():
 
     net_id = username
 
-    # Check if a user is already in the database
+     # Check if a user is already in the database
     user = User.query.filter_by(netid=net_id).first()
 
     # If not, create a new user
