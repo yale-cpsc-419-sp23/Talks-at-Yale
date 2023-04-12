@@ -26,6 +26,7 @@ export default function UpcomingEvents({props}) {
         });
         const data = await response.json();
         setEvents(data);
+        console.log(data);
       } catch (error) {
         console.error('Error fetching favorite events:', error);
       }

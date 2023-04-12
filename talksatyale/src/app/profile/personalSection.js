@@ -39,7 +39,7 @@ export default function PersonalSection() {
             <img className={styles.profileIcon} src="https://cdn-icons-png.flaticon.com/512/3940/3940403.png"/>
             <div className={styles.nameEmail}>
               <h2>{user?.first_name} {user?.last_name}</h2>
-              <h4 className={styles.email}>{user?.email} MAJOR:{user?.major} COLLEGE: {user?.college} YEAR: {user?.year} BIRTH: {user?.birthday}</h4>
+              <h4 className={styles.email}>{user?.email}</h4>
             </div>
         </div>
 
