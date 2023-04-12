@@ -129,7 +129,11 @@ def search():
                     )
                 )
             ).order_by(sort_mapping[selected_sort]).all()
-
+            
+    events_dict = [event.to_dict() for event in events]
+    events_json = update_dates(events_dict)
+    # return json data
+    return jsonify(events_json)
 @bp_events.route('/filter', methods=['GET'])
 def event_filter():
     """Search an event"""
