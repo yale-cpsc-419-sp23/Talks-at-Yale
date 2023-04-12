@@ -20,6 +20,8 @@ export default function Home() {
   // get departments from backend
   const [depts, setDepts] = useState([]);
 
+  const [favoriteEventIDs, setFavoriteEventIDs] = useState([]);
+
 
   const[data, setData] = useState([{}])
 
@@ -73,7 +75,7 @@ export default function Home() {
       <main className={styles.main}>
         <div>
           {searchResults.map((result) => (
-          <EventCard key={result.id} event={result}/>
+          <EventCard key={result.id} event={result} favoriteEventIDs={favoriteEventIDs} setFavoriteEventIDs={setFavoriteEventIDs}/>
           ))}
 
         </div>

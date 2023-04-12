@@ -99,10 +99,12 @@ def logout():
 def profile():
     """Getting the profile of a user"""
     net_id = get_jwt_identity()
+    print(net_id)
     user = User.query.filter_by(netid=net_id).first()
 
     # get profile details
     profile_json = user.profile()
+    print(profile_json)
     return jsonify(profile_json)
 
 
