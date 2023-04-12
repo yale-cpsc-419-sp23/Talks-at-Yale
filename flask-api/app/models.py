@@ -11,6 +11,14 @@ favorites = db.Table('favorites',
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
     db.Column('event_id', db.Integer, db.ForeignKey('event.id'), primary_key=True)
 )
+
+# Keeping track of frends
+class Friendship(db.Model):
+    """A class representing a friendship"""
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    friend_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
 class Event(db.Model):
     """A class representing an event"""
     id = db.Column(db.Integer, primary_key=True)
@@ -27,7 +35,6 @@ class Event(db.Model):
     location = db.Column(db.String, nullable=True)
     bio = db.Column(db.Text, nullable=True)
     description = db.Column(db.Text, nullable=True)
-    is_upcoming = db.Column(db.Boolean, nullable=False, default=True)
 
     def __repr__(self):
         """How the object event will be represented"""
@@ -79,6 +86,12 @@ class User(UserMixin, db.Model):
     college = db.Column(db.String, unique=False, nullable=True)
     birthday = db.Column(db.String, unique=False, nullable=True)
     major = db.Column(db.String, unique=False, nullable=True)
+    friends = db.relationship('User',
+                              secondary='friendship',
+                              primaryjoin=(Friendship.user_id == id),
+                              secondaryjoin=(Friendship.friend_id == id),
+                              backref=db.backref('friend_of', lazy='dynamic'),
+                              lazy='dynamic')
 
     def __repr__(self):
         return f'<User {self.username}>'
