@@ -219,7 +219,7 @@ async function handleLogout() {
         </button>
         { openDept ? (
           <ul className={styles.menu}>
-            <li selected disabled className={styles.menuItem}><button>{selectedDept}</button></li>
+            {/* <li selected disabled className={styles.menuItem}><button>{selectedDept}</button></li> */}
             <li className={styles.menuItem}><button onClick={handleDeptClick} value="All Departments">All Departments</button></li>
             {props.depts.map((dept) => (
               <li className={styles.menuItem}><button value={dept} onClick={handleDeptClick}>{dept}</button></li>
