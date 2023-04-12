@@ -14,6 +14,8 @@ from dep_events import all_department_links, get_dep_events
 import json
 import re
 from datetime import datetime
+import datetime
+import time
 
 def Earth_Planetary_Sciences(main_url, calendar, dep):
     """Getting African American studies department's events"""
@@ -1010,6 +1012,13 @@ def Experimental_Pathology(main_url, calendar, dep):
 
         except:
             date = "TBD"
+        try:
+            iso_date = datetime.datetime(year=year, month=event_date__day, hour=0, minute=0, second=0)
+            return iso_date
+            # Convert datetime object to ISO 8601 format
+            # iso_date = dt.isoformat()
+        except:
+            iso_date= "TBD"
         # we get the address 
         try:
         
@@ -1030,7 +1039,7 @@ def Experimental_Pathology(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": None,
+            "iso_date": iso_date,
         }
         return event
 
