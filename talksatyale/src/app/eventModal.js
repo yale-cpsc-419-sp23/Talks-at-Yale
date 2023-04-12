@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 
-export default function EventModal({ event }) {
+export default function EventModal({ event, onClose }) {
     return (
     <div className={styles.modal}>
         <div className={styles.modalContent}>
@@ -17,8 +17,10 @@ export default function EventModal({ event }) {
                 <div className={styles.modalDetails}>
                     <h2 className={styles.modalTitle}>{event.title}</h2>
                 </div>
-                <h2><FaTimes/></h2>
-                
+                <div className={styles.modalClose} onClick={onClose}>
+                    <FaTimes />
+                </div>
+
             </div>
             <div className={styles.modalSubHeader}>
                 <h3>{event.department}</h3>
@@ -29,7 +31,24 @@ export default function EventModal({ event }) {
             <div className={styles.modalBody}>
                 {event.description}
             </div>
-        
+            <div>
+                {event.bio}
+            </div>
+            <div>
+                {event.speaker}
+            </div>
+            <div>
+                {event.speaker_title}
+            </div>
+            <div>
+                {event.location}
+            </div>
+            <div>
+                {event.date}
+            </div>
+            <div>
+                {event.time}
+            </div>
 
         </div>
     </div>

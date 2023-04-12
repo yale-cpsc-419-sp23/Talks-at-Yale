@@ -209,6 +209,18 @@ def favorite_events():
 
     return jsonify(events_dict)
 
+# @bp_events.route('/popup/<int:event_id>', methods=['GET'])
+# def get_event(event_id):
+#     """Get an event by ID"""
+#     event = Event.query.filter_by(id=event_id).first()
+
+#     if not event:
+#         return jsonify({"error": "Event not found"}), 404
+
+#     event_dict = event.to_dict()
+#     event_dict = update_dates([event_dict])
+
+#     return jsonify(event_dict)
 
 @bp_events.route('/departments', methods=['GET'])
 def get_departments():
