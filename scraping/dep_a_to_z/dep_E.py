@@ -814,6 +814,229 @@ def Epidemiology_Microbial_Diseases(main_url, calendar, dep):
     # get all events for African american department
     events = get_dep_events(main_url, get_event, event_links)
     return events
+
+
+def Ethnicity_Race_Migration(main_url, calendar, dep):
+    """Getting African American studies department's events"""
+    # send response to calendar page
+    response = requests.get(main_url + calendar)
+    soup = BeautifulSoup(response.content, "html.parser")
+    event_links = []
+    
+    # get events links
+    all_links =soup.find_all("div",{"class": "views-field views-field-title"})
+    try:
+        for div in all_links:
+            link = div.find('a').get('href')
+            event_links.append(link)
+    except:
+        event_links = []
+    # A function that goes to each link and gets the events details
+    def get_event(link):
+        page = requests.get(link)
+        soup = BeautifulSoup(page.content, "html.parser")
+       # title
+        try:
+            title = soup.find('title').text.strip()
+        except:
+            title = "TBD"
+
+            # speaker
+        try:
+            speaker_name = soup.find('div', {'class':'speaker_name'}).text.strip()
+        except:
+            speaker_name = "TBD"
+
+        # we get the time of the event
+        start_date = None
+        try:
+            start_time = soup.find('span',{'class':'date-display-start'}).text.strip()
+            end_time = soup.find('span',{'class':'date-display-end'}).text.strip()
+            time = f"{start_time} - {end_time}"
+            
+        except:
+            time = "TBD"
+        # we get the date of the event
+        try:
+            date = soup.find('span',{'class': 'date-display-single'}).text.strip()
+
+        except:
+            date = "TBD"
+        # we get the address 
+        try:
+           address = soup.find('span',{'class': 'fn'}).text.strip()
+        except:
+            address = "TBD"
+
+
+        # Event object as a dictionary
+        event = {
+            "title": title,
+            "department": dep,
+            "speaker": speaker_name,
+            "speaker_title": "TBD",
+            "date": date,
+            "time": time,
+            "location": address,
+            "iso_date": "TBD",
+        }
+        return event
+    
+    events = get_dep_events(main_url, get_event, event_links)
+    return events
+
+def European_Russian_Studies(main_url, calendar, dep):
+    """Getting African American studies department's events"""
+    # send response to calendar page
+    response = requests.get(main_url + calendar)
+    soup = BeautifulSoup(response.content, "html.parser")
+    event_links = []
+    
+    # get events links
+    all_links =soup.find_all("td",{"class": "views-field views-field-title"})
+    try:
+        for div in all_links:
+            link = div.find('a').get('href')
+            event_links.append(link)
+    except:
+        event_links = []
+    # A function that goes to each link and gets the events details
+    def get_event(link):
+        page = requests.get(link)
+        soup = BeautifulSoup(page.content, "html.parser")
+       # title
+        try:
+            title = soup.find('title').text.strip()
+        except:
+            title = "TBD"
+
+            # speaker
+        try:
+            div = soup.find('div', {'class':'field field-name-field-speaker-performer field-type-text field-label-above'})
+            speaker_name = div.find('div', {'class':'field-item even'}).text.strip()
+        except:
+            speaker_name = "TBD"
+
+        # we get the time of the event
+        start_date = None
+        try:
+            start_time = soup.find('span',{'class':'date-display-start'}).text.strip()
+            end_time = soup.find('span',{'class':'date-display-end'}).text.strip()
+            time = f"{start_time} - {end_time}"
+            
+        except:
+            time = "TBD"
+        # we get the date of the event
+        try:
+            date = soup.find('span',{'class': 'date-display-single'}).text.strip()
+
+        except:
+            date = "TBD"
+        # we get the address 
+        try:
+           address = soup.find('span',{'class': 'fn'}).text.strip()
+        except:
+            address = "TBD"
+
+
+        # Event object as a dictionary
+        event = {
+            "title": title,
+            "department": dep,
+            "speaker": speaker_name,
+            "speaker_title": "TBD",
+            "date": date,
+            "time": time,
+            "location": address,
+            "iso_date": "TBD",
+        }
+        return event
+    
+    events = get_dep_events(main_url, get_event, event_links)
+    return events
+
+def Experimental_Pathology(main_url, calendar, dep):
+    """Getting Cell_Biology department's events"""
+    # send response to calendar page
+    response = requests.get(main_url + '/news/calendar/')
+    soup = BeautifulSoup(response.content, "html.parser")
+    event_links = []
+    
+    # get events links
+    all_links =soup.find_all("div",{"class": "event-list-item__details"})
+    try:
+        for div in all_links:
+            link = div.find('a').get('href').split('/pathology')[1]
+            event_links.append(link)
+    except:
+        event_links = []
+
+    # A function that goes to each link and gets the events details
+    def get_event(link):
+       
+        page = requests.get(link)
+        soup = BeautifulSoup(page.content, "html.parser")
+        
+       # title
+        try:
+            title = soup.find('title').text.strip()
+        except:
+            title = "TBD"
+
+            # speaker
+        try:
+            speaker_name = soup.find('span', {'class':'profile-detailed-info-list-item__name'}).text.strip()
+        except:
+            speaker_name = "TBD"
+
+        # we get the time of the event
+        start_date = None
+        try:
+            start_time = soup.find('span',{'class':'event-time__start-date'}).text.strip()
+        except:
+            start_time = "TBD"
+        try:
+            end_time = soup.find('span',{'class':'event-time__end-date'}).text.strip()
+        except:
+            end_time = "TBD"
+        time = f"{start_time} - {end_time}"
+            
+        # we get the date of the event
+        try:
+            year = soup.find('span', {'class': {'event-date__month-year'}}).text.strip()
+            date__day = soup.find('span', {'class': {'event-date__day-of-week'}}).text.strip()
+            event_date__day= soup.find('span', {'class': {'event-date__day'}}).text.strip()
+            date = f"{date__day} {event_date__day} {year}"
+
+        except:
+            date = "TBD"
+        # we get the address 
+        try:
+        
+            json_str =  soup.find('script', {'type': 'application/ld+json'})
+            json_data = json_str.text.strip()
+            event_dict = json.loads(json_data)
+            address = event_dict['location']['address']['streetAddress']
+            json_data = json.dumps(event_dict)
+            
+        except:
+            address = "TBD"
+
+        event = {
+            "title": title,
+            "department": dep,
+            "speaker": speaker_name,
+            "speaker_title": None,
+            "date": date,
+            "time": time,
+            "location": address,
+            "iso_date": None,
+        }
+        return event
+
+    # get all events for African american department
+    events = get_dep_events(main_url, get_event, event_links)
+    return events
 department_parsers = {
 "https://earth.yale.edu/": Earth_Planetary_Sciences,
 "https://eall.yale.edu/": East_Asian_Languages_Literatures,
@@ -825,10 +1048,10 @@ department_parsers = {
 "https://seas.yale.edu/": Engineering_Applied_Science,
 "https://english.yale.edu/": English_Language_Literature,
 "https://ysph.yale.edu": Environmental_Health_Sciences,
-"https://ysph.yale.edu/": Epidemiology_Microbial_Diseases
-# "https://erm.yale.edu/": Ethnicity, Race, & Migration,
-# "https://europeanstudies.macmillan.yale.edu/" European & Russian Studies,
-# "https://medicine.yale.edu/pathology/training/graduateprogram/": Experimental Pathology
+"https://ysph.yale.edu/": Epidemiology_Microbial_Diseases,
+"https://erm.yale.edu/": Ethnicity_Race_Migration,
+"https://europeanstudies.macmillan.yale.edu/" : European_Russian_Studies,
+"https://medicine.yale.edu/pathology": Experimental_Pathology
 
 
 }
