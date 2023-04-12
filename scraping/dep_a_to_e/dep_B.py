@@ -36,13 +36,13 @@ def Biological_Biomedical_Sciences(main_url, calendar, dep):
         try:
             title = soup.find('title').text.strip()
         except:
-            title = ""
+            title = "TBD"
 
             # speaker
         try:
             speaker_name = soup.find('span', {'class': 'profile-detailed-info-list-item__name'}).text.strip()
         except:
-            speaker_name = ""
+            speaker_name = "TBD"
 
 
         # time and date
@@ -55,13 +55,13 @@ def Biological_Biomedical_Sciences(main_url, calendar, dep):
             time = f"{start_time} - {end_time}"
             
         except:
-            time = ""
+            time = "TBD"
         try:
             start_time = soup.find('span',{'class':'event-date__month-year'}).text.strip()
             end_time = soup.find('span',{'class':'event-date__day'}).text.strip()
             date = f"{start_time} {end_time}"
         except:
-            date = ""
+            date = "TBD"
         
         try:
             json_str =  soup.find('script', {'type': 'application/ld+json'})
@@ -70,12 +70,28 @@ def Biological_Biomedical_Sciences(main_url, calendar, dep):
             address = event_dict['location']['address']['streetAddress']
             json_data = json.dumps(event_dict)
         except:
-            address = ""
+            address = "TBD"
+
+        event = {
+            "title": title,
+            "department": dep,
+            "speaker": speaker_name,
+            "speaker_title": None,
+            "date": date,
+            "time": time,
+            "location": address,
+            "iso_date": None,
+        }
+        return event
+
+    # get all events for African american department
+    events = get_dep_events(main_url, get_event, event_links)
+    return events
         
 def Biomedical_Engineering(main_url, calendar, dep):
     """Getting African American studies department's events"""
     # send response to calendar page
-    response = requests.get(main_url + 'news-events/events')
+    response = requests.get(main_url + 'news-events/events?type=All&tid_1=1&keys=')
     soup = BeautifulSoup(response.content, "html.parser")
     event_links = []
 
@@ -95,13 +111,13 @@ def Biomedical_Engineering(main_url, calendar, dep):
         try:
             title = soup.find('title').text.strip()
         except:
-            title = ""
+            title = "TBD"
 
             # speaker
         try:
             speaker_name = soup.find('div', {'class':'event-presenter'}).text.strip()
         except:
-            speaker_name = ""
+            speaker_name = "TBD"
 
 
         start_date = None
@@ -111,18 +127,34 @@ def Biomedical_Engineering(main_url, calendar, dep):
             time = f"{start_time} - {end_time}"
             
         except:
-            time = ""
+            time = "TBD"
         try:
             date = soup.find('span',{'class':'date-display-single'}).text.strip()
 
         except:
-            date = ""
+            date = "TBD"
         
         try:
             address = soup.find('div', {'class': 'street-address'}).text.strip()
             
         except:
-            address = ""
+            address = "TBD"
+
+        event = {
+            "title": title,
+            "department": dep,
+            "speaker": speaker_name,
+            "speaker_title": None,
+            "date": date,
+            "time": time,
+            "location": address,
+            "iso_date": None,
+        }
+        return event
+
+    # get all events for African american department
+    events = get_dep_events(main_url, get_event, event_links)
+    return events
     
 def Biostatistics(main_url, calendar, dep):
     """Getting African American studies department's events"""
@@ -153,7 +185,7 @@ def Biostatistics(main_url, calendar, dep):
         try:
             speaker_name = soup.find('div', {'class':'profile-detailed-info-list-item__name'}).text.strip()
         except:
-            speaker_name = ""
+            speaker_name = "TBD"
 
         # we get the time of the event
         start_date = None
@@ -163,7 +195,7 @@ def Biostatistics(main_url, calendar, dep):
             time = f"{start_time} - {end_time}"
             
         except:
-            time = ""
+            time = "TBD"
         # we get the date of the event
         try:
             year = soup.find('span', {'class': {'event-date__month-year'}}).text.strip()
@@ -172,7 +204,7 @@ def Biostatistics(main_url, calendar, dep):
             date = f"{date__day} {event_date__day} {year}"
 
         except:
-            date = ""
+            date = "TBD"
         # we get the address 
         try:
         
@@ -183,7 +215,7 @@ def Biostatistics(main_url, calendar, dep):
             json_data = json.dumps(event_dict)
             
         except:
-            address = ""
+            address = "TBD"
     
          # Event object as a dictionary
         event = {
@@ -206,7 +238,7 @@ def Biostatistics(main_url, calendar, dep):
 ####---------------Get ALL Events for departments starting with letter A------####
 # A dictionary of department links and functions to get events
 department_parsers = {
-"https://medicine.yale.edu/",Biological_Biomedical_Sciences,
+"https://medicine.yale.edu/bbs/",Biological_Biomedical_Sciences,
 "https://seas.yale.edu/", Biomedical_Engineering,
 "https://ysph.yale.edu/",Biostatistics
 }

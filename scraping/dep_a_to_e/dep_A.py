@@ -31,38 +31,51 @@ def african_american_studies(main_url, calendar, dep):
         soup = BeautifulSoup(page.content, "html.parser")
 
         # title
-        title = soup.find('h1', {'id': 'page-title'}).text.strip()
+        try:
+            title = soup.find('h1', {'id': 'page-title'}).text.strip()
+        except:
+            title = "TBD"
 
         # speaker
-        name_div = soup.find('div', {'class': 'field-name-field-speaker-name'})
-        speaker_name = name_div.find('div', {'class': 'field-item even'}).text.strip()
+        try:
+            name_div = soup.find('div', {'class': 'field-name-field-speaker-name'})
+            speaker_name = name_div.find('div', {'class': 'field-item even'}).text.strip()
 
-        # speaker title
-        speaker_div = soup.find('div', {'class': 'field-name-field-speaker-title'})
-        speaker_title = speaker_div.find('div', {'class': 'field-item even'}).text.strip()
+            # speaker title
+            speaker_div = soup.find('div', {'class': 'field-name-field-speaker-title'})
+            speaker_title = speaker_div.find('div', {'class': 'field-item even'}).text.strip()
+        except:
+            speaker_title = "TBD"
+            speaker_div = "TBD"
 
         # time and date
-        date_div = soup.find('div', {'class': 'field-name-field-event-time'})
-        date_str = date_div.find('span', {'class': 'date-display-single'})
+        try:
+            date_div = soup.find('div', {'class': 'field-name-field-event-time'})
+            date_str = date_div.find('span', {'class': 'date-display-single'})
 
-        if date_str.has_attr('content'):
-            content_attr = date_str['content']
-            iso = content_attr
-            date = getDate(content_attr)
-            time = getTime(content_attr)
-        else:
-            date_str = date_div.find('span', {'class': 'date-display-start'})
-            content_attr = date_str['content']
-            iso = content_attr
-            date = getDate(content_attr)
-            time = getTime(content_attr)
-
-        # getting location
-        map_icon = soup.select_one('span.map-icon')
-        map_icon.extract()
-        location_div = soup.find('div', class_='field-name-field-location')
-        location_spans = [span.text.strip() for span in location_div.find_all('span') if span.get('class') != ['map-icon']]
-        address = ', '.join(location_spans)
+            if date_str.has_attr('content'):
+                content_attr = date_str['content']
+                iso = content_attr
+                date = getDate(content_attr)
+                time = getTime(content_attr)
+            else:
+                date_str = date_div.find('span', {'class': 'date-display-start'})
+                content_attr = date_str['content']
+                iso = content_attr
+                date = getDate(content_attr)
+                time = getTime(content_attr)
+        except:
+            time = "TBD"
+            date = "TBD"
+        try:
+            # getting location
+            map_icon = soup.select_one('span.map-icon')
+            map_icon.extract()
+            location_div = soup.find('div', class_='field-name-field-location')
+            location_spans = [span.text.strip() for span in location_div.find_all('span') if span.get('class') != ['map-icon']]
+            address = ', '.join(location_spans)
+        except:
+            address = "TBD"
 
          # Event object as a dictionary
         event = {
@@ -103,7 +116,10 @@ def african_studies(main_url, calendar, dep):
         soup = BeautifulSoup(page.content, "html.parser")
 
         # title
-        title = soup.find('h1', {'id': 'page-title'}).text.strip()
+        try:
+            title = soup.find('h1', {'id': 'page-title'}).text.strip()
+        except:
+            title = "TBD"
 
         # speaker
         name_div = soup.find('div', {'class': 'field-name-field-speaker-performer'})
