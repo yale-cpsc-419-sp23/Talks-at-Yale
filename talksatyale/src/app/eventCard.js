@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import styles from './page.module.css'
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaMinus} from "react-icons/fa";
 import { FaRegClock } from "react-icons/fa";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { FaTimes } from 'react-icons/fa';
@@ -12,21 +12,13 @@ import React, { useState, useEffect, use } from 'react';
 
 
 
-export default function EventCard({ event }) {
+export default function EventCard({ event, favoriteEventIDs, setFavoriteEventIDs}) {
 
 
   const [isShown, setIsShown] = useState(false);
+  const [isFavorited, setIsFavorited] = useState(false);
 
-  // const handleCardClicked = async () => {
-  //   try {
-  //     const response = await fetch(`http://localhost:8080/events/popup/${event.id}`);
-  //     const data = await response.json();
-  //     setIsShown(true);
-  //     console.log('Card clicked!', data);
-  //   } catch (error) {
-  //     console.error('Error when card clicked:', error);
-  //   }
-  // };
+
   const handleCardClicked = event => {
 
     try {
@@ -38,20 +30,64 @@ export default function EventCard({ event }) {
 
   };
 
-  const favoriteEvent = event => {
-    try {
-      console.log("Item favorited!");
-    } catch (error) {
-      console.error('Error when favoriting:', error);
+  useEffect(() => {
+    async function fetchFavoriteStatus() {
+      try {
+        const response = await fetch(`http://localhost:8080/events/events_status?event_ids=${event.id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          },
+        });
+        const data = await response.json();
+        setIsFavorited(data[event.id]);
+      } catch (error) {
+        console.error('Error fetching favorite status:', error);
+      }
     }
-  }
+
+    fetchFavoriteStatus();
+  }, [event]);
+
+  const toggleFavorite = async () => {
+    try {
+      if (isFavorited) {
+        const response = await fetch(`http://localhost:8080/events/remove_favorite?event_id=${event.id}`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Error removing event from favorites');
+        }
+        console.log('Event removed from favorites!');
+        setIsFavorited(false);
+        setFavoriteEventIDs(favoriteEventIDs.filter(id => id !== event.id));
+      } else {
+        const response = await fetch(`http://localhost:8080/events/add_favorite?event_id=${event.id}`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Error adding event to favorites');
+        }
+        console.log('Event added to favorites!');
+        setIsFavorited(true);
+        setFavoriteEventIDs([...favoriteEventIDs, event.id]);
+      }
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+    }
+  };
+
   const closeModal = () => {
     setIsShown(false);
   };
 
 
   return (
-
     <div className={styles.cardContainer}>
       {isShown && (
         <EventModal event= {event} onClose={closeModal}/>
@@ -62,7 +98,11 @@ export default function EventCard({ event }) {
             <h2 className={styles.cardMonth}>{event.formatted_date.month}</h2>
         </div>
         <div className={styles.cardRight}>
-            <FaPlus className={styles.cardFaPlus} onClick={favoriteEvent}/>
+          {isFavorited ? (
+            <FaMinus className={styles.cardFaPlus} onClick={toggleFavorite} />
+          ) : (
+            <FaPlus className={styles.cardFaPlus} onClick={toggleFavorite} />
+          )}
             <h6 className={styles.cardDept}>{event.department}</h6>
             <h2 className={styles.cardTitle} onClick={handleCardClicked}>{event.title}</h2>
             <p className={styles.cardDescription}>{event.description}</p>

@@ -25,7 +25,6 @@ export default function EventModal({ event, onClose }) {
             <div className={styles.modalSubHeader}>
                 <h3>{event.department}</h3>
                 <h3><a href="https://calendar.google.com" className={styles.addCalendar}>Add to Google Calendar</a></h3>
-
             </div>
 
             <div className={styles.modalBody}>

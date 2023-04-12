@@ -87,7 +87,7 @@ class User(UserMixin, db.Model):
         """Dict of user profile"""
         return {
             'email': self.email,
-            'fist_name': self.first_name,
+            'first_name': self.first_name,
             'last_name': self.last_name,
             'year': self.year,
             'college': self.college,

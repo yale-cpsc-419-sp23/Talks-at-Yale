@@ -163,17 +163,19 @@ def add_favorite():
     event = Event.query.filter_by(id=event_id).first()
 
     if not user or not event:
+        print("Nothing found.")
         return jsonify({"error": "User or event not found"}), 404
 
     # Check if the event is already in the user's favorite events
     if event in user.favorite_events:
+        print("Event already exist")
         return jsonify({"error": "Event already in favorites"}), 400
 
     # Add favorite event
     user.favorite_events.append(event)
     db.session.commit()
-
-    return jsonify(event.to_dict())
+    print("event added to fav!")
+    return jsonify({"ok": "Event added to your favorites"}), 200
 
 @bp_events.route('/remove_favorite', methods=['GET','POST'])
 @jwt_required()
@@ -197,6 +199,7 @@ def remove_favorite():
         return jsonify({"error": "Event not in favorites"}), 400
 
     return jsonify({"message": "Event removed from favorites"})
+
 @bp_events.route('/favorite_events', methods=['GET'])
 @jwt_required(optional=True)
 def favorite_events():
@@ -212,6 +215,24 @@ def favorite_events():
     events_dict = [event.to_dict() for event in favorite_events]
 
     return jsonify(events_dict)
+
+@bp_events.route('/events_status', methods=['GET'])
+@jwt_required(optional=True)
+def events_status():
+    """Get the favorited events for a given user"""
+    net_id = get_jwt_identity()
+    # get user
+    user = User.query.filter_by(netid=net_id).first()
+
+    favorite_events = {}
+    if user:
+        favorite_event_ids = [event.id for event in user.favorite_events]
+        for event_id in request.args.getlist('event_ids[]'):
+            favorite_events[event_id] = event_id in favorite_event_ids
+
+    return jsonify(favorite_events)
+
+
 
 # @bp_events.route('/popup/<int:event_id>', methods=['GET'])
 # def get_event(event_id):
