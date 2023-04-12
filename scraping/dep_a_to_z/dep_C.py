@@ -938,7 +938,7 @@ def Computational_Biology_Bioinformatics(main_url, calendar, dep):
             date = "TBD"
         # we get the address 
         try:
-            address = soup.find('span',{'class': 'fn'})
+            address = soup.find('span',{'class': 'fn'}).text.strip()
         except:
             address = "TBD"
 
