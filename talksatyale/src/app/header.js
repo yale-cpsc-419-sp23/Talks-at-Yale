@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import styles from './page.module.css'
-import React, { useState, useEffect, use } from 'react'
+import React, { useState, useEffect} from 'react'
 import Cookies from "js-cookie"
 import { FaCaretDown } from "react-icons/fa";
 import { FaTimes } from "react-icons/fa";
@@ -14,18 +14,65 @@ export default function Header(props) {
   // department dropdown
   const [openDept, setOpenDept] = React.useState(false);
   const handleDeptDrop = () => {
+    // close other open filters
+    setOpenDate(false);
+    setOpenSort(false);
+
     setOpenDept(!openDept);
   };
   // date dropdowns
   const [openDate, setOpenDate] = React.useState(false);
   const handleDateDrop = () => {
+    // close other open filters
+    setOpenDept(false);
+    setOpenSort(false);
+
     setOpenDate(!openDate);
   };
   // sort dropdown
   const [openSort, setOpenSort] = React.useState(false);
   const handleSortDrop = () => {
+    // close other open filters
+    setOpenDept(false);
+    setOpenDate(false);
+
     setOpenSort(!openSort);
   };
+
+  // handle department click
+  const [selectedDept, setSelectedDept] = useState('All Departments');
+
+  const handleDeptClick = (event) => {
+    setSelectedDept(event.target.value);
+    setOpenDept(false);
+};
+
+// declare a state variable to keep track of the selected date
+const [selectedDate, setSelectedDate] = useState('Upcoming');
+
+// handle click event on date option
+const handleDateClick = (event) => {
+  setSelectedDate(event.target.value);
+  setOpenDate(false);
+};
+
+// Handle sort click
+const [selectedSort, setSelectedSort] = useState('Date');
+const handleSortClick = (event) => {
+  setSelectedSort(event.target.value);
+  setOpenSort(false);
+};
+
+// Handle reset button
+const handleReset = () => {
+  setOpenDept(false);
+  setOpenDate(false);
+  setOpenSort(false);
+  setSelectedDept('All Departments');
+  setSelectedDate('Upcoming');
+  setSelectedSort('Date');
+  setSearchTerm('');
+};
 
 
 
@@ -73,7 +120,9 @@ export default function Header(props) {
       if (accessToken) {
         headers.append('Authorization', `Bearer ${accessToken}`);
       }
-      const response = await fetch(`http://localhost:8080/events/search?search_term=${searchTerm}`,
+      const url = `http://localhost:8080/events/search?search_term=${searchTerm}&department=${encodeURIComponent(selectedDept)}&status=${encodeURIComponent(selectedDate)}&sort=${encodeURIComponent(selectedSort)}`;
+
+      const response = await fetch(url,
       {headers: headers,}
       ).then(
         res => res.json()
@@ -86,7 +135,7 @@ export default function Header(props) {
       )
     }
     fetchResults();
-  }, [searchTerm]);
+  }, [searchTerm, selectedDept, selectedDate, selectedSort]);
 
   const handleKeyDown = (event) => {
       const value = event.target.value;
@@ -151,6 +200,7 @@ async function handleLogout() {
               </div>
           </div>
           <div className={styles.headerRight}>
+          <img className={styles.icon} src="https://cdn-icons-png.flaticon.com/512/3940/3940403.png"/>
             {loggedIn ? (
                 <button className={styles.profileButton} onClick={handleLogout}>
                   <h2>Log Out</h2>
@@ -165,39 +215,39 @@ async function handleLogout() {
       </div>
       <div className={styles.filters}>
         <button onClick={handleDeptDrop}className={styles.filterList}>
-          <div className={styles.textIconContainer}>Department <FaCaretDown size={20} style={{marginLeft:"8px"}}/></div>
+          <div className={styles.textIconContainer}>{selectedDept} <FaCaretDown size={20} style={{marginLeft:"8px"}}/></div>
         </button>
         { openDept ? (
           <ul className={styles.menu}>
-            <li selected disabled className={styles.menuItem}><button>All Departments</button></li>
+            <li selected disabled className={styles.menuItem}><button>{selectedDept}</button></li>
+            <li className={styles.menuItem}><button onClick={handleDeptClick} value="All Departments">All Departments</button></li>
             {props.depts.map((dept) => (
               <li className={styles.menuItem}><button value={dept} onClick={handleDeptClick}>{dept}</button></li>
             ))}
-      
           </ul>
         ) : null}
         <button onClick={handleDateDrop} className={styles.filterList}>
-          <div className={styles.textIconContainer}>Upcoming <FaTimes size={15} style={{marginLeft:"8px"}}/></div>
+          <div className={styles.textIconContainer}>{selectedDate} <FaTimes size={15} style={{marginLeft:"8px"}}/></div>
         </button>
         { openDate ? (
           <ul className={styles.menu}>
-            <li selected disabled className={styles.menuItem}><button>All Dates</button></li>
-            <li className={styles.menuItem}><button value="upcoming">Upcoming</button></li>
-            <li className={styles.menuItem}><button value="past">Past</button></li>
+            <li className={styles.menuItem} onClick={handleDateClick}><button value="All Dates">All Dates</button></li>
+            <li className={styles.menuItem}><button value="Upcoming" onClick={handleDateClick}>Upcoming</button></li>
+            <li className={styles.menuItem}><button value="Past" onClick={handleDateClick}>Past</button></li>
           </ul>
         ) : null}
         <p className={styles.orderBy}>Order By</p>
         <button onClick={handleSortDrop}className={styles.filterList}>
-          <div className={styles.textIconContainer}>Date <FaCaretDown size={20} style={{marginLeft:"8px"}}/></div>
+          <div className={styles.textIconContainer}>{selectedSort}<FaCaretDown size={20} style={{marginLeft:"8px"}}/></div>
         </button>
         { openSort ? (
           <ul className={styles.menu}>
-            <li selected disabled className={styles.menuItem}><button>Date</button></li>
-            <li className={styles.menuItem}><button value="title">Title</button></li>
-            <li className={styles.menuItem}><button value="department">Department</button></li>
+            <li className={styles.menuItem}><button value="Date" onClick={handleSortClick}>Date</button></li>
+            <li className={styles.menuItem}><button value="Title" onClick={handleSortClick}>Title</button></li>
+            <li className={styles.menuItem}><button value="Department" onClick={handleSortClick}>Department</button></li>
           </ul>
         ) : null}
-        <button className={styles.resetButton}>Reset</button>
+       <button className={styles.resetButton} onClick={handleReset}>Reset</button>
       </div>
     </header>
   )
