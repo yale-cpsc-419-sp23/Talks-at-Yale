@@ -213,35 +213,104 @@
   width: 60%;
   height: 80%;
   border-radius: 12px;
+  overflow-y: auto;
 }
 
 .modalBookmark {
   color:#FF5A5F;
+  width: 10%;
 }
 
 .modalBookmark:hover {
   color: #FA777B;
 }
 
-.modalHeader{
-  display: flex;
-  margin: 2%;
+.modalTitle {
+  width: 100%;
 }
 .modalClose {
   color: red;
-  position: absolute;
-  top: 10px;
-  right: 10px;
+  /* position: absolute; */
+  /* top: 10px;
+  right: 10px; */
   cursor: pointer;
   font-size: 30px;
+  width: 8%;
 }
 
+.modalHeader{
+  display: flex;
+  margin-top: 2%;
+  /* margin: 2%; */
+}
 
+.modalSubHeader {
+  display: flex;
+  margin: 2%;
+  margin-left: 8%;
+  margin-right: 8%
+}
+
+.modalDept {
+  text-transform: uppercase;
+  font-weight: normal;
+  color:#065CB1;
+}
+
+.modalBody {
+  margin: 3%;
+  margin-left: 8%;
+  margin-right: 8%;
+}
+
+.modalDetails {
+  margin: 2%;
+  margin-left: 8%;
+  margin-right: 8%;
+}
+
+.modalRow {
+  display: flex;
+  margin-bottom: 2%;
+
+}
+
+.modalFriends {
+  margin-top: 2%;
+  color:#065CB1;
+  text-align: center;
+
+}
+.modalLabel {
+  width: 35%;
+  color:#065CB1;
+}
+
+.modalDetail {
+  font-weight: normal;
+}
+
+.modalDesc {
+  color:#777777;
+}
 
 .smallIcons {
   padding-top: 6px;
 }
 
+.addCalendar {
+  color:#9bcad1;
+  font-weight: normal;
+  text-decoration: underline;
+  margin-left: 10px;
+}
+
+.hLine {
+  border: none;
+  height: 1px;
+  margin: 2%;
+  background-color: #EEF4F4;
+}
 /* DROPDOWN FILTER STYLES */
 .filters {
   margin-left: 225px;
