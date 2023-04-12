@@ -129,27 +129,27 @@ def search():
                     )
                 )
             ).order_by(sort_mapping[selected_sort]).all()
-            
+
     events_dict = [event.to_dict() for event in events]
     events_json = update_dates(events_dict)
     # return json data
     return jsonify(events_json)
-@bp_events.route('/filter', methods=['GET'])
-def event_filter():
-    """Search an event"""
-    # get search term
-    dep = request.args.get('department', '')
-    loc = request.args.get('location', '')
-    start_date = request.args.get('start_date', '')
-    end_date = request.args.get('end_date', '2050-01-01')       # "hopefully no one will be alive by then" -github copilot
-    print(dep)
-    # Query the database
-    events = Event.query.filter(Event.iso_date > start_date, Event.iso_date < end_date, department = dep, location=loc).all()
-    print(len(events))
-    events_dict = [event.to_dict() for event in events]
-    events_json = update_dates(events_dict)
-    # return json data
-    return jsonify(events_json)
+# @bp_events.route('/filter', methods=['GET'])
+# def event_filter():
+#     """Search an event"""
+#     # get search term
+#     dep = request.args.get('department', '')
+#     loc = request.args.get('location', '')
+#     start_date = request.args.get('start_date', '')
+#     end_date = request.args.get('end_date', '2050-01-01')       # "hopefully no one will be alive by then" -github copilot
+#     print(dep)
+#     # Query the database
+#     events = Event.query.filter(Event.iso_date > start_date, Event.iso_date < end_date, department = dep, location=loc).all()
+#     print(len(events))
+#     events_dict = [event.to_dict() for event in events]
+#     events_json = update_dates(events_dict)
+#     # return json data
+#     return jsonify(events_json)
 
 @bp_events.route('/add_favorite', methods=['GET','POST'])
 @jwt_required()
