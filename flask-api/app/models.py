@@ -35,7 +35,7 @@ class Event(db.Model):
     location = db.Column(db.String, nullable=True)
     bio = db.Column(db.Text, nullable=True)
     description = db.Column(db.Text, nullable=True)
-    is_upcoming = db.Column(db.Boolean, nullable=False, default=True)
+    is_upcoming = db.Column(db.Boolean, nullable=True, default=True)
 
     def __repr__(self):
         """How the object event will be represented"""
@@ -93,7 +93,7 @@ class User(UserMixin, db.Model):
                               secondaryjoin=(Friendship.friend_id == id),
                               backref=db.backref('friend_of', lazy='dynamic'),
                               lazy='dynamic')
-                              
+
     def __repr__(self):
         return f'<User {self.username}>'
 
