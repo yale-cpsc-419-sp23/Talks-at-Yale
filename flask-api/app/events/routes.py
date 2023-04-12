@@ -41,10 +41,12 @@ def search():
 def event_filter():
     """Search an event"""
     # get search term
-    search_term = request.args.get('department', '')
-    print(search_term)
+    dep = request.args.get('department', '')
+    loc = request.args.get('location', '')
+    date = request.args.get('date', '')
+    print(dep)
     # Query the database
-    events = Event.query.filter_by(department = search_term).all()
+    events = Event.query.filter(department = dep, location=loc, iso_date > date).all()
     print(len(events))
     events_dict = [event.to_dict() for event in events]
     events_json = update_dates(events_dict)
