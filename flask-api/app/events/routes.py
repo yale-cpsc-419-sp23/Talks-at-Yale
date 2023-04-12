@@ -140,7 +140,7 @@ def event_filter():
     end_date = request.args.get('end_date', '2050-01-01')       # "hopefully no one will be alive by then" -github copilot
     print(dep)
     # Query the database
-    events = Event.query.filter(department = dep, location=loc, iso_date > start_date, iso_date < end_date).all()
+    events = Event.query.filter(Event.iso_date > start_date, Event.iso_date < end_date, department = dep, location=loc).all()
     print(len(events))
     events_dict = [event.to_dict() for event in events]
     events_json = update_dates(events_dict)
