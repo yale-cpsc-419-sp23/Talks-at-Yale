@@ -200,11 +200,13 @@ async function handleLogout() {
               </div>
           </div>
           <div className={styles.headerRight}>
-            <a href="http://localhost:3000/profile"><img className={styles.icon} src="https://cdn-icons-png.flaticon.com/512/3940/3940403.png"/></a>
             {loggedIn ? (
+              <>
+                <a href="http://localhost:3000/profile"><img className={styles.icon} src="https://cdn-icons-png.flaticon.com/512/3940/3940403.png"/></a>
                 <button className={styles.profileButton} onClick={handleLogout}>
                   <h2>Log Out</h2>
                 </button>
+              </>
             ) : (
               <button className={styles.profileButton} onClick={handlelogin}>
                 <h2>Log In</h2>
@@ -219,7 +221,6 @@ async function handleLogout() {
         </button>
         { openDept ? (
           <ul className={styles.menu}>
-            {/* <li selected disabled className={styles.menuItem}><button>{selectedDept}</button></li> */}
             <li className={styles.menuItem}><button onClick={handleDeptClick} value="All Departments">All Departments</button></li>
             {props.depts.map((dept) => (
               <li className={styles.menuItem}><button value={dept} onClick={handleDeptClick}>{dept}</button></li>
