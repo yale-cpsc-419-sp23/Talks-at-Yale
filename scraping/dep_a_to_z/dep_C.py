@@ -77,6 +77,7 @@ def computer_science(main_url, calendar, dep):
             "time": time,
             "location": None,
             "iso_date": iso,
+            "link": link,
         }
         return event
 
@@ -159,7 +160,8 @@ def Cell_Biology(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": None,
+            "iso_date": "TBD",
+            "link": link,
         }
         return event
 
@@ -240,7 +242,8 @@ def Cellular_Molecular_Physiology(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": None,
+            "iso_date": "TBD",
+            "link": link,
         }
         return event
 
@@ -310,7 +313,8 @@ def Chemical_Environmental_Engineering(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": None,
+            "iso_date": "TBD",
+            "link": link,
         }
         return event
 
@@ -394,6 +398,7 @@ def Chemistry(main_url, calendar, dep):
             "time": time,
             "location": address,
             "iso_date": "TBD",
+            "link": link,
         }
         return event
     
@@ -476,7 +481,8 @@ def child_Study_Center(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": None,
+            "iso_date": "TBD",
+            "link": link,
         }
         return event
 
@@ -554,7 +560,8 @@ def Chronic_Disease_Epidemiology(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": None,
+            "iso_date": "TBD",
+            "link": link,
         }
         return event
 
@@ -639,6 +646,7 @@ def classics(main_url, calendar, dep):
             "time": time,
             "location": address,
             "iso_date": "TBD",
+            "link": link,
         }
         return event
     
@@ -714,7 +722,8 @@ def Cognitive_Science(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": None,
+            "iso_date": "TBD",
+            "link": link,
         }
         return event
 
@@ -799,6 +808,7 @@ def Comparative_Literature(main_url, calendar, dep):
             "time": time,
             "location": address,
             "iso_date": "TBD",
+            "link": link,
         }
         return event
     
@@ -880,7 +890,8 @@ def Comparative_Medicine(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": None,
+            "iso_date": "TBD",
+            "link": link,
         }
         return event
 
@@ -953,6 +964,7 @@ def Computational_Biology_Bioinformatics(main_url, calendar, dep):
             "time": time,
             "location": address,
             "iso_date": "TBD",
+            "link": link,
         }
         return event
     

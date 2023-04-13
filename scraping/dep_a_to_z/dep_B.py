@@ -80,7 +80,8 @@ def Biological_Biomedical_Sciences(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": None,
+            "iso_date": "TBD",
+            "link": link,
         }
         return event
 
@@ -148,7 +149,8 @@ def Biomedical_Engineering(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": None,
+            "iso_date": "TBD",
+            "link": link,
         }
         return event
 
@@ -226,7 +228,8 @@ def Biostatistics(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": None,
+            "iso_date": "TBD",
+            "link": link,
         }
         return event
 

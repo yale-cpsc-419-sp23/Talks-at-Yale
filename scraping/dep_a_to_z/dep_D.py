@@ -85,7 +85,8 @@ def Dermatology(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": None,
+            "iso_date": "TBD",
+            "link": link,
         }
         return event
 
