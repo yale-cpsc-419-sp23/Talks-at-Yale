@@ -7,8 +7,13 @@ import { FaTimes } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
-
 export default function EventModal({ event, onClose }) {
+
+    const gcalEvent = () => {
+        document.getElementById("gcal").href = "https://www.google.com/calendar/render?action=TEMPLATE&text=" + event.title + "&dates=" + event.iso_date + "T" + event.time + "&details=" + event.description + "&location=" + event.location + "&sf=true&output=xml";
+        console.log(document.getElementById("gcal").href);
+    }
+
     return (
     <div className={styles.modal}>
         <div className={styles.modalContent}>
@@ -23,7 +28,7 @@ export default function EventModal({ event, onClose }) {
             <div className={styles.modalSubHeader}>
                 <h4 className={styles.modalDept}>{event.department}</h4>
                 <h4 className={styles.addCalendar}>|</h4>
-                <h4><a href="https://calendar.google.com" className={styles.addCalendar}> add to Google Calendar</a></h4>
+                <h4><a id = "gcal" href="" onClick={gcalEvent} className={styles.addCalendar} target="_blank"> add to Google Calendar</a></h4>
 
             </div>
             <hr className={styles.hLine}></hr>

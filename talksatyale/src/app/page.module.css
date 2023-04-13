@@ -92,8 +92,8 @@
   display: block;
 }
 
-.cardRight:hover {
-  background-color: #E7EEEF;
+.cardRight h2:hover {
+  color: #FF5A5F;
 }
 
 .cardLocation {

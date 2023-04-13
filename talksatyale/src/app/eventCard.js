@@ -65,8 +65,10 @@ export default function EventCard({ event, favoriteEventIDs, setFavoriteEventIDs
   };
 
   const closeModal = () => {
+    console.log("Modal closed");
     setIsShown(false);
   };
+
 
   useEffect(() => {
     setIsFavorited(favoriteEventIDs?.includes(event.id));
@@ -75,7 +77,7 @@ export default function EventCard({ event, favoriteEventIDs, setFavoriteEventIDs
   return (
     <div className={styles.cardContainer}>
       {isShown && (
-        <EventModal event= {event} onClose={closeModal}/>
+        <EventModal event= {event} onClose={closeModal} />
       )}
         <div className={styles.cardLeft}>
             <h2 className={styles.cardDay}>{event.formatted_date.week_day}</h2>

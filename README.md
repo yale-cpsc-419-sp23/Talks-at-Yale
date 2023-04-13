@@ -14,7 +14,7 @@ OR to run the events filter backend:
 
 no cd (run from main dir)
 ```
-python3 main.py (py -3 main.py for windows)
+python3 app.py (py -3 app.py for windows)
 ```
 
 Then, run the frontend:
