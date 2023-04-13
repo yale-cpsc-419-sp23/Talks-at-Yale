@@ -87,6 +87,7 @@ def african_american_studies(main_url, calendar, dep):
             "time": time,
             "location": address,
             "iso_date": iso,
+            "link": link,
         }
         return event
 
@@ -162,6 +163,7 @@ def african_studies(main_url, calendar, dep):
             "location": address,
             "description": description,
             "iso_date": iso,
+            "link": link,
         }
         return event
 
@@ -225,6 +227,7 @@ def american_studies(main_url, calendar, dep):
             "time": time,
             "location": address,
             "iso_date": iso,
+            "link": link,
         }
         return event
     # get all events
@@ -302,6 +305,7 @@ def anthropology(main_url, calendar, dep):
             "location": address,
             "description": description,
             "iso_date": iso,
+            "link": link,
         }
         return event
     # get all events
@@ -378,6 +382,7 @@ def anesthesiology(main_url, calendar, dep):
             "location": address,
             "description": description,
             "iso_date": None,
+            "link": link,
         }
         return event
     # get all events
@@ -453,6 +458,7 @@ def applied_mathematics(main_url, calendar, dep):
             "location": address,
             "description": description,
             "iso_date": iso,
+            "link": link,
         }
         return event
     # get all events
@@ -526,6 +532,7 @@ def Applied_Physics(main_url, calendar, dep):
             "location": address,
             "description": description,
             "iso_date": iso,
+            "link": link,
         }
         return event
     # get all events
@@ -592,6 +599,7 @@ def Architecture(main_url, calendar, dep):
             "time": time,
             "location": address,
             "iso_date": iso,
+            "link": link,
         }
         return event
 
@@ -654,6 +662,7 @@ def Astronomy(main_url, calendar, dep):
             "time": time,
             "location": address,
             "iso_date": iso,
+            "link": link,
         }
         return event
 

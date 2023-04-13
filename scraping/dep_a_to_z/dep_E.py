@@ -80,6 +80,7 @@ def Earth_Planetary_Sciences(main_url, calendar, dep):
             "time": time,
             "location": address,
             "iso_date": "TBD",
+            "link": link,
         }
         return event
     
@@ -150,6 +151,7 @@ def East_Asian_Languages_Literatures(main_url, calendar, dep):
             "time": time,
             "location": address,
             "iso_date": "TBD",
+            "link": link,
         }
         return event
     
@@ -219,6 +221,7 @@ def East_Asian_Studies(main_url, calendar, dep):
             "time": time,
             "location": address,
             "iso_date": "TBD",
+            "link": link,
         }
         return event
     
@@ -287,6 +290,7 @@ def Ecology_Evolutionary_Biology(main_url, calendar, dep):
             "time": time,
             "location": address,
             "iso_date": "TBD",
+            "link": link,
         }
         return event
     
@@ -352,6 +356,7 @@ def economics(main_url, calendar, dep):
             "time": time,
             "location": address,
             "iso_date": "TBD",
+            "link": link,
         }
         return event
     events = get_dep_events(main_url, get_event, event_links)
@@ -419,7 +424,8 @@ def Electrical_Engineering(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": None,
+            "iso_date": "TBD",
+            "link": link,
         }
         return event
 
@@ -502,7 +508,8 @@ def Emergency_Medicine(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": None,
+            "iso_date": "TBD",
+            "link": link,
         }
         return event
 
@@ -571,7 +578,8 @@ def Engineering_Applied_Science(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": None,
+            "iso_date": "TBD",
+            "link": link,
         }
         return event
 
@@ -652,6 +660,7 @@ def English_Language_Literature(main_url, calendar, dep):
             "time": time,
             "location": address,
             "iso_date": iso,
+            "link": link,
         }
         return event
 
@@ -730,7 +739,8 @@ def Environmental_Health_Sciences(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": None,
+            "iso_date": "TBD",
+            "link": link,
         }
         return event
 
@@ -809,7 +819,8 @@ def Epidemiology_Microbial_Diseases(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": None,
+            "iso_date": "TBD",
+            "link": link,
         }
         return event
 
@@ -881,6 +892,7 @@ def Ethnicity_Race_Migration(main_url, calendar, dep):
             "time": time,
             "location": address,
             "iso_date": "TBD",
+            "link": link,
         }
         return event
     
@@ -951,6 +963,7 @@ def European_Russian_Studies(main_url, calendar, dep):
             "time": time,
             "location": address,
             "iso_date": "TBD",
+            "link": link,
         }
         return event
     
@@ -1040,6 +1053,7 @@ def Experimental_Pathology(main_url, calendar, dep):
             "time": time,
             "location": address,
             "iso_date": iso_date,
+            "link": link,
         }
         return event
 

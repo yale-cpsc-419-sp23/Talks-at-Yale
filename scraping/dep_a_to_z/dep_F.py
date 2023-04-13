@@ -243,7 +243,6 @@ def French(main_url, calendar, dep):
             "time": time,
             "location": address,
             "iso_date": None,
-            "link" : link
         }
         return event
 
