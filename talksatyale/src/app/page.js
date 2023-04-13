@@ -134,7 +134,7 @@ export default function Home() {
         <main className={styles.main}>
           <div>
             {searchResults.map((result) => (
-            <EventCard key={result.id} event={result} favoriteEventIDs={favoriteEventIDs} />
+            <EventCard key={result.id} event={result} favoriteEventIDs={favoriteEventIDs} setFavoriteEventIDs={setFavoriteEventIDs} />
             ))}
   
           </div>

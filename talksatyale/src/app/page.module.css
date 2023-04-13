@@ -216,12 +216,13 @@
   overflow-y: auto;
 }
 
-.modalBookmark {
+.modalFaPlus {
   color:#FF5A5F;
+  size: 40px;
   width: 10%;
 }
 
-.modalBookmark:hover {
+.modalFaPlus:hover {
   color: #FA777B;
 }
 

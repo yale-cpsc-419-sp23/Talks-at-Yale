@@ -77,7 +77,7 @@ export default function EventCard({ event, favoriteEventIDs, setFavoriteEventIDs
   return (
     <div className={styles.cardContainer}>
       {isShown && (
-        <EventModal event= {event} onClose={closeModal} />
+        <EventModal event= {event} onClose={closeModal} favoriteEventIDs={favoriteEventIDs} setFavoriteEventIDs={setFavoriteEventIDs} isFavorited={isFavorited} setIsFavorited={setIsFavorited}/>
       )}
         <div className={styles.cardLeft}>
             <h2 className={styles.cardDay}>{event.formatted_date.week_day}</h2>

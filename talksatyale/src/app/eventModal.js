@@ -2,23 +2,69 @@ import styles from './page.module.css'
 
 import { FaBookmark } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaPlus, FaMinus } from "react-icons/fa";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import React, { useEffect, useState } from "react";
 
-export default function EventModal({ event, onClose }) {
 
+
+export default function EventModal({ event, onClose, favoriteEventIDs, setFavoriteEventIDs, isFavorited, setIsFavorited }) {
+    
     const gcalEvent = () => {
         document.getElementById("gcal").href = "https://www.google.com/calendar/render?action=TEMPLATE&text=" + event.title + "&dates=" + event.iso_date + "T" + event.time + "&details=" + event.description + "&location=" + event.location + "&sf=true&output=xml";
         console.log(document.getElementById("gcal").href);
     }
 
+    useEffect(() => {
+        setIsFavorited(favoriteEventIDs?.includes(event.id));
+      }, [favoriteEventIDs, event.id]);
+
+    const toggleFavorite = async () => {
+        try {
+          if (isFavorited) {
+            const response = await fetch(`http://localhost:8080/events/remove_favorite?event_id=${event.id}`, {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+              },
+            });
+            if (!response.ok) {
+              throw new Error('Error removing event from favorites');
+            }
+            console.log('Event removed from favorites!');
+            setIsFavorited(false);
+            setFavoriteEventIDs(favoriteEventIDs.filter(id => id !== event.id));
+          } else {
+            const response = await fetch(`http://localhost:8080/events/add_favorite?event_id=${event.id}`, {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+              },
+            });
+            if (!response.ok) {
+              throw new Error('Error adding event to favorites');
+            }
+            console.log('Event added to favorites!');
+            setIsFavorited(true);
+            setFavoriteEventIDs([...favoriteEventIDs, event.id]);
+          }
+        } catch (error) {
+          console.error('Error toggling favorite:', error);
+        }
+      };
+    
+
     return (
     <div className={styles.modal}>
         <div className={styles.modalContent}>
             <div className={styles.modalHeader}>
-                <FaRegBookmark size={40} className={styles.modalBookmark}/>
+                {isFavorited ? (
+                    <FaMinus size={25} className={styles.modalFaPlus} onClick={toggleFavorite} />
+                ) : (
+                    <FaPlus size={25} className={styles.modalFaPlus} onClick={toggleFavorite} />
+                )}
                 <h2 className={styles.modalTitle}>{event.title}</h2>
                 <div className={styles.modalClose} onClick={onClose}>
                     <FaTimes />
