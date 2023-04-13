@@ -2,13 +2,13 @@ from dep_a_to_z.dep_A import Astronomy, african_studies,anesthesiology,Applied_P
 # from scraping.dep_a_to_e.dep_C import get_all_events_C
 from dep_a_to_z.dep_B import Biological_Biomedical_Sciences,Biomedical_Engineering,Biostatistics
 from dep_a_to_z.dep_E import East_Asian_Studies
-from dep_a_to_z.dep_F import Film_Media_Studies
+from dep_a_to_z.dep_G import Global_Affairs
 
 # List of functions
 # events = african_studies("https://african.macmillan.yale.edu/", "calendar/", "african_studies")
 # events1 = anthropology("https://anthropology.yale.edu/", "calendar/", "anthropology")
 #events2 = Architecture("https://americanstudies.yale.edu/", "calendar/", "american_studies")
-events2 = Film_Media_Studies("https://filmstudies.yale.edu/", "calendar/", "economics")
+events2 = Global_Affairs("https://jackson.yale.edu/", "calendar/", "economics")
 
 # print(events)
 # print("\n")
