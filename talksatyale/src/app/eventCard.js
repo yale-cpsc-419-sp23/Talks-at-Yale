@@ -69,7 +69,7 @@ export default function EventCard({ event, favoriteEventIDs, setFavoriteEventIDs
   };
 
   useEffect(() => {
-    setIsFavorited(favoriteEventIDs.includes(event.id));
+    setIsFavorited(favoriteEventIDs?.includes(event.id));
   }, [favoriteEventIDs, event.id]);
 
   return (

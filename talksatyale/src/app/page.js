@@ -5,10 +5,50 @@ import styles from './page.module.css'
 import './globals.css'
 import Header from './header'
 import EventCard from './eventCard'
+import Landing from './landing/page'
 import React, { useState, useEffect, use } from 'react'
 
 
 export default function Home() {
+
+  // Keeping track of user status
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+
+  // checking login status
+  const checkLoginStatus = async () => {
+    try {
+      const headers = new Headers();
+      const accessToken = localStorage.getItem('access_token');
+      console.log('Access token:', accessToken);
+      if (accessToken) {
+        headers.append('Authorization', `Bearer ${accessToken}`);
+      }
+
+      const response = await fetch('http://localhost:8080/is_logged_in', {
+        credentials: 'include',
+        headers: headers,
+      });
+      const data = await response.json();
+      console.log(data)
+      if (data.logged_in) {
+        setLoggedIn(true);
+        setUsername(data.username);
+      } else {
+        setLoggedIn(false);
+        setUsername('');
+  
+      }
+
+    } catch (error) {
+      console.error('Error checking login status:', error);
+    }
+  };
+
+  useEffect(() => {
+    checkLoginStatus();
+  }, []);
+
 
   // get search results from search term, passed from child (header)
   const [searchResults, setSearchResults] = useState([]);
@@ -86,18 +126,28 @@ export default function Home() {
     fetchResults();
   }, []);
 
-  return (
-    <div className={styles.pageWrapper}>
-      <Header handleSearchResults={handleSearchResults} depts={depts}/>
-      <main className={styles.main}>
-        <div>
-          {searchResults.map((result) => (
-          <EventCard key={result.id} event={result} favoriteEventIDs={favoriteEventIDs} />
-          ))}
+  if(loggedIn) {
+    return (
+    
+      <div className={styles.pageWrapper}>
+        <Header handleSearchResults={handleSearchResults} depts={depts}/>
+        <main className={styles.main}>
+          <div>
+            {searchResults.map((result) => (
+            <EventCard key={result.id} event={result} favoriteEventIDs={favoriteEventIDs} />
+            ))}
+  
+          </div>
+        </main>
+      </div>
+  
+    )
+  
 
-        </div>
-      </main>
-    </div>
-
-  )
-}
+  }
+  else {
+    return (
+      <Landing />
+    )
+  }
+  }
