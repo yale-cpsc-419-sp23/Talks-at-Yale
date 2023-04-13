@@ -35,7 +35,7 @@ export default function EventModal({ event, onClose }) {
             <div className={styles.modalDetails}>
                 <div className={styles.modalRow}>
                     <h4 className={styles.modalLabel}>Date</h4>
-                    <h4 className={styles.modalDetail}>{event.date}</h4>
+                    <h4 className={styles.modalDetail}>{event.long_date}</h4>
                 </div>
                 <div className={styles.modalRow}>
                     <h4 className={styles.modalLabel}>Time</h4>

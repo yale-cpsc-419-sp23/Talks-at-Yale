@@ -130,6 +130,8 @@ def search():
                 )
             ).order_by(sort_mapping[selected_sort]).all()
 
+    # for item in events:
+    #     print(item.iso_date)
     events_dict = [event.to_dict() for event in events]
     events_json = update_dates(events_dict)
     # return json data
@@ -224,13 +226,16 @@ def events_status():
     # get user
     user = User.query.filter_by(netid=net_id).first()
 
-    favorite_events = {}
+    # ids
+    favorite_events_ids = None
     if user:
-        favorite_event_ids = [event.id for event in user.favorite_events]
-        for event_id in request.args.getlist('event_ids[]'):
-            favorite_events[event_id] = event_id in favorite_event_ids
+        favorite_events_ids = [favorite.id for favorite in user.favorite_events]
+    else:
+        return jsonify({'IDS':[]})
 
-    return jsonify(favorite_events)
+    response = {'IDS': favorite_events_ids}
+    print(response)
+    return jsonify(response)
 
 
 
@@ -275,11 +280,26 @@ def convert_date(date_str):
         "month": month
     }
 
+def convert_date_long(date_str):
+    """Convert date in a format to be used in the frontend"""
+    # Parse the date string
+    date_obj = datetime.strptime(date_str, "%Y/%m/%d")
+
+    # Get the formatted date components
+    week_day = date_obj.strftime("%A")
+    exact_date = date_obj.strftime("%d")
+    month = date_obj.strftime("%B")
+
+    # Return the formatted date string
+    return f"{week_day}, {month} {exact_date}, {date_obj.year}"
+
 def update_dates(dicts_list):
     """Updates the dates in the list of the dicts in a formatted way"""
     for event_dict in dicts_list:
         date_str = event_dict.get('date')
         if date_str:
             formatted_date = convert_date(date_str)
+            long_date = convert_date_long(date_str)
             event_dict['formatted_date'] = formatted_date
+            event_dict['long_date'] = long_date
     return dicts_list
