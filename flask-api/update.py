@@ -28,6 +28,7 @@ def update_events():
             event.bio = event_dict.get('bio')
             event.description = event_dict.get('description')
             event.type = event_dict.get('type')
+            event.link = event_dict.get('link')
 
             # generate hash for event
             event.event_hash = event.generate_hash()

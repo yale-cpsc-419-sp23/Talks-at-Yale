@@ -24,18 +24,19 @@ class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     event_hash = db.Column(db.String, nullable=False)
     type = db.Column(db.String, nullable=True)
-    title = db.Column(db.String, nullable=False)
+    title = db.Column(db.String, nullable=True)
     speaker = db.Column(db.String, nullable=True)
     speaker_title = db.Column(db.String, nullable=True)
     host = db.Column(db.String, nullable=True)
     department = db.Column(db.String, nullable=True)
-    date = db.Column(db.String, nullable=False)
-    time = db.Column(db.String, nullable=False)
-    iso_date = db.Column(db.String, nullable=False)
+    date = db.Column(db.String, nullable=True)
+    time = db.Column(db.String, nullable=True)
+    iso_date = db.Column(db.String, nullable=True)
     location = db.Column(db.String, nullable=True)
     bio = db.Column(db.Text, nullable=True)
     description = db.Column(db.Text, nullable=True)
     is_upcoming = db.Column(db.Boolean, nullable=True, default=True)
+    link = db.Column(db.String, nullable=True)
 
     def __repr__(self):
         """How the object event will be represented"""
@@ -73,6 +74,7 @@ class Event(db.Model):
             'location' : self.location,
             'bio' : self.bio,
             'description' : self.description,
+            'iso': self.iso_date,
         }
 
 

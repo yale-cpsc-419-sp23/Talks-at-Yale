@@ -265,38 +265,48 @@ def get_departments():
 ####-----------Helper functions-----------------####
 def convert_date(date_str):
     """Convert date in a format to be used in the frontend"""
-    # Parse the date string
-    date_obj = datetime.strptime(date_str, "%Y/%m/%d")
+    try:
+        # Parse the date string
+        date_obj = datetime.fromisoformat(date_str)
 
-    # Get the formatted date components
-    week_day = date_obj.strftime("%a")
-    exact_date = date_obj.strftime("%d")
-    month = date_obj.strftime("%b")
+        # Get the formatted date components
+        week_day = date_obj.strftime("%a")
+        exact_date = date_obj.strftime("%d")
+        month = date_obj.strftime("%b")
 
-    # Return the date components as a dictionary
-    return {
-        "week_day": week_day,
-        "exact_date": exact_date,
-        "month": month
-    }
+        # Return the date components as a dictionary
+        return {
+            "week_day": week_day,
+            "exact_date": exact_date,
+            "month": month
+        }
+    except:
+        return{
+            "week_day": "TBD",
+            "exact_date": "TBD",
+            "month": "TBD"
+        }
 
 def convert_date_long(date_str):
     """Convert date in a format to be used in the frontend"""
-    # Parse the date string
-    date_obj = datetime.strptime(date_str, "%Y/%m/%d")
+    try:
+        # Parse the date string
+        date_obj = datetime.fromisoformat(date_str)
 
-    # Get the formatted date components
-    week_day = date_obj.strftime("%A")
-    exact_date = date_obj.strftime("%d")
-    month = date_obj.strftime("%B")
+        # Get the formatted date components
+        week_day = date_obj.strftime("%A")
+        exact_date = date_obj.strftime("%d")
+        month = date_obj.strftime("%B")
 
-    # Return the formatted date string
-    return f"{week_day}, {month} {exact_date}, {date_obj.year}"
+        # Return the formatted date string
+        return f"{week_day}, {month} {exact_date}, {date_obj.year}"
+    except:
+        return "TBD"
 
 def update_dates(dicts_list):
     """Updates the dates in the list of the dicts in a formatted way"""
     for event_dict in dicts_list:
-        date_str = event_dict.get('date')
+        date_str = event_dict.get('iso')
         if date_str:
             formatted_date = convert_date(date_str)
             long_date = convert_date_long(date_str)
