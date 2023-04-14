@@ -11,7 +11,7 @@ import React, { useState, useEffect, use } from 'react';
 // Handles card clicked
 
 
-export default function ProfileEventCard({ event, onRemoveFavoriteEvent}) {
+export default function ProfileEventCard({ event,  onRemoveFavoriteEvent}) {
 
   const [isShown, setIsShown] = useState(false);
 

@@ -11,14 +11,16 @@ import React, { useEffect, useState } from "react";
 
 
 export default function EventModal({ event, onClose, favoriteEventIDs, setFavoriteEventIDs, isFavorited, setIsFavorited }) {
-    
+
     const gcalEvent = () => {
         document.getElementById("gcal").href = "https://www.google.com/calendar/render?action=TEMPLATE&text=" + event.title + "&dates=" + event.iso_date + "T" + event.time + "&details=" + event.description + "&location=" + event.location + "&sf=true&output=xml";
         console.log(document.getElementById("gcal").href);
     }
 
     useEffect(() => {
+      if(setIsFavorited){
         setIsFavorited(favoriteEventIDs?.includes(event.id));
+      }
       }, [favoriteEventIDs, event.id]);
 
     const toggleFavorite = async () => {
@@ -54,7 +56,7 @@ export default function EventModal({ event, onClose, favoriteEventIDs, setFavori
           console.error('Error toggling favorite:', error);
         }
       };
-    
+
 
     return (
     <div className={styles.modal}>

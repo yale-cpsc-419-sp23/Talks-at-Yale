@@ -80,9 +80,9 @@ export default function EventCard({ event, favoriteEventIDs, setFavoriteEventIDs
         <EventModal event= {event} onClose={closeModal} favoriteEventIDs={favoriteEventIDs} setFavoriteEventIDs={setFavoriteEventIDs} isFavorited={isFavorited} setIsFavorited={setIsFavorited}/>
       )}
         <div className={styles.cardLeft}>
-            <h2 className={styles.cardDay}>{event.formatted_date.week_day}</h2>
-            <h2 className={styles.cardDate}>{event.formatted_date.exact_date}</h2>
-            <h2 className={styles.cardMonth}>{event.formatted_date.month}</h2>
+            <h2 className={styles.cardDay}>{event.formatted_date?.week_day}</h2>
+            <h2 className={styles.cardDate}>{event.formatted_date?.exact_date}</h2>
+            <h2 className={styles.cardMonth}>{event.formatted_date?.month}</h2>
         </div>
         <div className={styles.cardRight}>
           {isFavorited ? (
