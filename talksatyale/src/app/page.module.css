@@ -511,3 +511,71 @@
   right: 10px;
   cursor: pointer;
 }
+
+@media screen and (max-width: 1300px) {
+  .cardContainer {
+    width: 100%;
+  }
+  .cardRight {
+    width: 90%;
+  }
+  .cardLeft {
+    width: 15%;
+  }
+
+  .cardTitle {
+    width: 95%;
+  }
+
+  .header {
+    flex-direction: column;
+    text-align: center;
+  }
+  .headerLeft {
+    margin-bottom: 20px;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .title {
+    margin-bottom: 20px;
+    margin-top: 2%;
+  }
+
+  .filters {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    margin-left: 0px;
+    flex-wrap: wrap;
+  }
+ 
+
+}
+
+@media screen and (max-width: 800px) {
+
+  .searchBar {
+    width: 120%;
+  }
+
+  .cardLeft {
+    width: 40%;
+  }
+
+  .cardRight {
+    width: 85%;
+  }
+
+  .cardContainer {
+    width: 95%;
+  }
+
+  .cardTitle {
+    font-size: 1.2em;
+  }
+
+}
+
+  
