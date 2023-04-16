@@ -50,7 +50,12 @@ export default function Home() {
   }, []);
 
 
-  // get search results from search term, passed from child (header)
+
+ 
+
+  if(loggedIn) {
+
+     // get search results from search term, passed from child (header)
   const [searchResults, setSearchResults] = useState([]);
   const handleSearchResults = (results) => {
     console.log(results);
@@ -125,8 +130,6 @@ export default function Home() {
     }
     fetchResults();
   }, []);
-
-  if(loggedIn) {
     return (
     
       <div className={styles.pageWrapper}>
