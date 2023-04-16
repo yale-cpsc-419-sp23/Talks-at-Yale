@@ -36,7 +36,7 @@ export default function PersonalSection() {
       <div className={styles.personalSection}>
         <div className={styles.rectangleBg}></div>
         <div className={styles.iconName}>
-            <img className={styles.profileIcon} src="https://cdn-icons-png.flaticon.com/512/3940/3940403.png"/>
+            <img className={styles.profileIcon} src={user?.photo_link}/>
             <div className={styles.nameEmail}>
               <h2>{user?.first_name} {user?.last_name}</h2>
               <h4 className={styles.email}>{user?.email}</h4>
