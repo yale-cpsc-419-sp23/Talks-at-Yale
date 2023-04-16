@@ -65,7 +65,7 @@ def after_login():
     # If not, create a new user
     if not user:
         person = get_user(net_id)
-        user = User(netid=person.netid, email=person.email, first_name=person.first_name, last_name=person.last_name, year=person.year, college=person.college, birthday=person.birthday, major=person.major)
+        user = User(netid=person.netid, email=person.email, first_name=person.first_name, last_name=person.last_name, year=person.year, college=person.college, birthday=person.birthday, major=person.major, photo_link=person.image)
         db.session.add(user)
         db.session.commit()
     # Create JWT access token
