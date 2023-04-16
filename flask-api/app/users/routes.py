@@ -50,10 +50,18 @@ def after_login():
         print("Username not found in the response")
 
     net_id = username
+    get_user(net_id)
 
      # Check if a user is already in the database
     user = User.query.filter_by(netid=net_id).first()
 
+    # Adding profile photo and major
+    if user:
+        if user.photo_link is None or user.major is None:
+            person = get_user(net_id)
+            user.photo_link = person.image
+            user.major = person.major
+            db.session.commit()
     # If not, create a new user
     if not user:
         person = get_user(net_id)

@@ -89,6 +89,7 @@ class User(UserMixin, db.Model):
     college = db.Column(db.String, unique=False, nullable=True)
     birthday = db.Column(db.String, unique=False, nullable=True)
     major = db.Column(db.String, unique=False, nullable=True)
+    photo_link = db.Column(db.String, nullable=True)
     friends = db.relationship('User',
                               secondary='friendship',
                               primaryjoin=(Friendship.user_id == id),
@@ -109,4 +110,5 @@ class User(UserMixin, db.Model):
             'college': self.college,
             'birthday': self.birthday,
             'major': self.major,
+            'photo_link': self.photo_link,
         }
