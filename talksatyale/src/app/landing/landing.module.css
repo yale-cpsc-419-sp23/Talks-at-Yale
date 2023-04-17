@@ -1,8 +1,10 @@
 .pageWrapper {
-    margin-left: 3%;
-    margin-right: 3%;
-    margin-top: 6%;
-    margin-bottom: 6%;
+    padding-left: 3%;
+    padding-right: 3%;
+    padding-top: 6%;
+    padding-bottom: 6%;
+    background-color: #F5F4F2;
+    font-family: Gill Sans;
   }
 
 .title {
@@ -12,7 +14,8 @@
 }
 
 .subtitle {
-    color: #087E8B;
+    color: #065CB1;
+    font-size: 2.2em;
     font-weight: normal;
     font-style: italic;
     padding-bottom: 10px;
@@ -20,18 +23,17 @@
 }
 
 .logInButton {
-    background-color: #FF5A5F;
-    border-color: #FF5A5F;
-    color: white;
+    background-color: white;
+    border: 1px solid black;
+    color: black;
     width: 8em;
     height: 3em;
     border-style: solid;
-    border-radius: 10px;
     font-size: 1.2em;
   }
 
 .rectangle {
-    background-color: #EEF4F4;
+    background-color: #e9e7e2;
     width: 60px;
     height: 250px;
     border-radius: 10px;

@@ -1,7 +1,15 @@
+.pageWrapper {
+  padding-left: 3%;
+  padding-right: 3%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  background-color: #F5F4F2;
+}
+
 /* HEADER STYLES */
 .header {
   display: flex;
-  font-family: Inter;
+  font-family: Gill Sans;
   justify-content: space-between;
   align-items: center;
 
@@ -23,32 +31,42 @@
 
 .searchResults {
   display: flex;
-  color: #9bcad1;
-  font-family: Inter;
+  color: black;
+  font-weight: normal;
+  font-family: Gill Sans;
   font-size: 0.8em;
   align-self: flex-end;
   margin-bottom: 5px;
 }
-.pageWrapper {
-  margin-left: 3%;
-  margin-right: 3%;
-  margin-top: 2%;
-  margin-bottom: 2%;
-}
 
-.profileButton {
-  background-color: #FF5A5F;
-  border-color: #FF5A5F;
-  color: white;
-  width: 12em;
+.profileButton{
+  background-color: white;
+  border: 1px solid black;
+  color: black;
+  width: 8em;
   height: 4em;
   border-style: solid;
-  border-radius: 12px;
+  border-radius: 10px;
+  margin-right: 10px;
+  
 }
 
 .profileButton:hover {
+  background-color: #e9e7e2;
+}
+
+.logInButton {
   background-color: white;
-  color:#FF5A5F;
+  border: 1px solid black;
+  color: black;
+  width: 12em;
+  height: 4em;
+  border-style: solid;
+  border-radius: 10px;
+}
+
+.logInButton:hover {
+  background-color: #e9e7e2;
 }
 
 .searchBar {
@@ -56,16 +74,15 @@
   width: 40em;
   height: 3em;
   font-size: 1em;
-  border-radius: 12px;
-  border: solid;
-  border-color: #9bcad1;
+  /* border-radius: 10px; */
+  border: 1px solid black;
   padding-left: 1em;
   margin-right: 20px;
 
 }
 
 .searchBar::placeholder {
-  color: #9bcad1;
+  color: black;
 }
 
 
@@ -73,7 +90,7 @@
   font-size: 2em;
   font-weight: bold;
   display: inline-block;
-  font-family: Inter;
+  font-family: Gill Sans;
   margin-right: 30px;
   white-space: nowrap;
   text-align: center;
@@ -83,8 +100,9 @@
 /* EVENT CARD STYLES */
 
 .cardRight {
-  background-color: #eef4f4;
-  border-radius: 12px;
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid black;
   padding: 1em;
   z-index: 1;
   padding-left: 2.5em;
@@ -92,9 +110,9 @@
   display: block;
 }
 
-.cardRight h2:hover {
-  color: #FF5A5F;
-}
+/* .cardRight:hover {
+  background-color: #e9e7e2;
+} */
 
 .cardLocation {
   font-size: 1em;
@@ -125,6 +143,11 @@
 
 }
 
+.cardTitle:hover {
+  color: #584D3D;
+  opacity: 70%;
+}
+
 .cardDescription {
   color: #777777;
   margin-bottom: .5em;
@@ -148,7 +171,7 @@
 
 .cardLeft {
   text-align: center;
-  border-radius: 12px;
+  border-radius: 10px;
   border: 2.5px solid #FF5A5F;
   background-color: white;
   height: 45%;
@@ -167,7 +190,7 @@
 }
 
 .cardDate {
-  font-family: Inter;
+  font-family: Gill Sans;
   font-size: 1.7em;
   font-weight: 700;
 
@@ -182,7 +205,7 @@
 
 .cardContainer {
   display: flex;
-  font-family: Inter;
+  font-family: Gill Sans;
   width:100%;
   max-width: 100%;
   margin-bottom: 20px;
@@ -212,35 +235,35 @@
   padding: 20px;
   width: 60%;
   height: 80%;
-  border-radius: 12px;
+  border: 1px solid black;
   overflow-y: auto;
 }
 
 .modalFaPlus {
-  color:#FF5A5F;
+  color: black;
   size: 40px;
   width: 10%;
 }
 
 .modalFaPlus:hover {
-  color: #FA777B;
+  color: #584D3D;
 }
 
 .modalTitle {
   width: 100%;
 }
 .modalClose {
-  color: #FF5A5F;
+  color: black;
   /* position: absolute; */
   /* top: 10px;
   right: 10px; */
-  cursor: pointer;
+  cursor: pogill sans;
   font-size: 30px;
   width: 8%;
 }
 
 .modalClose:hover {
-  color: #FA777B;
+  color: #584D3D;
 }
 
 .modalHeader{
@@ -304,7 +327,7 @@
 }
 
 .addCalendar {
-  color:#9bcad1;
+  color:#584D3D;
   font-weight: normal;
   text-decoration: underline;
   margin-left: 10px;
@@ -318,16 +341,15 @@
 }
 /* DROPDOWN FILTER STYLES */
 .filters {
-  margin-left: 225px;
+  /* margin-left: 225px; */
   padding-top: 20px;
   padding-bottom: 20px;
 }
 
 .filterList {
   background-color: white;
-  color: #777777;
-  border: 1px solid #EEF4F4;
-  border-radius: 6px;
+  color: black;
+  border: 1px solid white;
   padding: 6px;
   padding-left: 10px;
   padding-right: 10px;
@@ -343,19 +365,19 @@
 }
 
 .resetButton {
-  background-color: #065CB1;
+  background-color: black;
   color: white;
   padding-left: 15px;
   padding-right: 15px;
   height: 2.5em;
-  border: 1px solid #065CB1;
-  border-radius: 8px;
+  border: 1px solid black;
+  /* border-radius: 8px; */
 }
 
 .menu {
   list-style-type: none;
   border: 1px solid #EEF4F4;
-  border-radius: 8px;
+  /* border-radius: 8px; */
   width: 402px;
   text-align: left;
   position: fixed;
@@ -375,7 +397,7 @@
 
 .menuItem > button {
   background-color: white;
-  color: #777777;
+  color: black;
   border: none;
   padding-left: 10px;
   width: 400px;
@@ -388,7 +410,7 @@
 }
 
 .menu > li > button:hover {
-  background-color: #E7EEEF;
+  background-color: #e9e7e2;
 }
 
 .orderBy {
@@ -425,14 +447,24 @@
 .rectangleBg {
   width: 100%;
   height: 100px;
-  border-radius: 12px;
-  background-color: #EEF4F4;
+  border: 1px solid black;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  background-color: white;
+
   margin-bottom: -15px;
 }
 
-.profileIcon {
-  max-height: 80px;
+.profileImageContainer {
+  position: relative;
+  height: 90px;
+  width: 90px;
+  overflow: hidden;
+  border: 1px solid black;
+}
 
+.profileImage {
+  width: 100%;
 }
 
 .iconName {
@@ -453,8 +485,8 @@
   display: flex;
   width: 100%;
   height: 400px;
-  border-radius: 12px;
-  background-color: #f3f3f3;
+  border: 1px solid black;
+  /* background-color: #f3f3f3; */
   margin-bottom: -15px;
   margin-top: 20px;
   overflow-x: auto;
@@ -492,12 +524,12 @@
 }
 
 .profileCardContainer {
+  font-family: Gill Sans;
   background-color: white;
   flex: 0 0 auto;
   max-width: 250px;
   margin: 15px;
   padding: 10px;
-  border-radius: 12px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -505,11 +537,11 @@
 }
 
 .closeIcon {
-  color: #FF5A5F;
+  color: #584D3D;
   position: absolute;
   top: 10px;
   right: 10px;
-  cursor: pointer;
+  cursor: pogill sans;
 }
 
 @media screen and (max-width: 1300px) {

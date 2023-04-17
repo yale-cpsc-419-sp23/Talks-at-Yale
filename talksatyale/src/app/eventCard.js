@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import styles from './page.module.css'
 import { FaPlus, FaMinus} from "react-icons/fa";
-import { FaRegClock } from "react-icons/fa";
+import { FaRegCalendarAlt } from "react-icons/fa";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { FaTimes } from 'react-icons/fa';
 
@@ -79,11 +79,11 @@ export default function EventCard({ event, favoriteEventIDs, setFavoriteEventIDs
       {isShown && (
         <EventModal event= {event} onClose={closeModal} favoriteEventIDs={favoriteEventIDs} setFavoriteEventIDs={setFavoriteEventIDs} isFavorited={isFavorited} setIsFavorited={setIsFavorited}/>
       )}
-        <div className={styles.cardLeft}>
+        {/* <div className={styles.cardLeft}>
             <h2 className={styles.cardDay}>{event.formatted_date?.week_day}</h2>
             <h2 className={styles.cardDate}>{event.formatted_date?.exact_date}</h2>
             <h2 className={styles.cardMonth}>{event.formatted_date?.month}</h2>
-        </div>
+        </div> */}
         <div className={styles.cardRight}>
           {isFavorited ? (
             <FaMinus className={styles.cardFaPlus} onClick={toggleFavorite} />
@@ -93,7 +93,7 @@ export default function EventCard({ event, favoriteEventIDs, setFavoriteEventIDs
             <h6 className={styles.cardDept}>{event.department}</h6>
             <h2 className={styles.cardTitle} onClick={handleCardClicked}>{event.title}</h2>
             <p className={styles.cardDescription}>{event.description}</p>
-            <p className={styles.cardLocation}><FaRegClock size={18} className={styles.smallIcons}/> {event.time} | <FaMapMarkerAlt size={18} className={styles.smallIcons}/> {event.location} </p>
+            <p className={styles.cardLocation}><FaRegCalendarAlt size={18} className={styles.smallIcons}/> {event.long_date}, {event.time} | <FaMapMarkerAlt size={18} className={styles.smallIcons}/> {event.location} </p>
         </div>
     </div>
 
