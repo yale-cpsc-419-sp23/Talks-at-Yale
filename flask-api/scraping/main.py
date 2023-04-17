@@ -4,10 +4,12 @@
 from scraping.dep_a_to_z.dep_A import get_all_events_A
 from scraping.dep_a_to_z.dep_B import get_all_events_B
 from scraping.dep_a_to_z.dep_C import get_all_events_C
+from scraping.dep_a_to_z.dep_D import get_all_events_D
+from scraping.dep_a_to_z.dep_E import get_all_events_E
 
 
 # List of functions
-functions = [get_all_events_A, get_all_events_B, get_all_events_C]
+functions = [get_all_events_A, get_all_events_B, get_all_events_C, get_all_events_D, get_all_events_E]
 def all_events():
     # a list of all events
     events = []

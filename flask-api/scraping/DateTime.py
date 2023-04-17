@@ -23,11 +23,14 @@ def getTime(date_str):
 
 def getISO(date_str):
     """Convert date to ISO format"""
-    # parse the input date string using dateutil
-    date = parser.parse(date_str)
-    # format the datetime object in ISO format
-    iso_date = date.strftime("%Y-%m-%dT%H:%M:%S")
-    return iso_date
+    try:
+        # parse the input date string using dateutil
+        date = parser.parse(date_str)
+        # format the datetime object in ISO format
+        iso_date = date.strftime("%Y-%m-%dT%H:%M:%S")
+        return iso_date
+    except:
+        return None
 
 # input date string in various formats
 date_str1 = "Monday, June 28 2005 2pm"
