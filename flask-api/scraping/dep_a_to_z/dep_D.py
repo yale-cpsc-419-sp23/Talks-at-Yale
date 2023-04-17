@@ -5,8 +5,8 @@ This is script for getting all the events for departments starting with letter D
 import requests
 from bs4 import BeautifulSoup
 import sys
-from DateTime import getDate, getTime
-from dep_events import all_department_links, get_dep_events
+from scraping.DateTime import getDate, getTime, getISO
+from scraping.dep_events import all_department_links, get_dep_events
 import json
 import re
 from datetime import datetime
@@ -46,6 +46,7 @@ def Dermatology(main_url, calendar, dep):
 
         # we get the time of the event
         start_date = None
+        iso =None
         try:
             start_time = soup.find('span',{'class':'event-time__start-date'}).text.strip()
         except:
@@ -62,6 +63,7 @@ def Dermatology(main_url, calendar, dep):
             date__day = soup.find('span', {'class': {'event-date__day-of-week'}}).text.strip()
             event_date__day= soup.find('span', {'class': {'event-date__day'}}).text.strip()
             date = f"{date__day} {event_date__day} {year}"
+            iso = getISO(date)
 
         except:
             date = "TBD"
@@ -85,7 +87,7 @@ def Dermatology(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": "TBD",
+            "iso_date": iso,
             "link": link,
         }
         return event
@@ -95,10 +97,10 @@ def Dermatology(main_url, calendar, dep):
     return events
 
 department_parsers = {
-"https://medicine.yale.edu/dermatology/",Dermatology,
+"https://medicine.yale.edu/dermatology/": Dermatology,
 }
 
-def get_all_events_B():
+def get_all_events_D():
     """A function that returns all events for departments starting with letter A"""
     links = all_department_links()
     all_events = []
@@ -110,4 +112,3 @@ def get_all_events_B():
                 department_events = department_parser(url, calendar, name)
                 all_events.extend(department_events)
         return all_events
-        

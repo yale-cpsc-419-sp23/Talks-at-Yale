@@ -9,8 +9,8 @@ This is script for getting all the events for departments starting with letter D
 import requests
 from bs4 import BeautifulSoup
 import sys
-from DateTime import getDate, getTime
-from dep_events import all_department_links, get_dep_events
+from scraping.DateTime import getDate, getTime, getISO
+from scraping.dep_events import all_department_links, get_dep_events
 import json
 import re
 from datetime import datetime
@@ -50,6 +50,7 @@ def Earth_Planetary_Sciences(main_url, calendar, dep):
 
         # we get the time of the event
         start_date = None
+        iso = None
         try:
             start_time = soup.find('span',{'class':'date-display-start'}).text.strip()
             end_time = soup.find('span',{'class':'date-display-end'}).text.strip()
@@ -60,6 +61,7 @@ def Earth_Planetary_Sciences(main_url, calendar, dep):
         # we get the date of the event
         try:
             date = soup.find('span',{'class': 'date-display-single'}).text.strip()
+            iso = getISO(date)
 
         except:
             date = "TBD"
@@ -79,7 +81,7 @@ def Earth_Planetary_Sciences(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": "TBD",
+            "iso_date": iso,
             "link": link,
         }
         return event
@@ -121,6 +123,7 @@ def East_Asian_Languages_Literatures(main_url, calendar, dep):
 
         # we get the time of the event
         start_date = None
+        iso = None
         try:
             start_time = soup.find('span',{'class':'date-display-start'}).text.strip()
             end_time = soup.find('span',{'class':'date-display-end'}).text.strip()
@@ -131,6 +134,7 @@ def East_Asian_Languages_Literatures(main_url, calendar, dep):
         # we get the date of the event
         try:
             date = soup.find('span',{'class': 'date-display-single'}).text.strip()
+            iso = getISO(date)
 
         except:
             date = "TBD"
@@ -150,7 +154,7 @@ def East_Asian_Languages_Literatures(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": "TBD",
+            "iso_date": iso,
             "link": link,
         }
         return event
@@ -191,6 +195,7 @@ def East_Asian_Studies(main_url, calendar, dep):
 
         # we get the time of the event
         start_date = None
+        iso = None
         try:
             time_div = soup.find('div', {'class': 'field field-name-field-event-time field-type-datetime field-label-hidden'})
             start_time = time_div.find('span',{'class':'date-display-start'}).text.strip()
@@ -202,6 +207,7 @@ def East_Asian_Studies(main_url, calendar, dep):
         try:
             date_div = soup.find('div', {'class': 'field field-name-field-event-time field-type-datetime field-label-hidden'})
             date = date_div.find('span', {'class': 'date-display-single'}).text.strip()
+            iso = getISO(date)
         except:
             date = "TBD"
         # we get the address
@@ -220,7 +226,7 @@ def East_Asian_Studies(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": "TBD",
+            "iso_date": iso,
             "link": link,
         }
         return event
@@ -268,8 +274,10 @@ def Ecology_Evolutionary_Biology(main_url, calendar, dep):
         except:
             time = "TBD"
         # we get the date of the event
+        iso = None
         try:
             date = soup.find('span',{'class': 'date-display-single'}).text.strip()
+            iso=getISO(date)
 
         except:
             date = "TBD"
@@ -289,7 +297,7 @@ def Ecology_Evolutionary_Biology(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": "TBD",
+            "iso_date": iso,
             "link": link,
         }
         return event
@@ -328,6 +336,7 @@ def economics(main_url, calendar, dep):
 
         # we get the time of the event
         start_date = None
+        iso = None
         try:
             time = soup.find('div',{'class': 'node-teaser__event-date-additional'}).text.strip()
 
@@ -336,7 +345,7 @@ def economics(main_url, calendar, dep):
         # we get the date of the event
         try:
             date = soup.find('div',{'class': 'node-teaser__event-start-date'}).text.strip()
-
+            iso = getISO(iso)
         except:
             date = "TBD"
         # we get the address
@@ -355,7 +364,7 @@ def economics(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": "TBD",
+            "iso_date": iso,
             "link": link,
         }
         return event
@@ -398,6 +407,7 @@ def Electrical_Engineering(main_url, calendar, dep):
 
 
         start_date = None
+        iso = None
         try:
             start_time = soup.find('span',{'class':'date-display-start'}).text.strip()
             end_time = soup.find('span',{'class':'date-display-end'}).text.strip()
@@ -407,6 +417,7 @@ def Electrical_Engineering(main_url, calendar, dep):
             time = "TBD"
         try:
             date = soup.find('span',{'class':'date-display-single'}).text.strip()
+            iso = getISO(iso)
 
         except:
             date = "TBD"
@@ -424,7 +435,7 @@ def Electrical_Engineering(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": "TBD",
+            "iso_date": iso,
             "link": link,
         }
         return event
@@ -469,6 +480,7 @@ def Emergency_Medicine(main_url, calendar, dep):
 
         # we get the time of the event
         start_date = None
+        iso = None
         try:
             start_time = soup.find('span',{'class':'event-time__start-date'}).text.strip()
         except:
@@ -485,6 +497,7 @@ def Emergency_Medicine(main_url, calendar, dep):
             date__day = soup.find('span', {'class': {'event-date__day-of-week'}}).text.strip()
             event_date__day= soup.find('span', {'class': {'event-date__day'}}).text.strip()
             date = f"{date__day} {event_date__day} {year}"
+            iso = getISO(date)
 
         except:
             date = "TBD"
@@ -508,7 +521,7 @@ def Emergency_Medicine(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": "TBD",
+            "iso_date": iso,
             "link": link,
         }
         return event
@@ -552,6 +565,7 @@ def Engineering_Applied_Science(main_url, calendar, dep):
 
 
         start_date = None
+        iso = None
         try:
             start_time = soup.find('span',{'class':'date-display-start'}).text.strip()
             end_time = soup.find('span',{'class':'date-display-end'}).text.strip()
@@ -561,6 +575,7 @@ def Engineering_Applied_Science(main_url, calendar, dep):
             time = "TBD"
         try:
             date = soup.find('span',{'class':'date-display-single'}).text.strip()
+            iso = getISO(date)
 
         except:
             date = "TBD"
@@ -578,7 +593,7 @@ def Engineering_Applied_Science(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": "TBD",
+            "iso_date": iso,
             "link": link,
         }
         return event
@@ -702,6 +717,7 @@ def Environmental_Health_Sciences(main_url, calendar, dep):
 
         # we get the time of the event
         start_date = None
+        iso = None
         try:
             start_time = soup.find('span',{'class':'event-time__start-date'}).text.strip()
             end_time = soup.find('span',{'class':'event-time__end-date'}).text.strip()
@@ -715,6 +731,7 @@ def Environmental_Health_Sciences(main_url, calendar, dep):
             date__day = soup.find('span', {'class': {'event-date__day-of-week'}}).text.strip()
             event_date__day= soup.find('span', {'class': {'event-date__day'}}).text.strip()
             date = f"{date__day} {event_date__day} {year}"
+            iso = getISO(date)
 
         except:
             date = "TBD"
@@ -739,7 +756,7 @@ def Environmental_Health_Sciences(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": "TBD",
+            "iso_date": iso,
             "link": link,
         }
         return event
@@ -782,6 +799,7 @@ def Epidemiology_Microbial_Diseases(main_url, calendar, dep):
 
         # we get the time of the event
         start_date = None
+        iso = None
         try:
             start_time = soup.find('span',{'class':'event-time__start-date'}).text.strip()
             end_time = soup.find('span',{'class':'event-time__end-date'}).text.strip()
@@ -795,6 +813,7 @@ def Epidemiology_Microbial_Diseases(main_url, calendar, dep):
             date__day = soup.find('span', {'class': {'event-date__day-of-week'}}).text.strip()
             event_date__day= soup.find('span', {'class': {'event-date__day'}}).text.strip()
             date = f"{date__day} {event_date__day} {year}"
+            iso = getISO(date)
 
         except:
             date = "TBD"
@@ -819,7 +838,7 @@ def Epidemiology_Microbial_Diseases(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": "TBD",
+            "iso_date": iso,
             "link": link,
         }
         return event
@@ -862,6 +881,7 @@ def Ethnicity_Race_Migration(main_url, calendar, dep):
 
         # we get the time of the event
         start_date = None
+        iso = None
         try:
             start_time = soup.find('span',{'class':'date-display-start'}).text.strip()
             end_time = soup.find('span',{'class':'date-display-end'}).text.strip()
@@ -872,6 +892,7 @@ def Ethnicity_Race_Migration(main_url, calendar, dep):
         # we get the date of the event
         try:
             date = soup.find('span',{'class': 'date-display-single'}).text.strip()
+            iso = getISO(date)
 
         except:
             date = "TBD"
@@ -891,7 +912,7 @@ def Ethnicity_Race_Migration(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": "TBD",
+            "iso_date": iso,
             "link": link,
         }
         return event
@@ -933,6 +954,7 @@ def European_Russian_Studies(main_url, calendar, dep):
 
         # we get the time of the event
         start_date = None
+        iso = None
         try:
             start_time = soup.find('span',{'class':'date-display-start'}).text.strip()
             end_time = soup.find('span',{'class':'date-display-end'}).text.strip()
@@ -943,6 +965,7 @@ def European_Russian_Studies(main_url, calendar, dep):
         # we get the date of the event
         try:
             date = soup.find('span',{'class': 'date-display-single'}).text.strip()
+            iso = getISO(date)
 
         except:
             date = "TBD"
@@ -962,7 +985,7 @@ def European_Russian_Studies(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": "TBD",
+            "iso_date": iso,
             "link": link,
         }
         return event
@@ -1006,6 +1029,7 @@ def Experimental_Pathology(main_url, calendar, dep):
 
         # we get the time of the event
         start_date = None
+        iso_date = None
         try:
             start_time = soup.find('span',{'class':'event-time__start-date'}).text.strip()
         except:
@@ -1079,7 +1103,7 @@ department_parsers = {
 
 }
 
-def get_all_events_B():
+def get_all_events_E():
     """A function that returns all events for departments starting with letter A"""
     links = all_department_links()
     all_events = []
@@ -1089,6 +1113,6 @@ def get_all_events_B():
             if url in department_parsers:
                 department_parser = department_parsers[url]
                 department_events = department_parser(url, calendar, name)
-                all_events.extend(department_events)
+                if department_events is not None:
+                    all_events.extend(department_events)
         return all_events
-    
