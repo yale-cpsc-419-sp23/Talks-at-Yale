@@ -96,6 +96,12 @@ class User(UserMixin, db.Model):
                               secondaryjoin=(Friendship.friend_id == id),
                               backref=db.backref('friend_of', lazy='dynamic'),
                               lazy='dynamic')
+    pending_friends = db.relationship('User',
+                              secondary='friendship',
+                              primaryjoin=(Friendship.user_id == id),
+                              secondaryjoin=(Friendship.friend_id == id),
+                              backref=db.backref('friend_of', lazy='dynamic'),
+                              lazy='dynamic')
 
     def __repr__(self):
         return f'<User {self.username}>'
