@@ -19,6 +19,13 @@ class Friendship(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     friend_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
+# Keeping track of pending frends
+class Pending_Friendship(db.Model):
+    """A class representing a friendship"""
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    pending_friend_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
 class Event(db.Model):
     """A class representing an event"""
     id = db.Column(db.Integer, primary_key=True)
@@ -97,10 +104,10 @@ class User(UserMixin, db.Model):
                               backref=db.backref('friend_of', lazy='dynamic'),
                               lazy='dynamic')
     pending_friends = db.relationship('User',
-                              secondary='friendship',
-                              primaryjoin=(Friendship.user_id == id),
-                              secondaryjoin=(Friendship.friend_id == id),
-                              backref=db.backref('friend_of', lazy='dynamic'),
+                              secondary='pending_friendship',
+                              primaryjoin=(Pending_Friendship.user_id == id),
+                              secondaryjoin=(Pending_Friendship.friend_id == id),
+                              backref=db.backref('pending_friend_of', lazy='dynamic'),
                               lazy='dynamic')
 
     def __repr__(self):

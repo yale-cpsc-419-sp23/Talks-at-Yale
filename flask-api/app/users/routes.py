@@ -119,7 +119,8 @@ def profile():
 @bp_events.route('/add_friend', methods=['GET','POST'])
 @jwt_required(optional=True)
 def add_friend():
-    """User adds a friend from their pending friend list to their friend list"""
+    """User adds a friend from their pending friend list to their friend list
+        This adds the user as a friend of the other too."""
     net_id = get_jwt_identity()
     friend_id = request.args.get('id', '')
 
@@ -139,9 +140,14 @@ def add_friend():
     elif added_friend in user.friends:
         return jsonify({"message": "You're already friends with this user!"})
 
-    # adds user to pending friends list, then returns
+    # removes user from other user's friends pending list if they're on it
+    if user in added_friend.pending:
+        added_friend.pending.remove(user)
+
+    # adds user to friends list, then returns
     user.pending_friends.remove(added_friend)
     user.friends.add(added_friend)
+    added_friend.frends.add(user)
     db.session.commit()
 
     return jsonify({"message": "Friend added!"})
