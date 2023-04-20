@@ -21,7 +21,7 @@ class Friendship(db.Model):
 
 # Keeping track of pending frends
 class Pending_Friendship(db.Model):
-    """A class representing a friendship"""
+    """A class representing a pending friendship"""
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     pending_friend_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -106,7 +106,7 @@ class User(UserMixin, db.Model):
     pending_friends = db.relationship('User',
                               secondary='pending_friendship',
                               primaryjoin=(Pending_Friendship.user_id == id),
-                              secondaryjoin=(Pending_Friendship.friend_id == id),
+                              secondaryjoin=(Pending_Friendship.pending_friend_id == id),
                               backref=db.backref('pending_friend_of', lazy='dynamic'),
                               lazy='dynamic')
 
