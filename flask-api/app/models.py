@@ -82,6 +82,7 @@ class Event(db.Model):
             'bio' : self.bio,
             'description' : self.description,
             'iso': self.iso_date,
+            'link': self.link,
         }
 
 

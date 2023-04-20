@@ -3,9 +3,8 @@ This is script for getting all the events for departments starting with letter C
 """
 import requests
 from bs4 import BeautifulSoup
-from dep_events import all_department_links, get_dep_events
-import json
-from DateTime import getDate, getTime
+from scraping.DateTime import getDate, getTime, getISO
+from scraping.dep_events import all_department_links, get_dep_events
 
 
 def History(main_url, calendar, dep):
@@ -158,7 +157,7 @@ department_parsers = {
 
 }
 
-def get_all_events_B():
+def get_all_events_H():
     """A function that returns all events for departments starting with letter A"""
     links = all_department_links()
     all_events = []
@@ -170,4 +169,3 @@ def get_all_events_B():
                 department_events = department_parser(url, calendar, name)
                 all_events.extend(department_events)
         return all_events
-        

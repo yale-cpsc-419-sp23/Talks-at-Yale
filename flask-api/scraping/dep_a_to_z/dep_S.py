@@ -21,7 +21,8 @@ def Statistics_Data_Science(main_url, calendar, dep):
     event_links = []
 
     # get events links
-    all_links =soup.find_all("div",{"class": "views-field-title"})
+    links_div =soup.find("div",{"class": "view-calendar-list"})
+    all_links = links_div.find_all()
     try:
         for div in all_links:
             link = div.find('a').get('href').split('/neuroscience')[1]
@@ -177,7 +178,7 @@ department_parsers = {
 
 }
 
-def get_all_events_B():
+def get_all_events_S():
     """A function that returns all events for departments starting with letter A"""
     links = all_department_links()
     all_events = []

@@ -132,6 +132,7 @@ def search():
 
     # for item in events:
     #     print(item.iso_date)
+    
     events_dict = [event.to_dict() for event in events]
     events_json = update_dates(events_dict)
     # return json data

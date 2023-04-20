@@ -6,8 +6,8 @@ This is script for getting all the events for departments starting with letter D
 import requests
 from bs4 import BeautifulSoup
 import sys
-from DateTime import getDate, getTime
-from dep_events import all_department_links, get_dep_events
+from scraping.DateTime import getDate, getTime, getISO
+from scraping.dep_events import all_department_links, get_dep_events
 import json
 import re
 from datetime import datetime
@@ -36,18 +36,19 @@ def Genetics(main_url, calendar, dep):
 
        # title
         try:
-            title = soup.find('title').text.strip()
+            title = soup.find('h1', {'class': 'event-details-header__title'}).text.strip()
         except:
             title = "TBD"
 
             # speaker
         try:
-            speaker_name = soup.find('span', {'class':'event-speaker-name'}).text.strip()
+            speaker_name = soup.find('div', {'class':'profile-list'}).text.strip()
         except:
             speaker_name = "TBD"
 
         # we get the time of the event
         start_date = None
+        iso = None
         try:
             start_time = soup.find('span',{'class':'event-time__start-date'}).text.strip()
         except:
@@ -64,6 +65,7 @@ def Genetics(main_url, calendar, dep):
             date__day = soup.find('span', {'class': {'event-date__day-of-week'}}).text.strip()
             event_date__day= soup.find('span', {'class': {'event-date__day'}}).text.strip()
             date = f"{date__day} {event_date__day} {year}"
+            iso = getISO(date)
 
         except:
             date = "TBD"
@@ -79,6 +81,11 @@ def Genetics(main_url, calendar, dep):
         except:
             address = "TBD"
 
+        try:
+            description = soup.find('div', {'class': 'event-details-info__description'})
+        except:
+            description = None
+
         event = {
             "title": title,
             "department": dep,
@@ -87,7 +94,7 @@ def Genetics(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": None,
+            "iso_date": iso,
             "link": link
         }
         return event
@@ -120,7 +127,17 @@ def German(main_url, calendar, dep):
         title = soup.find('title').text.strip()
 
         # speaker
-        speaker_name = soup.find('div', {'class': 'field-name-field-speaker'}).text.split(':')[-1].strip()
+        try:
+            speaker_name = soup.find('div', {'class': 'field-name-field-speaker'}).text.split(':')[-1].strip()
+        except:
+            speaker_name = None
+
+        # description
+        try:
+            description_tag = soup.find('div', {'class': 'field-type-text-with-summary'})
+            description = description_tag.find('div', {'class': 'field-items'}).text.strip()
+        except:
+            description = None
         try:
             # time and date
             date_div = soup.find('div', {'class': 'field-name-field-event-time'})
@@ -155,6 +172,7 @@ def German(main_url, calendar, dep):
             "title": title,
             "department": dep,
             "speaker": speaker_name,
+            "description": description,
             "speaker_title": speaker_name,
             "date": date,
             "time": time,
@@ -191,7 +209,16 @@ def Global_Affairs(main_url, calendar, dep):
         title = soup.find('title').text.strip()
 
         # speaker
-        speaker_name = soup.find('div', {'class': 'field-name-field-speaker'}).text.split(':')[-1].strip()
+        try:
+            speaker_name = soup.find('div', {'class': 'field-name-field-speaker'}).text.split(':')[-1].strip()
+        except:
+            speaker_name = None
+
+        try:
+            description_div = soup.find('section', {'class':'page-sec'})
+            description = description_div.find_all('p').text.strip()
+        except:
+            description = None
         try:
             # time and date
             date_div = soup.find('div', {'class': 'field-name-field-event-time'})
@@ -226,6 +253,7 @@ def Global_Affairs(main_url, calendar, dep):
             "title": title,
             "department": dep,
             "speaker": speaker_name,
+            "description": description,
             "speaker_title": speaker_name,
             "date": date,
             "time": time,
@@ -247,7 +275,7 @@ department_parsers = {
 
 }
 
-def get_all_events_B():
+def get_all_events_G():
     """A function that returns all events for departments starting with letter A"""
     links = all_department_links()
     all_events = []
@@ -259,4 +287,3 @@ def get_all_events_B():
                 department_events = department_parser(url, calendar, name)
                 all_events.extend(department_events)
         return all_events
-        

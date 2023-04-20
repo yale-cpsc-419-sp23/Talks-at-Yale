@@ -6,12 +6,8 @@ This is script for getting all the events for departments starting with letter D
 import requests
 from bs4 import BeautifulSoup
 import sys
-from DateTime import getDate, getTime
-from dep_events import all_department_links, get_dep_events
-import json
-import re
-from datetime import datetime
-
+from scraping.DateTime import getDate, getTime, getISO
+from scraping.dep_events import all_department_links, get_dep_events
 
 def Womens_Gender_Sexuality_Studies(main_url, calendar, dep):
     """Getting African American studies department's events"""
@@ -36,7 +32,10 @@ def Womens_Gender_Sexuality_Studies(main_url, calendar, dep):
         title = soup.find('title').text.strip()
 
         # speaker
-        speaker_name = soup.find('div', {'class': 'field-name-field-speaker'}).text.split(':')[-1].strip()
+        try:
+            speaker_name = soup.find('div', {'class': 'field-name-field-speaker'}).text.split(':')[-1].strip()
+        except:
+            speaker_name = None
         try:
             # time and date
             date_div = soup.find('div', {'class': 'field-name-field-event-time'})
@@ -93,7 +92,7 @@ department_parsers = {
 
 }
 
-def get_all_events_B():
+def get_all_events_W():
     """A function that returns all events for departments starting with letter A"""
     links = all_department_links()
     all_events = []

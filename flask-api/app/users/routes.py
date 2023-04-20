@@ -177,7 +177,6 @@ def remove_friend():
 
 #     elif added_friend in user.friends:
 #         return jsonify({"message": "You're already friends with this user!"})
-
     # # removes user from other user's friends pending list if they're on it
     # if user in added_friend.pending:
     #     added_friend.pending.remove(user)

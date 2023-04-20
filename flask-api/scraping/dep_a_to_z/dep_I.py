@@ -3,9 +3,8 @@ This is script for getting all the events for departments starting with letter C
 """
 import requests
 from bs4 import BeautifulSoup
-from dep_events import all_department_links, get_dep_events
-import json
-from DateTime import getDate, getTime
+from scraping.DateTime import getDate, getTime, getISO
+from scraping.dep_events import all_department_links, get_dep_events
 
 def International_Development_Economics(main_url, calendar, dep):
     """Getting African American studies department's events"""
@@ -41,6 +40,7 @@ def International_Development_Economics(main_url, calendar, dep):
 
         # we get the time of the event
         start_date = None
+        iso = None
         try:
             time = soup.find('div',{'class':'node__event-time'}).text.strip()
 
@@ -50,6 +50,7 @@ def International_Development_Economics(main_url, calendar, dep):
         # we get the date of the event
         try:
             date = soup.find('div',{'class': 'ode__event-date'}).text.strip()
+            iso = getISO(date)
 
         except:
             date = "TBD"
@@ -69,7 +70,7 @@ def International_Development_Economics(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": "TBD",
+            "iso_date": iso,
             "link": link,
         }
         return event
@@ -133,6 +134,11 @@ def italian(main_url, calendar, dep):
         except:
             address = "TBD"
 
+        try:
+            description_tag = soup.find('div', {'class':'field-type-text-with-summary'})
+            description = description_tag.find('div', {'class': 'field-items'}).text.strip()
+        except:
+            description = None
 
 
          # Event object as a dictionary
@@ -140,6 +146,7 @@ def italian(main_url, calendar, dep):
             "title": title,
             "department": dep,
             "speaker": speaker_name,
+            "description": description,
             "speaker_title": speaker_name,
             "date": date,
             "time": time,
@@ -159,7 +166,7 @@ department_parsers = {
 "https://italian.yale.edu/": italian
 }
 
-def get_all_events_C():
+def get_all_events_I():
     links = all_department_links()
     all_events = []
     calendar = "calendar"
@@ -170,4 +177,3 @@ def get_all_events_C():
                 department_events = department_parser(url, calendar, name)
                 all_events.extend(department_events)
         return all_events
-        

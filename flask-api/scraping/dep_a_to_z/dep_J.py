@@ -6,8 +6,8 @@ This is script for getting all the events for departments starting with letter D
 import requests
 from bs4 import BeautifulSoup
 import sys
-from DateTime import getDate, getTime
-from dep_events import all_department_links, get_dep_events
+from scraping.DateTime import getDate, getTime, getISO
+from scraping.dep_events import all_department_links, get_dep_events
 import json
 import re
 from datetime import datetime
@@ -93,7 +93,7 @@ department_parsers = {
 
 }
 
-def get_all_events_B():
+def get_all_events_J():
     """A function that returns all events for departments starting with letter A"""
     links = all_department_links()
     all_events = []
@@ -105,4 +105,3 @@ def get_all_events_B():
                 department_events = department_parser(url, calendar, name)
                 all_events.extend(department_events)
         return all_events
-        

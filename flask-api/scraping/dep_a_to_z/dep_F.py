@@ -5,8 +5,8 @@ This is script for getting all the events for departments starting with letter D
 import requests
 from bs4 import BeautifulSoup
 import sys
-from DateTime import getDate, getTime
-from dep_events import all_department_links, get_dep_events
+from scraping.DateTime import getDate, getTime, getISO
+from scraping.dep_events import all_department_links, get_dep_events
 import json
 import re
 from datetime import datetime
@@ -47,20 +47,27 @@ def Film_Media_Studies(main_url, calendar, dep):
         # we get the time of the event
         start_date = None
         # time and date
-        date_div = soup.find('div', {'class': 'field field-name-field-event-time field-type-datetime field-label-above'})
+        date_div = soup.find('div', {'class': 'field-name-field-event-time'})
         date_str = date_div.find('span', {'class': 'date-display-single'})
-
-        if date_str.has_attr('content'):
-            content_attr = date_str['content']
-            iso = content_attr
-            date = getDate(content_attr)
-            time = getTime(content_attr)
+        # description
+        try:
+            description_tag = soup.find('div', {'class': 'field-type-text-with-summary'})
+            description = description_tag.find('div', {'class': 'field-tems'}).text.strip()
+        except:
+            description = None
+        if date_str is not None:
+            if date_str.has_attr('content'):
+                content_attr = date_str['content']
+                iso = content_attr
+                date = getDate(content_attr)
+                time = getTime(content_attr)
         else:
             date_str = date_div.find('span', {'class': 'date-display-start'})
-            content_attr = date_str['content']
-            iso = content_attr
-            date = getDate(content_attr)
-            time = getTime(content_attr)
+            if date_str:
+                content_attr = date_str['content']
+                iso = content_attr
+                date = getDate(content_attr)
+                time = getTime(content_attr)
         # we get the address
         try:
 
@@ -77,11 +84,12 @@ def Film_Media_Studies(main_url, calendar, dep):
             "title": title,
             "department": dep,
             "speaker": speaker_name,
+            "description": description,
             "speaker_title": None,
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": None,
+            "iso_date": iso,
             "link" : link
         }
         return event
@@ -128,7 +136,7 @@ def Forestry_Environmental_Studies(main_url, calendar, dep):
         start_date = None
         # time and date
         try:
-            date_div = soup.find('div', {'class': 'field field-name-field-event-time field-type-datetime field-label-above'})
+            date_div = soup.find('div', {'class': 'field-name-field-event-time'})
             date_str = date_div.find('span', {'class': 'date-display-single'})
 
             if date_str.has_attr('content'):
@@ -209,27 +217,34 @@ def French(main_url, calendar, dep):
         except:
             speaker_name = "TBD"
 
+        try:
+            description_tag = soup.find('div', {'class': 'field-type-text-with-summary'})
+            description = description_tag.find('div', {'class':'field-items'}).text.strip()
+        except:
+            description = None
+
         # we get the time of the event
-        start_date = None
+        start_date = date = iso = time = None
         # time and date
-        date_div = soup.find('div', {'class': 'field field-name-field-event-time field-type-datetime field-label-above'})
+        date_div = soup.find('div', {'class': 'field-name-field-event-time'})
         date_str = date_div.find('span', {'class': 'date-display-start'})
 
-        if date_str.has_attr('content'):
-            content_attr = date_str['content']
-            iso = content_attr
-            date = getDate(content_attr)
-            time = getTime(content_attr)
+        if date_str is not None:
+            if date_str.has_attr('content'):
+                content_attr = date_str['content']
+                iso = content_attr
+                date = getDate(content_attr)
+                time = getTime(content_attr)
         else:
-            date_str = date_div.find('span', {'class': 'date-display-start'})
-            content_attr = date_str['content']
-            iso = content_attr
-            date = getDate(content_attr)
-            time = getTime(content_attr)
+            date_str = date_div.find('span', {'class': 'date-display-single'})
+            if date_str:
+                content_attr = date_str['content']
+                iso = content_attr
+                date = getDate(content_attr)
+                time = getTime(content_attr)
         # we get the address
         try:
-
-            address = soup.find('span', {'class':'fn'})
+            address = soup.find('span', {'class':'fn'}).text.strip()
 
         except:
             address = "TBD"
@@ -239,10 +254,12 @@ def French(main_url, calendar, dep):
             "department": dep,
             "speaker": speaker_name,
             "speaker_title": None,
+            "description": description,
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": None,
+            "iso_date": iso,
+            "link": link,
         }
         return event
 
@@ -257,7 +274,7 @@ department_parsers = {
 "https://french.yale.edu/": French
 }
 
-def get_all_events_B():
+def get_all_events_F():
     """A function that returns all events for departments starting with letter A"""
     links = all_department_links()
     all_events = []
@@ -269,4 +286,3 @@ def get_all_events_B():
                 department_events = department_parser(url, calendar, name)
                 all_events.extend(department_events)
         return all_events
-        
