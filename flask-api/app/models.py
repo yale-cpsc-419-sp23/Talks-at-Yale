@@ -21,7 +21,7 @@ class Friendship(db.Model):
 
 # Keeping track of pending frends
 class Pending_Friendship(db.Model):
-    """A class representing a friendship"""
+    """A class representing a pending friendship"""
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     pending_friend_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
