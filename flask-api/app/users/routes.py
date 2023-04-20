@@ -13,8 +13,10 @@ import yalies
 ###--------------Logging Users In --------------####
 ###---------------------------------------------####
 @bp_users.route('/login', methods=['GET'])
+@bp_users.route('/login/', methods=['GET'])
 @jwt_required(optional=True)
 def login():
+    print("GURJFJEOIRJFJERIOJo")
     """Handles login using Yale's CAS"""
     identity = get_jwt_identity()
     if identity:
@@ -24,7 +26,12 @@ def login():
 
     # url to be directed to when a user logs in using yale's cas
     service_url = url_for('users.after_login', _external=True)
-    cas_login_url = app.config['CAS_SERVER'] + app.config['CAS_LOGIN_ROUTE'] + '?' + urlencode({'service': service_url})
+    cas_login_url = "https://secure.its.yale.edu/cas/login" + '?' + urlencode({'service': service_url})
+    print(cas_login_url)
+    # cas_login_url = app.config['CAS_SERVER'] + app.config['CAS_LOGIN_ROUTE'] + '?' + urlencode({'service': service_url})
+    print("LOGGIN IN")
+    print(app.config['CAS_SERVER'])
+    print(app.config['CAS_LOGIN_ROUTE'])
     return redirect(cas_login_url)
 
 @bp_users.route('/cas-callback', methods=['GET'])
@@ -116,71 +123,71 @@ def profile():
     print(profile_json)
     return jsonify(profile_json)
 
-@bp_events.route('/add_friend', methods=['GET','POST'])
-@jwt_required(optional=True)
-def add_friend():
-    """User adds a friend from their pending friend list to their friend list
-        This adds the user as a friend of the other too."""
-    net_id = get_jwt_identity()
-    friend_id = request.args.get('id', '')
+# @bp_events.route('/add_friend', methods=['GET','POST'])
+# @jwt_required(optional=True)
+# def add_friend():
+#     """User adds a friend from their pending friend list to their friend list
+#         This adds the user as a friend of the other too."""
+#     net_id = get_jwt_identity()
+#     friend_id = request.args.get('id', '')
 
-    # get user via their net id
-    user = User.query.filter_by(netid=net_id).first()
-    # get user to add as friend via their netid
-    added_friend = User.query.filter_by(net_id=friend_id).first()
+#     # get user via their net id
+#     user = User.query.filter_by(netid=net_id).first()
+#     # get user to add as friend via their netid
+#     added_friend = User.query.filter_by(net_id=friend_id).first()
 
-    # both users should be found. If not there's an error
-    if not user or not added_friend:
-        return jsonify({"error": "User not found"}), 404
+#     # both users should be found. If not there's an error
+#     if not user or not added_friend:
+#         return jsonify({"error": "User not found"}), 404
 
-    # User can only add friends from their pending friend list
-    if added_friend not in user.pending:
-        return jsonify({"message": "Your friend must request to be friends first"})
+#     # User can only add friends from their pending friend list
+#     if added_friend not in user.pending:
+#         return jsonify({"message": "Your friend must request to be friends first"})
 
-    elif added_friend in user.friends:
-        return jsonify({"message": "You're already friends with this user!"})
+#     elif added_friend in user.friends:
+#         return jsonify({"message": "You're already friends with this user!"})
 
-    # removes user from other user's friends pending list if they're on it
-    if user in added_friend.pending:
-        added_friend.pending.remove(user)
+#     # removes user from other user's friends pending list if they're on it
+#     if user in added_friend.pending:
+#         added_friend.pending.remove(user)
 
-    # adds user to friends list, then returns
-    user.pending_friends.remove(added_friend)
-    user.friends.add(added_friend)
-    added_friend.frends.add(user)
-    db.session.commit()
+#     # adds user to friends list, then returns
+#     user.pending_friends.remove(added_friend)
+#     user.friends.add(added_friend)
+#     added_friend.frends.add(user)
+#     db.session.commit()
 
-    return jsonify({"message": "Friend added!"})
+#     return jsonify({"message": "Friend added!"})
 
 
-@bp_events.route('/request_friend', methods=['GET','POST'])
-@jwt_required(optional=True)
-def request_friend():
-    """User requests to be friends with other person via email address"""
-    net_id = get_jwt_identity()
-    email = request.args.get('email', '')
+# @bp_events.route('/request_friend', methods=['GET','POST'])
+# @jwt_required(optional=True)
+# def request_friend():
+#     """User requests to be friends with other person via email address"""
+#     net_id = get_jwt_identity()
+#     email = request.args.get('email', '')
 
-    # get user
-    user = User.query.filter_by(netid=net_id).first()
-    # get user to request friends
-    added_friend = User.query.filter_by(email=email).first()
+#     # get user
+#     user = User.query.filter_by(netid=net_id).first()
+#     # get user to request friends
+#     added_friend = User.query.filter_by(email=email).first()
 
-    # both users should be found, If not there's an error
-    if not user or not event:
-        return jsonify({"error": "User not found"}), 404
+#     # both users should be found, If not there's an error
+#     if not user or not event:
+#         return jsonify({"error": "User not found"}), 404
 
-    # Checks if user is alread a friend or is pending
-    if user in added_friend.friends:
-        return jsonify({"message": "You're already friends with this user!"})
+#     # Checks if user is alread a friend or is pending
+#     if user in added_friend.friends:
+#         return jsonify({"message": "You're already friends with this user!"})
 
-    elif user in added_friend.pending_friends:
-        return jsonify({"message": "Your friend request has already been sent!"})
+#     elif user in added_friend.pending_friends:
+#         return jsonify({"message": "Your friend request has already been sent!"})
 
-    # adds user to pending friends list, then returns
-    added_friend.pending_friends.add(user)
-    db.session.commit()
+#     # adds user to pending friends list, then returns
+#     added_friend.pending_friends.add(user)
+#     db.session.commit()
 
-    return jsonify({"message": "Friend request sent!"})
+#     return jsonify({"message": "Friend request sent!"})
 
 
 ####----Helper Functions----##
