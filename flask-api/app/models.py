@@ -97,18 +97,18 @@ class User(UserMixin, db.Model):
     birthday = db.Column(db.String, unique=False, nullable=True)
     major = db.Column(db.String, unique=False, nullable=True)
     photo_link = db.Column(db.String, nullable=True)
-    # friends = db.relationship('User',
-    #                           secondary='friendship',
-    #                           primaryjoin=(Friendship.user_id == id),
-    #                           secondaryjoin=(Friendship.friend_id == id),
-    #                           backref=db.backref('friend_of', lazy='dynamic'),
-    #                           lazy='dynamic')
-    # pending_friends = db.relationship('User',
-    #                           secondary='pending_friendship',
-    #                           primaryjoin=(Pending_Friendship.user_id == id),
-    #                           secondaryjoin=(Pending_Friendship.friend_id == id),
-    #                           backref=db.backref('pending_friend_of', lazy='dynamic'),
-    #                           lazy='dynamic')
+    friends = db.relationship('User',
+                              secondary='friendship',
+                              primaryjoin=(Friendship.user_id == id),
+                              secondaryjoin=(Friendship.friend_id == id),
+                              backref=db.backref('friend_of', lazy='dynamic'),
+                              lazy='dynamic')
+    pending_friends = db.relationship('User',
+                              secondary='pending_friendship',
+                              primaryjoin=(Pending_Friendship.user_id == id),
+                              secondaryjoin=(Pending_Friendship.pending_friend_id == id),
+                              backref=db.backref('pending_friend_of', lazy='dynamic'),
+                              lazy='dynamic')
 
     def __repr__(self):
         return f'<User {self.username}>'
