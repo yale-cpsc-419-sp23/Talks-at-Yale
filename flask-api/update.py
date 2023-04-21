@@ -42,7 +42,7 @@ def update_events():
 
 def update_events_periodic():
     # run every day
-    schedule.every().minute.do(update_events)
+    schedule.every().second.do(update_events)
 
     while True:
         schedule.run_pending()

@@ -20,7 +20,7 @@ from scraping.dep_a_to_z.dep_N import get_all_events_N
 
 
 # List of functions
-functions = [get_all_events_A, get_all_events_B, get_all_events_C, get_all_events_D, get_all_events_E, get_all_events_F, get_all_events_G, get_all_events_H, get_all_events_I, get_all_events_J, get_all_events_N, get_all_events_O, get_all_events_R, get_all_events_S, get_all_events_U, get_all_events_W]
+functions = [get_all_events_N]
 def all_events():
     # a list of all events
     events = []
