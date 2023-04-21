@@ -156,7 +156,7 @@ department_parsers = {
 
 }
 
-def get_all_events_B():
+def get_all_events_L():
     """A function that returns all events for departments starting with letter A"""
     links = all_department_links()
     all_events = []
@@ -168,4 +168,3 @@ def get_all_events_B():
                 department_events = department_parser(url, calendar, name)
                 all_events.extend(department_events)
         return all_events
-        

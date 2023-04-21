@@ -17,6 +17,7 @@ def search():
     search_term = request.args.get('search_term', '')
     print(search_term)
 
+
     # get selected department
     selected_dept = request.args.get('department', 'All Departments')
     print(selected_dept)
@@ -132,7 +133,7 @@ def search():
 
     # for item in events:
     #     print(item.iso_date)
-    
+
     events_dict = [event.to_dict() for event in events]
     events_json = update_dates(events_dict)
     # return json data
@@ -261,6 +262,21 @@ def get_departments():
     department_names = [row[0] for row in unique_departments]
     return jsonify(department_names)
 
+@bp_events.route('/clean_database', methods=['GET'])
+def clean_database():
+    "Cleaning the database"
+    # Find all events without iso_date or with iso_date "TBD"
+    events_to_delete = Event.query.filter(or_(Event.iso_date == None, Event.iso_date == "TBD")).all()
+
+    # Delete the events from the database
+    for event in events_to_delete:
+        db.session.delete(event)
+
+    # Commit the changes
+    db.session.commit()
+
+    # Return a success message
+    return jsonify({"message": "All events without iso_date or with iso_date 'TBD' have been deleted from the database"}), 200
 
 
 ####-----------Helper functions-----------------####

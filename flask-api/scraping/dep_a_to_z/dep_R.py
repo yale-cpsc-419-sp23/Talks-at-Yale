@@ -6,8 +6,8 @@ This is script for getting all the events for departments starting with letter D
 import requests
 from bs4 import BeautifulSoup
 import sys
-from DateTime import getDate, getTime
-from dep_events import all_department_links, get_dep_events
+from scraping.DateTime import getDate, getTime
+from scraping.dep_events import all_department_links, get_dep_events
 import json
 import re
 from datetime import datetime
@@ -20,12 +20,15 @@ def Renaissance_Studies(main_url, calendar, dep):
     soup = BeautifulSoup(response.content, "html.parser")
     # get events links
     event_links = []
-    events = soup.find_all('td', class_="views-field views-field-title")
-    for row in events:
-        link = row.find('a').get('href')
-        if link:
-            event_links.append(link)
+    # find the table with the events
+    events_table = soup.find("table", {"class": "view-calendar-list"})
 
+    # loop through the rows and extract the links
+    for row in events_table.find_all("tr"):
+        link = row.find("a")
+        if link:
+            main = 'https://religiousstudies.yale.edu'
+            event_links.append(main + link["href"])
 
     # A function that goes to each link and gets the events details
     def get_event(link):
@@ -36,7 +39,7 @@ def Renaissance_Studies(main_url, calendar, dep):
         title = soup.find('title').text.strip()
 
         # speaker
-        speaker_name = soup.find('div', {'class': 'field-name-field-speaker'}).text.split(':')[-1].strip()
+        speaker_name = None
         try:
             # time and date
             date_div = soup.find('div', {'class': 'field-name-field-event-time'})
@@ -64,8 +67,15 @@ def Renaissance_Studies(main_url, calendar, dep):
         except:
             address = "TBD"
 
+        try:
+            desc_tag = soup.find('div', {'class': 'field-type-text-with-summary'})
+            description = ""
+            for p in desc_tag.find_all('p'):
+                description += p.text.strip() + " "
+        except:
+            description = None
 
-
+        print(description)
          # Event object as a dictionary
         event = {
             "title": title,
@@ -76,12 +86,16 @@ def Renaissance_Studies(main_url, calendar, dep):
             "time": time,
             "location": address,
             "iso_date": iso,
+            "description": description,
             "link": link
         }
         return event
 
     # get all events for African american department
-    events = get_dep_events(main_url, get_event, event_links)
+    events = []
+    for link in event_links:
+        event = get_event(link)
+        events.append(event)
     return events
 
 
@@ -93,7 +107,7 @@ department_parsers = {
 
 }
 
-def get_all_events_B():
+def get_all_events_R():
     """A function that returns all events for departments starting with letter A"""
     links = all_department_links()
     all_events = []
@@ -105,4 +119,3 @@ def get_all_events_B():
                 department_events = department_parser(url, calendar, name)
                 all_events.extend(department_events)
         return all_events
-    

@@ -6,8 +6,8 @@ This is script for getting all the events for departments starting with letter D
 import requests
 from bs4 import BeautifulSoup
 import sys
-from DateTime import getDate, getTime
-from dep_events import all_department_links, get_dep_events
+from scraping.DateTime import getDate, getTime, getISO
+from scraping.dep_events import all_department_links, get_dep_events
 import json
 import re
 from datetime import datetime
@@ -21,13 +21,13 @@ def neuroscience(main_url, calendar, dep):
     event_links = []
 
     # get events links
-    all_links =soup.find_all("div",{"class": "event-list-item__details"})
-    try:
-        for div in all_links:
-            link = div.find('a').get('href').split('/neuroscience')[1]
-            event_links.append(link)
-    except:
-        event_links = []
+    links_cont = soup.find('div', {'class': 'page__content-container'})
+    links_div = links_cont.find('div', {'class': 'event-list__groups-container'})
+    all_links =links_div.find_all("section",{"class": "event-list__group"})
+    for div in all_links:
+        link = div.find('a').get('href')
+        root = 'https://medicine.yale.edu'
+        event_links.append(root + link)
 
     # A function that goes to each link and gets the events details
     def get_event(link):
@@ -46,7 +46,6 @@ def neuroscience(main_url, calendar, dep):
             speaker_name = soup.find('span', {'class':'profile-detailed-info-list-item__name'}).text.strip()
         except:
             speaker_name = "TBD"
-
         # we get the time of the event
         start_date = None
         try:
@@ -65,6 +64,7 @@ def neuroscience(main_url, calendar, dep):
             date__day = soup.find('span', {'class': {'event-date__day-of-week'}}).text.strip()
             event_date__day= soup.find('span', {'class': {'event-date__day'}}).text.strip()
             date = f"{date__day} {event_date__day} {year}"
+            iso = getISO(date)
 
         except:
             date = "TBD"
@@ -79,6 +79,10 @@ def neuroscience(main_url, calendar, dep):
 
         except:
             address = "TBD"
+        try:
+            description = soup.find('div', {'class': 'event-details-info__description'}).text.strip()
+        except:
+            description = None
 
         event = {
             "title": title,
@@ -88,8 +92,9 @@ def neuroscience(main_url, calendar, dep):
             "date": date,
             "time": time,
             "location": address,
-            "iso_date": "TBD",
+            "iso_date": iso,
             "link": link,
+            "description":description,
         }
         return event
 
@@ -105,7 +110,7 @@ department_parsers = {
 
 }
 
-def get_all_events_B():
+def get_all_events_N():
     """A function that returns all events for departments starting with letter A"""
     links = all_department_links()
     all_events = []
@@ -118,4 +123,3 @@ def get_all_events_B():
                 all_events.extend(department_events)
         return all_events
 
-        
