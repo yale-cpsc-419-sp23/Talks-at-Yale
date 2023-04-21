@@ -154,13 +154,13 @@ def remove_friend():
 
     return jsonify({"message": "Friend removed"}), 200
 
-@bp_users.route('/add_friend', methods=['GET','POST'])
-@jwt_required(optional=True)
-def add_friend():
-    """User adds a friend from their pending friend list to their friend list
-        This adds the user as a friend of the other too."""
-    net_id = get_jwt_identity()
-    friend_id = request.args.get('id', '')
+# @bp_users.route('/add_friend', methods=['GET','POST'])
+# @jwt_required(optional=True)
+# def add_friend():
+#     """User adds a friend from their pending friend list to their friend list
+#         This adds the user as a friend of the other too."""
+#     net_id = get_jwt_identity()
+#     friend_id = request.args.get('id', '')
 
 #     # get user via their net id
 #     user = User.query.filter_by(netid=net_id).first()
@@ -178,19 +178,15 @@ def add_friend():
 #     elif added_friend in user.friends:
 #         return jsonify({"message": "You're already friends with this user!"})
 
-    # adds user to friends list, then returns
-    if added_friend in user.pending_friends:        # should always come here, since added_friend is in user.pending_friends
-        user.pending_friends.remove(added_friend)
-        user.friends.add(added_friend)
+    # # removes user from other user's friends pending list if they're on it
+    # if user in added_friend.pending:
+    #     added_friend.pending.remove(user)
 
-    # adds other user to friends list, then returns
-    if user in added_friend.pending_friends:
-        added_friend.pending_friends.remove(user)
-        added_friend.frends.add(user)
-    else:       # user wasn't on the other person's pending_friends list, so we just add them
-        added_friend.friends.add(user)
-
-    db.session.commit()
+    # # adds user to friends list, then returns
+    # user.pending_friends.remove(added_friend)
+    # user.friends.add(added_friend)
+    # added_friend.frends.add(user)
+    # db.session.commit()
 
 #     return jsonify({"message": "Friend added!"})
 
