@@ -20,11 +20,11 @@ class Friendship(db.Model):
     friend_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 # Keeping track of pending frends
-class Pending_Friendship(db.Model):
-    """A class representing a pending friendship"""
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    pending_friend_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+# Keeping track of pending friends
+pending_friendship = db.Table('pending_friendship',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('pending_friend_id', db.Integer, db.ForeignKey('user.id'), primary_key=True)
+)
 
 class Event(db.Model):
     """A class representing an event"""

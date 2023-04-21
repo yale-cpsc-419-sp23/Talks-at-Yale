@@ -266,7 +266,7 @@ def get_departments():
 def clean_database():
     "Cleaning the database"
     # Find all events without iso_date or with iso_date "TBD"
-    events_to_delete = Event.query.filter(or_(Event.iso_date == None, Event.iso_date == "TBD")).all()
+    events_to_delete = Event.query.filter(or_(Event.iso_date == None, Event.iso_date == "TBD", Event.title == None)).all()
 
     # Delete the events from the database
     for event in events_to_delete:
