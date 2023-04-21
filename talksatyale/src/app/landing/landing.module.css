@@ -3,7 +3,7 @@
     padding-right: 3%;
     padding-top: 6%;
     padding-bottom: 6%;
-    background-color: #F5F4F2;
+    background-color: white;
     font-family: Gill Sans;
   }
 
@@ -23,17 +23,17 @@
 }
 
 .logInButton {
-    background-color: white;
-    border: 1px solid black;
-    color: black;
+    background-color: #065CB1;
+    border: 1px solid #065CB1;
+    color: white;
     width: 8em;
     height: 3em;
-    border-style: solid;
+    border-radius: 10px;
     font-size: 1.2em;
   }
 
 .rectangle {
-    background-color: #e9e7e2;
+    background-color: #ADB4B9;
     width: 60px;
     height: 250px;
     border-radius: 10px;

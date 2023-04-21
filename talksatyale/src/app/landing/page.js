@@ -11,7 +11,8 @@ export default function Landing() {
   function handlelogin() {
     try {
       const frontend_callback_url = `${window.location.origin}`;
-      const login_url = `http://localhost:8080/login?frontend_callback=${encodeURIComponent(frontend_callback_url)}`;
+      // const login_url = `http://localhost:8080/login?frontend_callback=${encodeURIComponent(frontend_callback_url)}`;
+      const login_url = `http://localhost:8080/login`;
       window.location.replace(login_url);
     } catch (error) {
       console.error("Error during login:", error);
