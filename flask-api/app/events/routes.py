@@ -166,6 +166,8 @@ def add_favorite():
     # get event
     event = Event.query.filter_by(id=event_id).first()
 
+    print(user,event )
+
     if not user or not event:
         print("Nothing found.")
         return jsonify({"error": "User or event not found"}), 404
