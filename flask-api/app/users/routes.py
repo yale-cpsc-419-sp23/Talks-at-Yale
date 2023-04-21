@@ -123,6 +123,37 @@ def profile():
     print(profile_json)
     return jsonify(profile_json)
 
+@bp_users.route('/remove_friend', methods=['GET','POST'])
+@jwt_required(optional=True)
+def remove_friend():
+    """User removes a friend from their friend list"""
+
+    net_id = get_jwt_identity()
+    friend_id = request.args.get('id', '')
+
+    # get user via their net id
+    user = User.query.filter_by(netid=net_id).first()
+    # get user to remove as friend via their netid
+    removed_friend = User.query.filter_by(net_id=friend_id).first()
+
+    # both users should be found. If not there's an error
+    if not user or not removed_friend:
+        return jsonify({"error": "User not found"}), 404
+
+    # User can only remove friends from their friend list
+    if removed_friend not in user.friends:
+        return jsonify({"message": "You are not friends with this user"}), 404
+
+    # remove friend from user's friend list
+    if removed_friend in user.friends:
+        user.friends.remove(removed_friend)
+    # remove user from friend's friend list
+    if user in removed_friend.friends:
+        removed_friend.friends.remove(user)
+    db.session.commit()
+
+    return jsonify({"message": "Friend removed"}), 200
+
 @bp_users.route('/add_friend', methods=['GET','POST'])
 @jwt_required(optional=True)
 def add_friend():
@@ -147,14 +178,18 @@ def add_friend():
     elif added_friend in user.friends:
         return jsonify({"message": "You're already friends with this user!"})
 
-    # removes user from other user's friends pending list if they're on it
-    if user in added_friend.pending:
-        added_friend.pending.remove(user)
-
     # adds user to friends list, then returns
-    user.pending_friends.remove(added_friend)
-    user.friends.add(added_friend)
-    added_friend.frends.add(user)
+    if added_friend in user.pending_friends:        # should always come here, since added_friend is in user.pending_friends
+        user.pending_friends.remove(added_friend)
+        user.friends.add(added_friend)
+
+    # adds other user to friends list, then returns
+    if user in added_friend.pending_friends:
+        added_friend.pending_friends.remove(user)
+        added_friend.frends.add(user)
+    else:       # user wasn't on the other person's pending_friends list, so we just add them
+        added_friend.friends.add(user)
+
     db.session.commit()
 
     return jsonify({"message": "Friend added!"})
