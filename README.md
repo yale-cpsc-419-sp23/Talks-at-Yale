@@ -3,18 +3,12 @@
 
 
 ### Getting Started
-To run the credential backend:
+
+Run thhe backend:
 
 ```
 cd flask-api
-flask run
-```
-
-OR to run the events filter backend:
-
-no cd (run from main dir)
-```
-python3 main.py (py -3 main.py for windows)
+flask run --host=localhost --port=8080
 ```
 
 Then, run the frontend:

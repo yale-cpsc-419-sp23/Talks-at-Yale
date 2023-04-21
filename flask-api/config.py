@@ -6,7 +6,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config(object):
     """Configuration keys and their values"""
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'events.db')
+        'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'project-group-1'
     CAS_SERVER = 'https://secure.its.yale.edu/cas'
@@ -20,5 +20,7 @@ class Config(object):
     # SESSION_PERMANENT = True
     PERMANENT_SESSION_LIFETIME = timedelta(days=1)
     SESSION_TYPE = 'filesystem'
-    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY') or 'oursecretkey'
+    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY') or 'project-group-1'
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
+    PRODUCTION = False
+    API_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODAyMjc3NzMsInN1YiI6InJhYTY2In0.PovebuIvsPzU6X5ftWJNqwku9msc6oNvFhgoANRgOdM'

@@ -25,6 +25,7 @@ app.register_blueprint(bp_users)
 
 # registering events blueprint
 from app.events import bp_events
-app.register_blueprint(bp_events)
+# app.register_blueprint(bp_events)
+app.register_blueprint(bp_events, url_prefix='/events')
 
 from app import models
