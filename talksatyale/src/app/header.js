@@ -196,7 +196,7 @@ async function handleLogout() {
               <div className={styles.search}>
                   <input className={styles.searchBar} onKeyUp={handleKeyDown}
                   placeholder="Search by title, department, topic, etc..."></input>
-                  <p className={styles.searchResults}>Showing 20 results.</p>
+                  <p className={styles.searchResults}>Showing {data.length} results.</p>
               </div>
           </div>
           <div className={styles.headerRight}>
