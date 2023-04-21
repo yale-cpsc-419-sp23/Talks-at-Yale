@@ -123,7 +123,7 @@ def profile():
     print(profile_json)
     return jsonify(profile_json)
 
-@bp_events.route('/add_friend', methods=['GET','POST'])
+@bp_users.route('/add_friend', methods=['GET','POST'])
 @jwt_required(optional=True)
 def add_friend():
     """User adds a friend from their pending friend list to their friend list
@@ -160,7 +160,7 @@ def add_friend():
     return jsonify({"message": "Friend added!"})
 
 
-@bp_events.route('/request_friend', methods=['GET','POST'])
+@bp_users.route('/request_friend', methods=['GET','POST'])
 @jwt_required(optional=True)
 def request_friend():
     """User requests to be friends with other person via email address"""
