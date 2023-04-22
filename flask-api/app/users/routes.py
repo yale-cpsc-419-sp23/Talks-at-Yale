@@ -212,6 +212,24 @@ def favorite_events():
     return jsonify(friends_dict)
 
 
+
+@bp_users.route('/list_friends', methods=['GET'])
+@jwt_required(optional=True)
+def list_friends():
+    """Get the favorited events for a given user"""
+    net_id = get_jwt_identity()
+    # get user
+    user = User.query.filter_by(netid=net_id).first()
+
+    friends_dict = {}
+    if user:
+        friends = user.friends
+    # get events dict
+    friends_dict = [user.to_dict() for user in friends]
+
+    return jsonify(friends_dict)
+
+
 # @bp_users.route('/request_friend', methods=['GET','POST'])
 # @jwt_required(optional=True)
 # def request_friend():
