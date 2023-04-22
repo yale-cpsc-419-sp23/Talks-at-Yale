@@ -229,126 +229,75 @@ export default function Header(props) {
 				</div>
 			</div>
 			<div className={styles.filters}>
-				<button
-					onClick={handleDeptDrop}
-					className={styles.filterList}
-				>
-					<div className={styles.textIconContainer}>
-						{selectedDept}{' '}
-						<FaCaretDown
-							size={20}
-							style={{ marginLeft: '8px' }}
-						/>
-					</div>
-				</button>
-				{openDept ? (
-					<ul className={styles.menu}>
-						<li className={styles.menuItem}>
-							<button
-								onClick={handleDeptClick}
-								value="All Departments"
-							>
-								All Departments
-							</button>
-						</li>
-						{props.depts.map((dept) => (
-							<li className={styles.menuItem}>
-								<button
-									value={dept}
-									onClick={handleDeptClick}
-								>
-									{dept}
-								</button>
+				<div className={styles.dropContainer}>
+					<button onClick={handleDeptDrop} className={styles.filterList}>
+						<div className={styles.textIconContainer}>
+							{selectedDept}{' '}
+							<FaCaretDown size={20} style={{ marginLeft: '8px' }}/>
+						</div>
+						</button>
+						{openDept ? (
+							<ul className={styles.menu}>
+								<li className={styles.menuItem}>
+									<button onClick={handleDeptClick} value="All Departments"> All Departments</button>
+								</li>
+								{props.depts.map((dept) => (
+									<li className={styles.menuItem}>
+										<button value={dept} onClick={handleDeptClick}>{dept}</button>
+									</li>
+								))}
+							</ul>
+						) : null}
+				</div>
+				<div className={styles.dropContainer}>
+					<button onClick={handleDateDrop} className={styles.filterList}>
+						<div className={styles.textIconContainer}>
+							{selectedDate}{' '}
+							<FaTimes size={15} style={{ marginLeft: '8px' }}/>
+						</div>
+					</button>
+					{openDate ? (
+						<ul className={styles.menu}>
+							<li className={styles.menuItem} onClick={handleDateClick}>
+								<button value="All Dates">All Dates</button>
 							</li>
-						))}
-					</ul>
-				) : null}
-				<button
-					onClick={handleDateDrop}
-					className={styles.filterList}
-				>
-					<div className={styles.textIconContainer}>
-						{selectedDate}{' '}
-						<FaTimes
-							size={15}
-							style={{ marginLeft: '8px' }}
-						/>
+							<li className={styles.menuItem}>
+								<button value="Upcoming" onClick={handleDateClick}>Upcoming</button>
+							</li>
+							<li className={styles.menuItem}>
+								<button value="Past" onClick={handleDateClick}>Past</button>
+							</li>
+						</ul>
+					) : null}
+				</div>
+				<div className={styles.orderContainer}>
+					<p className={styles.orderBy}>Order By</p>
+					<div className={styles.dropContainer}>
+						<button onClick={handleSortDrop} className={styles.filterList}>
+							<div className={styles.textIconContainer}>
+								{selectedSort}
+								<FaCaretDown size={20} style={{ marginLeft: '8px' }}/>
+							</div>
+						</button>
+						{openSort ? (
+							<ul className={styles.menu}>
+								<li className={styles.menuItem}>
+									<button value="Date" onClick={handleSortClick}>Date</button>
+								</li>
+								<li className={styles.menuItem}>
+									<button value="Title" onClick={handleSortClick}>Title</button>
+								</li>
+								<li className={styles.menuItem}>
+									<button value="Department" onClick={handleSortClick}>Department</button>
+								</li>
+							</ul>
+						) : null}
 					</div>
-				</button>
-				{openDate ? (
-					<ul className={styles.menu}>
-						<li
-							className={styles.menuItem}
-							onClick={handleDateClick}
-						>
-							<button value="All Dates">All Dates</button>
-						</li>
-						<li className={styles.menuItem}>
-							<button
-								value="Upcoming"
-								onClick={handleDateClick}
-							>
-								Upcoming
-							</button>
-						</li>
-						<li className={styles.menuItem}>
-							<button
-								value="Past"
-								onClick={handleDateClick}
-							>
-								Past
-							</button>
-						</li>
-					</ul>
-				) : null}
-				<p className={styles.orderBy}>Order By</p>
-				<button
-					onClick={handleSortDrop}
-					className={styles.filterList}
-				>
-					<div className={styles.textIconContainer}>
-						{selectedSort}
-						<FaCaretDown
-							size={20}
-							style={{ marginLeft: '8px' }}
-						/>
-					</div>
-				</button>
-				{openSort ? (
-					<ul className={styles.menu}>
-						<li className={styles.menuItem}>
-							<button
-								value="Date"
-								onClick={handleSortClick}
-							>
-								Date
-							</button>
-						</li>
-						<li className={styles.menuItem}>
-							<button
-								value="Title"
-								onClick={handleSortClick}
-							>
-								Title
-							</button>
-						</li>
-						<li className={styles.menuItem}>
-							<button
-								value="Department"
-								onClick={handleSortClick}
-							>
-								Department
-							</button>
-						</li>
-					</ul>
-				) : null}
-				<button
-					className={styles.resetButton}
-					onClick={handleReset}
-				>
+				</div>
+				<button className={styles.resetButton} onClick={handleReset} >
 					Reset
 				</button>
-			</div>
+		</div>
 		</header>
 	);
 }

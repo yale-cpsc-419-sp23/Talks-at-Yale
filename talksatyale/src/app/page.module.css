@@ -344,6 +344,8 @@
   /* margin-left: 225px; */
   padding-top: 20px;
   padding-bottom: 20px;
+  display: flex;
+  margin-bottom: 1rem;
 }
 
 .filterList {
@@ -418,6 +420,11 @@
   display: inline;
   font-size: .8em;
   padding-right: 10px;
+  align-items: center;
+}
+.orderContainer {
+  display: flex;
+  align-items: center;
 }
 
 /* PROFILE STYLES */
@@ -701,4 +708,58 @@
 .friendModalClose:hover {
   color: #584D3D;
 
+  
+}
+.friendFilterList {
+  background-color: white;
+  color: black;
+  border: 1px solid white;
+  padding: 6px;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 2.5em;
+  margin-right: 15px;
+  font-size: 1em;
+  display: inline-block;
+  /* position: relative; */
+
+}
+.friendDropContainer {
+  display: flex;
+  position: relative;
+
+}
+
+.friendMenu {
+  left: 0;
+  top: 80%;
+  margin-left: 10px;
+  list-style-type: none;
+  position: relative;
+  border: 1px solid #EEF4F4;
+  width: 402px;
+  text-align: left;
+  position: absolute;
+  background-color: white;
+  z-index: 1;
+  filter: drop-shadow(0 0 0.1rem grey);
+
+}
+
+.friendMenuItem > button {
+  background-color: white;
+  color: black;
+  border: none;
+  /* padding-left: 10px; */
+  width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  font-size: 1em;
+
+}
+
+.friendMenu > li > button:hover {
+  background-color: #e9e7e2;
 }
