@@ -190,6 +190,24 @@ def add_friend():
 
     return jsonify({"message": "Friend added!"})
 
+@bp_users.route('/list_friends', methods=['GET'])
+@jwt_required(optional=True)
+def list_friends():
+    """Get the favorited events for a given user"""
+    net_id = get_jwt_identity()
+
+    # get user via their net id
+    user = User.query.filter_by(netid=net_id).first()
+    print("USER ", user)
+
+    friends = {}
+    if user:
+        friends = user.friends
+    # print("FRIENDS ", friends)
+    # get events dict
+    friends_dict = [user.profile() for user in friends]
+    # print("FRIENDS DICT ", friends_dict)
+    return jsonify(friends_dict)
 
 # @bp_users.route('/request_friend', methods=['GET','POST'])
 # @jwt_required(optional=True)
