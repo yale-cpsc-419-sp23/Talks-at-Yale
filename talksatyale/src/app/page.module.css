@@ -609,6 +609,46 @@
 }
 
 @media screen and (max-width: 1300px) {
+
+  .friendSearchBar {
+    width: 100% !important;
+  }
+
+  .friendSearchBar::placeholder {
+    font-size: x-small;
+  }
+
+  .friendCard {
+    width: 100% !important;
+    flex-direction: column;
+  }
+
+  .upcomingContainer {
+    width: 100% !important;
+  }
+
+  .friendSection {
+    display: flex;
+    width: 30% !important;
+    flex-direction: column;
+  }
+
+  .profileImage {
+    display: none;
+  }
+
+  .nameEmail {
+    margin-left: 0;
+  }
+
+  .iconName {
+    flex-direction: row-reverse;
+  }
+
+  .personalSection {
+    width: 57%;
+  }
+
   .cardContainer {
     width: 100%;
   }
@@ -624,7 +664,7 @@
   }
 
   .header {
-    flex-direction: column;
+    flex-direction: column-reverse;
     text-align: center;
   }
   .headerLeft {
@@ -651,6 +691,60 @@
 }
 
 @media screen and (max-width: 800px) {
+
+  .friendSearchBar {
+    width: 100% !important;
+  }
+
+  .friendSearchBar::placeholder {
+    font-size: x-small;
+  }
+
+  .friendCard {
+    width: 100% !important;
+    flex-direction: column;
+  }
+
+  .upcomingContainer {
+    width: 100% !important;
+  }
+
+  .friendSection {
+    display: flex;
+    width: 30% !important;
+    flex-direction: column;
+  }
+
+  .profileImage {
+    display: none;
+  }
+
+  .nameEmail {
+    margin-left: 0;
+  }
+
+  .iconName {
+    flex-direction: row-reverse;
+  }
+
+  .personalSection {
+    width: 57%;
+  }
+
+  .modalTitle {
+    font-size: medium;
+    margin-left: 5%;
+    margin-bottom: 5%;
+  }
+
+  .modalSubHeader {
+    margin-bottom: 5%;
+  }
+
+  .searchBar::placeholder {
+    font-size: small;
+  }
+
 
   .header {
     flex-direction: column-reverse;
