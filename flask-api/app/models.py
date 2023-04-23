@@ -131,4 +131,5 @@ class User(UserMixin, db.Model):
             'birthday': self.birthday,
             'major': self.major,
             'photo_link': self.photo_link,
+            'netid': self.netid,
         }

@@ -148,9 +148,6 @@ def remove_friend():
     # remove friend from user's friend list
     if removed_friend in user.friends:
         user.friends.remove(removed_friend)
-    # remove user from friend's friend list
-    if user in removed_friend.friends:
-        removed_friend.friends.remove(user)
     db.session.commit()
 
     return jsonify({"message": "Friend removed"}), 200
@@ -185,8 +182,6 @@ def add_friend():
     # adds user to friends list, then returns
     # user.pending_friends.remove(added_friend)
     user.friends.add(added_friend)
-    if user not in added_friend.friends:
-        added_friend.friends.add(user)
     db.session.commit()
 
     return jsonify({"message": "Friend added!"})
@@ -207,7 +202,7 @@ def list_friends():
     # print("FRIENDS ", friends)
     # get events dict
     friends_dict = [user.profile() for user in friends]
-    # print("FRIENDS DICT ", friends_dict)
+    #print("FRIENDS DICT ", friends_dict)
     return jsonify(friends_dict)
 
 # @bp_users.route('/request_friend', methods=['GET','POST'])
@@ -281,7 +276,6 @@ def user_details():
     net_id = request.args.get('net_id')
 
     # for testing
-    net_id = 'raa66'
     print(net_id)
     # get user via their net id
     user = User.query.filter_by(netid=net_id).first()
@@ -307,5 +301,4 @@ def get_user(netid):
     api = yalies.API(token)
 
     person = api.person(filters={'netid': netid})
-    print(person.raw)
     return person
