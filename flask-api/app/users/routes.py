@@ -26,8 +26,8 @@ def login():
     identity = get_jwt_identity()
     if identity:
         print("In session.")
-        # frontend_url = 'http://localhost:3000'
-        return redirect(FRONTEND_URL)
+        frontend_url = 'http://localhost:30000'
+        return redirect(frontend_url)
 
     # url to be directed to when a user logs in using yale's cas
     service_url = url_for('users.after_login', _external=True)
@@ -86,8 +86,8 @@ def after_login():
     print(access_token)
     is_production = app.config.get('PRODUCTION', False)
     # Send cookie to the front end
-    # frontend_url = 'http://localhost:3000'
-    resp = make_response(redirect(FRONTEND_URL))
+    frontend_url = 'http://localhost:3000'
+    resp = make_response(redirect(frontend_url))
     resp.set_cookie('access_token', access_token, secure=is_production)
     return resp
 
@@ -111,8 +111,8 @@ def logout():
     """A function that Logs out the user from the system"""
     print("In logout.")
     # clear JWT token cookie
-    # homepage = 'http://localhost:3000'
-    response = make_response(jsonify({"cas_logout_url": FRONTEND_URL}))
+    homepage = 'http://localhost:3000'
+    response = make_response(jsonify({"cas_logout_url": frontend_url}))
     response.delete_cookie('access_token')
     return response
 
