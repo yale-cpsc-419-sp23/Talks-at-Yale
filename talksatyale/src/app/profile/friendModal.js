@@ -39,9 +39,6 @@ export default function FriendModal({ onClose }) {
 		setOpenSort(false);
 	};
 
-	
-
-
 	const handleKeyDown = (event) => {
 		console.log('key pressed');
 	};
@@ -117,7 +114,7 @@ export default function FriendModal({ onClose }) {
 				</div>
 				<div className={styles.friendListContainer}>
 				{searchResults.map((user) => (
-						<FriendCard user={user}/>
+						<FriendCard user={user} friends={friends} setFriends={setFriends}/>
 				))}
 				</div>
 			</div>

@@ -11,11 +11,7 @@ import React, { useState, useEffect, use } from 'react';
 
 // Handles card clicked
 
-export default function FriendCard({ user }) {
-
-    const [friends, setFriends] = useState([]);
-
-     
+export default function FriendCard({ user, friends, setFriends }) {
 	// Add friend
 	const handleAddFriend = async (email) => {
 		try {
@@ -80,7 +76,7 @@ export default function FriendCard({ user }) {
                 <button className={styles.friendCardButton} onClick={() => handleAddFriend(user.email)}>Add Friend</button>
             )}
         </div>
-       
+
     </div>
 
 
