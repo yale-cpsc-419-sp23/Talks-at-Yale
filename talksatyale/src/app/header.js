@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import styles from './page.module.css';
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
@@ -239,7 +238,7 @@ export default function Header(props) {
 						{openDept ? (
 							<ul className={styles.menu}>
 								<li className={styles.menuItem}>
-									<button onClick={handleDeptClick} value="All Departments"> All Departments</button>
+									<button onClick={handleDeptClick} value="All Departments">All Departments</button>
 								</li>
 								{props.depts.map((dept) => (
 									<li key={dept} className={styles.menuItem}>
