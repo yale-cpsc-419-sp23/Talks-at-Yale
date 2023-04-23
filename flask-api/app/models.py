@@ -4,6 +4,7 @@ This represent the database models, which are classes, such as Users, Events, et
 from hashlib import sha256
 from app import db
 from flask_login import UserMixin
+from flask import jsonify
 
 
 # create association table
@@ -127,4 +128,5 @@ class User(UserMixin, db.Model):
             'birthday': self.birthday,
             'major': self.major,
             'photo_link': self.photo_link,
+            'friends': [friend.netid for friend in self.friends]
         }

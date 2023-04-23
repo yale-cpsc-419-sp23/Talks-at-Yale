@@ -144,7 +144,7 @@ export default function Header(props) {
 	function handlelogin() {
 		try {
 			const frontend_callback_url = `${window.location.origin}`;
-			const login_url = API_ENDPOINT + `/sign-in?frontend_callback=${encodeURIComponent(
+			const login_url = API_ENDPOINT + `/sign_in?frontend_callback=${encodeURIComponent(
 				frontend_callback_url
 			)}`;
 			window.location.replace(login_url);

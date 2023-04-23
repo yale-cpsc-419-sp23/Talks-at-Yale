@@ -130,12 +130,12 @@ def remove_friend():
     """User removes a friend from their friend list"""
 
     net_id = get_jwt_identity()
-    friend_id = request.args.get('id', '')
+    friend_id = request.args.get('email', '')
 
     # get user via their net id
     user = User.query.filter_by(netid=net_id).first()
     # get user to remove as friend via their netid
-    removed_friend = User.query.filter_by(net_id=friend_id).first()
+    removed_friend = User.query.filter_by(email=friend_id).first()
 
     # both users should be found. If not there's an error
     if not user or not removed_friend:

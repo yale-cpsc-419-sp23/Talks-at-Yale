@@ -41,7 +41,7 @@ export default function Profile() {
         setLoggedIn(false);
         setUsername('');
       }
-  
+
     } catch (error) {
       console.error('Error checking login status:', error);
     }
@@ -53,7 +53,7 @@ export default function Profile() {
   function handlelogin() {
     try {
       const frontend_callback_url = `${window.location.origin}`;
-      const login_url = API_ENDPOINT + `/sign-in?frontend_callback=${encodeURIComponent(frontend_callback_url)}`;
+      const login_url = API_ENDPOINT + `/sign_in?frontend_callback=${encodeURIComponent(frontend_callback_url)}`;
       window.location.replace(login_url);
     } catch (error) {
       console.error("Error during login:", error);
@@ -87,7 +87,7 @@ async function handleLogout() {
   }
 }
   if(loggedIn){
-  
+
     return (
       <div className={styles.pageWrapper}>
         <ProfileHeader/>
@@ -98,11 +98,11 @@ async function handleLogout() {
           </div>
           <div className={styles.profileBottom}>
             <UpcomingEvents/>
-           
+
           </div>
         </main>
       </div>
-      
+
     )
   }
 else {

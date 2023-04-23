@@ -25,6 +25,7 @@ export default function FriendModal({ onClose }) {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [filterOption, setFilterOption] = useState('My Friends');
 	const [searchResults, setSearchResults] = useState([]);
+	const [friends, setFriends] = useState([]);
 
 	// handle search input change
 	const handleSearchInputChange = (event) => {
@@ -51,8 +52,10 @@ export default function FriendModal({ onClose }) {
 			headers,
 		  });
 		  if (response.ok) {
+			// create a copy of the friends state and add the new friend to the end
+			const newFriends = [...friends, { email }];
+			setFriends(newFriends);
 			toast.success('Friend added successfully');
-			// change the text of the button to Remove Friend
 		  } else {
 			toast.error('Failed to add friend');
 		  }
@@ -61,6 +64,33 @@ export default function FriendModal({ onClose }) {
 		  toast.error('Failed to add friend');
 		}
 	  };
+
+	// Remove friend
+	// Remove friend
+	const handleRemoveFriend = async (email) => {
+		try {
+		const accessToken = localStorage.getItem('access_token');
+		const headers = new Headers();
+		if (accessToken) {
+			headers.append('Authorization', `Bearer ${accessToken}`);
+		}
+		const response = await fetch(`http://localhost:8080/remove_friend?email=${email}`, {
+			method: 'POST',
+			headers,
+		});
+		if (response.ok) {
+			toast.success('Friend removed successfully');
+		// update the friends array after removing the friend
+			setFriends(prevFriends => prevFriends.filter(friend => friend.email !== email));
+		} else {
+			toast.error('Failed to remove friend');
+		}
+		} catch (error) {
+		console.log(error);
+		toast.error('Failed to remove friend');
+		}
+	};
+
 
 
 	const handleKeyDown = (event) => {
@@ -81,6 +111,22 @@ export default function FriendModal({ onClose }) {
 		}
 		fetchSearchResults();
 	  }, [searchTerm, filterOption]);
+
+	// fetch friends
+	useEffect(() => {
+		async function getFriends() {
+		const accessToken = localStorage.getItem('access_token');
+		const headers = new Headers();
+		if (accessToken) {
+		headers.append('Authorization', `Bearer ${accessToken}`);
+		}
+		  const url = `http://localhost:8080/list_friends`;
+		  const response = await fetch(url, { headers: headers });
+		  const data = await response.json();
+		  setFriends(data);
+		}
+		getFriends();
+	  }, []);
 
 	return (
 		<div className={styles.friendModal}>
@@ -122,19 +168,20 @@ export default function FriendModal({ onClose }) {
 				</div>
 				<div className={styles.friendListContainer}>
 				{searchResults.map((user) => (
-
-					<FriendCard user={user}/>
-
-					// <div key={user.id} className={styles.friendListItem}>
-					// <img src={user.photo_link} alt={user.name} className={styles.friendAvatar} />
-					// <div className={styles.friendDetails}>
-					// <div className={styles.friendName}>{user.first_name} {user.last_name}</div>
-					// <div className={styles.friendInfo}>{user.netid}</div>
-					// </div>
-					// <div className={styles.friendActions}>
-					// <button className={styles.friendActionButton}onClick={() => handleAddFriend(user.email)}>Add Friend</button>
-					// </div>
-					// </div>
+					<div key={user.id} className={styles.friendListItem}>
+					<img src={user.photo_link} alt={user.name} className={styles.friendAvatar} />
+					<div className={styles.friendDetails}>
+					<div className={styles.friendName}>{user.first_name} {user.last_name}</div>
+					<div className={styles.friendInfo}>{user.netid}</div>
+					</div>
+					<div className={styles.friendActions}>
+					{friends.some(friend => friend.email === user.email) ? (
+						<button className={`${styles.friendActionButton} ${styles.removeFriendButton}`} onClick={() => handleRemoveFriend(user.email)}>Remove Friend</button>
+					) : (
+						<button className={styles.friendActionButton} onClick={() => handleAddFriend(user.email)}>Add Friend</button>
+					)}
+					</div>
+					</div>
 				))}
 				</div>
 			</div>
