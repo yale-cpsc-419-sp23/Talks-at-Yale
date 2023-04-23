@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import React, { useEffect, useState } from "react";
 
+const API_ENDPOINT = 'http://localhost:8080';  // constant url, used to fetch data from backend
 
 
 export default function EventModal({ event, onClose, favoriteEventIDs, setFavoriteEventIDs, isFavorited, setIsFavorited }) {
@@ -26,7 +27,8 @@ export default function EventModal({ event, onClose, favoriteEventIDs, setFavori
     const toggleFavorite = async () => {
         try {
           if (isFavorited) {
-            const response = await fetch(`http://localhost:8080/events/remove_favorite?event_id=${event.id}`, {
+            const url = API_ENDPOINT + '/events/remove_favorite?event_id=' + event.id;
+            const response = await fetch(url, {
               method: 'POST',
               headers: {
                 Authorization: `Bearer ${localStorage.getItem('access_token')}`,
@@ -39,7 +41,8 @@ export default function EventModal({ event, onClose, favoriteEventIDs, setFavori
             setIsFavorited(false);
             setFavoriteEventIDs(favoriteEventIDs.filter(id => id !== event.id));
           } else {
-            const response = await fetch(`http://localhost:8080/events/add_favorite?event_id=${event.id}`, {
+            const url = API_ENDPOINT + '/events/add_favorite?event_id=' + event.id;
+            const response = await fetch(url, {
               method: 'POST',
               headers: {
                 Authorization: `Bearer ${localStorage.getItem('access_token')}`,

@@ -10,6 +10,7 @@ import FriendSection from './friendSection';
 import UpcomingEvents from './upcomingEvents';
 import Landing from '../landing/page';
 
+const API_ENDPOINT = 'http://localhost:8080';  // constant url, used to fetch data from backend
 
 export default function Profile() {
     // Keeping track of user status
@@ -26,7 +27,8 @@ export default function Profile() {
         headers.append('Authorization', `Bearer ${accessToken}`);
       }
 
-      const response = await fetch('http://localhost:8080/is_logged_in', {
+      const url = API_ENDPOINT + '/is_logged_in'
+      const response = await fetch(url, {
         credentials: 'include',
         headers: headers,
       });
@@ -51,7 +53,7 @@ export default function Profile() {
   function handlelogin() {
     try {
       const frontend_callback_url = `${window.location.origin}`;
-      const login_url = `http://localhost:8080/login?frontend_callback=${encodeURIComponent(frontend_callback_url)}`;
+      const login_url = API_ENDPOINT + `/login?frontend_callback=${encodeURIComponent(frontend_callback_url)}`;
       window.location.replace(login_url);
     } catch (error) {
       console.error("Error during login:", error);
@@ -68,7 +70,7 @@ async function handleLogout() {
     // Remove the access token from localStorage
     localStorage.removeItem('access_token');
     // Redirect to the backend /logout route
-    const logout_url = 'http://localhost:8080/logout';
+    const logout_url = API_ENDPOINT + '/logout';
     const response = await fetch(logout_url, { credentials: 'include' });
     const data = await response.json();
     if (data.cas_logout_url) {

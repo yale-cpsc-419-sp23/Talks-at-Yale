@@ -4,6 +4,7 @@ import styles from '../page.module.css'
 import React, { useState, useEffect, use } from 'react'
 import axios from 'axios'
 
+const API_ENDPOINT = 'http://localhost:8080';  // constant url, used to fetch data from backend
 
 export default function PersonalSection() {
 
@@ -18,7 +19,8 @@ export default function PersonalSection() {
         if (accessToken) {
           headers.append('Authorization', `Bearer ${accessToken}`);
         }
-        const response = await fetch('http://localhost:8080/profile', {
+        const url = API_ENDPOINT + '/profile'
+        const response = await fetch(url, {
           credentials: 'include',
           headers: headers,
         });

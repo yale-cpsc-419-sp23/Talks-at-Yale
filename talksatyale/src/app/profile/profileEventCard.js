@@ -10,6 +10,7 @@ import React, { useState, useEffect, use } from 'react';
 
 // Handles card clicked
 
+const API_ENDPOINT = 'http://localhost:8080';  // constant url, used to fetch data from backend
 
 export default function ProfileEventCard({ event,  onRemoveFavoriteEvent}) {
 
@@ -28,7 +29,8 @@ export default function ProfileEventCard({ event,  onRemoveFavoriteEvent}) {
 
   const removeEvent = async (eventID) => {
     try {
-      const response = await fetch(`http://localhost:8080/events/remove_favorite?event_id=${eventID}`, {
+      const url = API_ENDPOINT + '/events/remove_favorite?event_id=' + eventID;
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

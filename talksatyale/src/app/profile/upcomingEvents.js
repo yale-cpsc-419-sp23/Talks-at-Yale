@@ -5,6 +5,7 @@ import React, { useState, useEffect, use } from 'react'
 import axios from 'axios'
 import ProfileEventCard from './profileEventCard';
 
+const API_ENDPOINT = 'http://localhost:8080';  // constant url, used to fetch data from backend
 
 export default function UpcomingEvents({props}) {
   console.log("Component but just page!");
@@ -19,7 +20,8 @@ export default function UpcomingEvents({props}) {
   useEffect(() => {
     async function fetchFavoriteEvents() {
       try {
-        const response = await fetch('http://localhost:8080/events/favorite_events', {
+        const url = API_ENDPOINT + '/events/favorite_events';
+        const response = await fetch(url, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('access_token')}`,
           },

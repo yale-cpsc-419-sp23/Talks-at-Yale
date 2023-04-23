@@ -10,7 +10,7 @@ import React, { useState, useEffect, use } from 'react';
 
 // Handles card clicked
 
-
+const API_ENDPOINT = 'http://localhost:8080';  // constant url, used to fetch data from backend
 
 export default function EventCard({ event, favoriteEventIDs, setFavoriteEventIDs}) {
 
@@ -33,7 +33,8 @@ export default function EventCard({ event, favoriteEventIDs, setFavoriteEventIDs
   const toggleFavorite = async () => {
     try {
       if (isFavorited) {
-        const response = await fetch(`http://localhost:8080/events/remove_favorite?event_id=${event.id}`, {
+        const url = API_ENDPOINT + '/events/remove_favorite?event_id=' + event.id;
+        const response = await fetch(url, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('access_token')}`,
@@ -46,7 +47,8 @@ export default function EventCard({ event, favoriteEventIDs, setFavoriteEventIDs
         setIsFavorited(false);
         setFavoriteEventIDs(favoriteEventIDs.filter(id => id !== event.id));
       } else {
-        const response = await fetch(`http://localhost:8080/events/add_favorite?event_id=${event.id}`, {
+        const url = API_ENDPOINT + '/events/add_favorite?event_id=' + event.id;
+        const response = await fetch(url, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('access_token')}`,

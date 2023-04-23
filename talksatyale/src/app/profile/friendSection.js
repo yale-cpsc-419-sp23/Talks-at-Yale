@@ -5,13 +5,16 @@ import React, { useState, useEffect, use } from 'react'
 import axios from 'axios'
 import FriendModal from './friendModal';
 
+const API_ENDPOINT = 'http://localhost:8080';  // constant url, used to fetch data from backend
+
 export default function FriendSection() {
 
     const [friends, setFriends] = useState([]);
 
     const getFriends = async () => {
       try {
-        const response = await fetch('http://localhost:8080/list_friends');
+        const url = API_ENDPOINT + '/list_friends';
+        const response = await fetch(url);
         const data = await response.json();
         setFriends(data);
       }
