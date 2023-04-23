@@ -238,6 +238,37 @@ def list_friends():
 
 #     return jsonify({"message": "Friend request sent!"})
 
+@bp_users.route('/search_people', methods=['GET'])
+@jwt_required(optional=True)
+def search():
+    """Search for people"""
+    net_id = get_jwt_identity()
+
+    # get user via their net id
+    user = User.query.filter_by(netid=net_id).first()
+
+    query = request.args.get('search_term')
+
+    selected_sort = request.args.get('filter_option', 'My Friends')
+
+    users = []
+    if selected_sort == 'My Friends':
+        # get user's friends
+        if query:
+            users = user.friends.filter((User.first_name.ilike(f"%{query}%")) | (User.last_name.ilike(f"%{query}%")) | (User.netid.ilike(f"%{query}%"))).all()
+        else:
+            users = user.friends.all()
+    elif selected_sort == 'All People':
+        # get all users except the current user
+        if query:
+            users = User.query.filter((User.first_name.ilike(f"%{query}%")) | (User.last_name.ilike(f"%{query}%")) | (User.netid.ilike(f"%{query}%")), User.id != user.id).all()
+        else:
+            users = User.query.filter(User.id != user.id).all()
+
+    # get events dict
+    users_dict = [user.profile() for user in users]
+    return jsonify(users_dict), 200
+
 
 ####----Helper Functions----##
 def get_user(netid):
@@ -248,3 +279,12 @@ def get_user(netid):
     person = api.person(filters={'netid': netid})
     print(person.raw)
     return person
+
+def get_related_users(user: User):
+    """
+    Get a list of users related to the current user based on their college, and year.
+    """
+    # Get users with the same college, and year as the current user
+    related_users = User.query.filter_by(college=user.college, year=user.year).all()
+
+    return related_users

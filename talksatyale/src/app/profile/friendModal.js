@@ -8,6 +8,7 @@ import { FaCaretDown } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import React, { useEffect, useState } from 'react';
+import { userAgent } from 'next/server';
 
 export default function FriendModal({ onClose }) {
 	// dropdown
@@ -16,43 +17,42 @@ export default function FriendModal({ onClose }) {
 		setOpenSort(!openSort);
 	};
 
-	// declare a state variable to keep track of the selected date
-	const [selectedSort, setSelectedSort] = useState('My Friends');
+	// declare state variables
+	const [searchTerm, setSearchTerm] = useState('');
+	const [filterOption, setFilterOption] = useState('My Friends');
+	const [searchResults, setSearchResults] = useState([]);
 
-	// handle click event on date option
-	const handleSortClick = (event) => {
-		setSelectedSort(event.target.value);
+	// handle search input change
+	const handleSearchInputChange = (event) => {
+		setSearchTerm(event.target.value);
+	  };
+
+
+	// handle filter option selection
+	const handleFilterOptionClick = (event) => {
+		setFilterOption(event.target.value);
 		setOpenSort(false);
 	};
+
 
 	const handleKeyDown = (event) => {
 		console.log('key pressed');
 	};
-
-	// // fetching current events when new term entered
-	// useEffect(() => {
-	// 	async function fetchResults() {
-	// 		const accessToken = localStorage.getItem('access_token');
-	// 		const headers = new Headers();
-	// 		if (accessToken) {
-	// 			headers.append('Authorization', `Bearer ${accessToken}`);
-	// 		}
-	// 		const url = `http://localhost:8080/events/search?search_term=${searchTerm}&department=${encodeURIComponent(
-	// 			selectedDept
-	// 		)}&status=${encodeURIComponent(selectedDate)}&sort=${encodeURIComponent(
-	// 			selectedSort
-	// 		)}`;
-
-	// 		const response = await fetch(url, { headers: headers })
-	// 			.then((res) => res.json())
-	// 			.then((data) => {
-	// 				setData(data);
-	// 				setSearchResults(data);
-	// 				props.handleSearchResults(data);
-	// 			});
-	// 	}
-	// 	fetchResults();
-	// }, [searchTerm, selectedDept, selectedDate, selectedSort]);
+	// fetch search results from backend
+	useEffect(() => {
+		async function fetchSearchResults() {
+		const accessToken = localStorage.getItem('access_token');
+		const headers = new Headers();
+		if (accessToken) {
+		headers.append('Authorization', `Bearer ${accessToken}`);
+		}
+		  const url = `http://localhost:8080/search_people?search_term=${searchTerm}&filter_option=${filterOption}`;
+		  const response = await fetch(url, { headers: headers });
+		  const data = await response.json();
+		  setSearchResults(data);
+		}
+		fetchSearchResults();
+	  }, [searchTerm, filterOption]);
 
 	return (
 		<div className={styles.friendModal}>
@@ -63,21 +63,23 @@ export default function FriendModal({ onClose }) {
 							className={styles.friendSearchBar}
 							onKeyUp={handleKeyDown}
 							placeholder="Search for friends..."
+							onChange={handleSearchInputChange}
+              				value={searchTerm}
 						></input>
 					</div>
 					<div className={styles.friendDropContainer}>
 						<button onClick={handleSort} className={styles.friendFilterList}>
 							<div className={styles.textIconContainer}>
-								{selectedSort}{' '}
+								{filterOption}{' '}
 								<FaCaretDown size={20} style={{ marginLeft: '8px' }}/>
 							</div>
 						</button>
 						{openSort ? (
 							<ul className={styles.friendMenu}>
-								<li className={styles.friendMenuItem} onClick={handleSortClick}>
+								<li className={styles.friendMenuItem} onClick={handleFilterOptionClick}>
 									<button value="My Friends">My Friends</button>
 								</li>
-								<li className={styles.friendMenuItem} onClick={handleSortClick}>
+								<li className={styles.friendMenuItem} onClick={handleFilterOptionClick}>
 									<button value="All People">All People</button>
 								</li>
 							</ul>
@@ -89,6 +91,20 @@ export default function FriendModal({ onClose }) {
 					>
 						<FaTimes />
 					</div>
+				</div>
+				<div className={styles.friendListContainer}>
+				{searchResults.map((user) => (
+					<div key={user.id} className={styles.friendListItem}>
+					<img src={user.photo_link} alt={user.name} className={styles.friendAvatar} />
+					<div className={styles.friendDetails}>
+					<div className={styles.friendName}>{user.first_name} {user.last_name}</div>
+					<div className={styles.friendInfo}>{user.netid}</div>
+					</div>
+					<div className={styles.friendActions}>
+					<button className={styles.friendActionButton}>Add Friend</button>
+					</div>
+					</div>
+				))}
 				</div>
 			</div>
 		</div>

@@ -5,11 +5,11 @@ from scraping.main import all_events
 
 def searchEventsDatabase(searchTerm=None):
     """returns the database object. If searchterm is empty, it will return the full database, otherwise If a search term is provided, it will return the search results instead.
-    
+
     Args:
         searchTerm (str): the search term to search the database for."""
 
-    
+
     # print(searchTerm)
     c = sqlite3.connect('events.db')
 
@@ -22,7 +22,7 @@ def searchEventsDatabase(searchTerm=None):
         return events
 
     # if a search term is provided, it will return the search results instead
-    query = """SELECT * 
+    query = """SELECT *
         FROM events
         LEFT JOIN speakers ON events.speaker_id = speakers.id
         LEFT JOIN hosts ON events.host_id = hosts.id
@@ -45,7 +45,7 @@ def removeFavorite(user_id, event_id):
     c.commit()
     c.close()
 
-def searchUserFavorites(user_id)
+def searchUserFavorites(user_id):
     """returns the user's favorite events."""
     c = sqlite3.connect('events.db')
     events = c.execute("SELECT * FROM user_events WHERE user_id = ?", (user_id,)).fetchall()
@@ -109,7 +109,7 @@ def createDatabase():
     c.execute('''CREATE TABLE users(
                 user_id INTEGER,
                 PRIMARY KEY (user_id))''')
-    
+
     c.execute('''CREATE TABLE user_events(
                 user_id INTEGER,
                 event_id INTEGER,
@@ -158,7 +158,7 @@ def populateDatabase(verbose=False):
             speaker = "N/A"
         c.execute("INSERT OR IGNORE INTO speakers (speaker_name) VALUES (?)", (speaker,))
         speaker_id = c.execute("SELECT id FROM speakers WHERE speaker_name = ?", (speaker,)).fetchone()[0]
-        
+
         # add the host to the hosts table, and get the host id
         if host is None:
             host = "N/A"
@@ -206,11 +206,11 @@ def populateDatabase(verbose=False):
         print("hosts:\n")
         test = c.execute("SELECT * FROM hosts")
         print(test.fetchall())
-        
+
         print("locations:\n")
         test = c.execute("SELECT * FROM locations")
         print(test.fetchall())
-        
+
         print("departments:\n")
         test = c.execute("SELECT * FROM departments")
         print(test.fetchall())
@@ -227,7 +227,7 @@ def populateDatabase(verbose=False):
 
 def populateDatabaseOld(verbose=False):
     """adds preformatted events to the created database.
-    
+
         THIS IS AN OLD VERSION OF THE DATABASE POPULATOR. USE populateDatabase() INSTEAD.
         This function is kept for reference purposes, and will be removed in the future."""
 
@@ -290,7 +290,7 @@ def populateDatabaseOld(verbose=False):
 
     # Save (commit) the changes, and then close the connection
     conn.commit()
-    conn.close()    
+    conn.close()
 
 def main():
     os.remove('events.db')          # delete the database if it already exists. Only used for ease of testing
@@ -313,6 +313,6 @@ def main():
     # print("\nTesting searchEventsDatabase('Feimster'):")
     # for event in searchEventsDatabase('Feimster'):
     #     print(event)
-    
+
 if __name__ == '__main__':
     main()
