@@ -71,6 +71,10 @@
         overflow-wrap: break-word;
     }
 
+    .pageWrapper {
+        height: 100%;
+    }
+
     .rectangle {
         display: none;
     }
