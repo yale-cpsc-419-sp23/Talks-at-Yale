@@ -64,7 +64,7 @@ export default function FriendSection() {
             )}
         <div className={styles.myFriends}>
           {friends?.map(friend => (
-            <a href={`http://localhost:8080/user_details?net_id=${friend.netid}`} key={friend.netid}>
+            <a href={`http://localhost:3000/user?net_id=${friend.netid}`} key={friend.netid}>
               <img className={styles.friendImages} src={friend.photo_link}/>
             </a>
           ))}
