@@ -652,8 +652,26 @@
 
 @media screen and (max-width: 800px) {
 
+  .header {
+    flex-direction: column-reverse;
+    text-align: center;
+  }
+
+  .headerRight {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin-right: 0;
+    margin-bottom: 5%;
+  }
+
   .searchBar {
     width: 120%;
+    margin-bottom: 0;
+  }
+
+  .filters {
+    margin-top: 0;
   }
 
   .cardLeft {
