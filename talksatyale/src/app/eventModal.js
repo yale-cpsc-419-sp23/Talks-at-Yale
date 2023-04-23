@@ -14,7 +14,7 @@ const API_ENDPOINT = 'https://dynamic-peony-fc31a3.netlify.app';  // constant ur
 export default function EventModal({ event, onClose, favoriteEventIDs, setFavoriteEventIDs, isFavorited, setIsFavorited }) {
 
     const gcalEvent = () => {
-        document.getElementById("gcal").href = "https://www.google.com/calendar/render?action=TEMPLATE&text=" + event.title + "&dates=" + event.iso_date + "T" + event.time + "&details=" + event.description + "&location=" + event.location + "&sf=true&output=xml";
+        document.getElementById("gcal").href = "https://www.google.com/calendar/render?action=TEMPLATE&text=" + event.title + "&dates=" + event.iso + "&details=" + event.description + "&location=" + event.location + "&sf=true&output=xml";
         console.log(document.getElementById("gcal").href);
     }
 
@@ -80,6 +80,8 @@ export default function EventModal({ event, onClose, favoriteEventIDs, setFavori
                 <h4 className={styles.modalDept}>{event.department}</h4>
                 <h4 className={styles.addCalendar}>|</h4>
                 <h4><a id = "gcal" href="" onClick={gcalEvent} className={styles.addCalendar} target="_blank"> add to Google Calendar</a></h4>
+                <h4 className={styles.addCalendar}>|</h4>
+                <h4><a id = "gcal" href={event.link} className={styles.addCalendar} target="_blank"> original event posting</a></h4>
 
             </div>
             <hr className={styles.hLine}></hr>
