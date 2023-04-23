@@ -772,7 +772,9 @@
 }
 
 .friendListContainer {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 /* FRIEND CARD STYLES */
@@ -784,7 +786,7 @@
   align-items: center;
   margin-bottom: 20px;
   margin-top: 20px;
-  width: 50%;
+  width: 48%;
 }
 
 .friendCardImage {
