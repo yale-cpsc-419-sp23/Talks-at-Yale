@@ -130,7 +130,7 @@ export default function EventModal({ event, onClose, favoriteEventIDs, setFavori
             </div>
             <hr className={styles.hLine}></hr>
             <h4 className={styles.modalFriends}>{
-          favoritedBy.length === 0 ? 'No one has saved this event yet.' :
+          favoritedBy.length === 0 ? 'None of your friends have saved this event...yet.' :
           favoritedBy.length === 1 ? `${favoritedBy[0]} has saved this event.` :
           `${favoritedBy.slice(0, 2).join(', ')} and ${favoritedBy.length - 2} others have saved this event.`
         }</h4>

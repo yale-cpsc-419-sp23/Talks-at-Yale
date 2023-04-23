@@ -100,6 +100,17 @@ async function handleLogout() {
             <UpcomingEvents/>
 
           </div>
+          <div>
+            {loggedIn ? (
+                  <button className={styles.profileLogOut} onClick={handleLogout}>
+                    <h2>Log Out</h2>
+                  </button>
+              ) : (
+                <button className={styles.profileLogOut} onClick={handlelogin}>
+                  <h2>Log In</h2>
+                </button>
+              )}
+            </div>
         </main>
       </div>
 
