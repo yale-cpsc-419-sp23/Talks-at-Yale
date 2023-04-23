@@ -101,17 +101,7 @@ async function handleLogout() {
               <h2 className={styles.title}><a href="/">Talks at Yale</a></h2>
             
           </div>
-          <div className={styles.headerRight}>
-            {loggedIn ? (
-                <button className={styles.logInButton} onClick={handleLogout}>
-                  <h2>Log Out</h2>
-                </button>
-            ) : (
-              <button className={styles.logInButton} onClick={handlelogin}>
-                <h2>Log In</h2>
-              </button>
-            )}
-          </div>
+
       </div>
     </header>
   )

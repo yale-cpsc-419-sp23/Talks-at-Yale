@@ -12,6 +12,7 @@
   font-family: Gill Sans;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
 
 }
 
@@ -495,6 +496,21 @@
   font-weight: normal;
 }
 
+.profileLogOut {
+  position: relative;
+  float: right;
+  background-color: #e0dede;
+  color: black;
+  border-color: white;
+  margin: 10px;
+  padding: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  border: 1px solid white;
+  font-size: .8em;
+  border-radius: 8px;
+}
+
 .upcomingContainer {
   display: flex;
   width: 100%;
@@ -817,5 +833,135 @@
   padding-left:40px;
   padding-right: 40px;
   font-weight: bold;
+
+}
+
+/* DARK MODE STYLES */
+
+@media screen and (prefers-color-scheme: dark) {
+  .pageBody, .pageWrapper {
+    background-color: #22212c;
+  }
+  .cardRight {
+    background-color: #22212c;
+    border-color: white;
+  }
+  .cardDept {
+    color: #88b9ea;
+  }
+  .filterList, .friendFilterList, .friendDropContainer {
+    background-color: #22212c;
+    color: white;
+    border-color: #22212c;
+}
+  .menu, .menuItem > button, .friendMenu, .friendMenuItem > button  {
+    background-color: #22212c;
+    color: white;
+    border-color: #22212c;
+  }
+  .menu > li > button:hover, .friendMenu > li > button:hover {
+    background-color: #4f4e5c;
+  }
+  .orderBy {
+    color: white;
+    
+  }
+
+  .resetButton {
+    background-color: white;
+    color: black;
+  }
+  .searchResults {
+    color: white;
+  }
+  .searchBar, .friendSearchBar{
+    background-color: #22212c;
+    color: white;
+    border-color: white;
+  }
+  .searchBar::placeholder, .friendSearchBar::placeholder {
+    color: white;
+  }
+
+
+  .logInButton, .profileButton, .friendButton{
+    background-color: #22212c;
+    color: white;
+    border-color: white;
+  }
+
+  .logInButton:hover, .profileButton:hover, .friendButton:hover {
+    background-color: #4f4e5c;
+  }
+
+  .cardTitle:hover {
+    color: #bcc2c7;
+  }
+
+  .cardDescription {
+    color: #bcb9b9;
+  }
+
+  .modalContent {
+    background-color: #22212c;
+    color: white;
+  }
+
+  .modalLabel, .modalDetails, .modalDept, .modalFriends {
+    color: #88b9ea;
+  }
+  .modalDetail {
+    color: white;
+  }
+
+  .modalDesc, .addCalendar {
+    color: #bcb9b9;
+  }
+
+  .modalClose, .modalFaPlus{
+    color: white;
+  }
+
+  .modalClose:hover, .modalFaPlus:hover {
+    color: #4f4e5c;
+  }
+  .rectangleBg {
+    background-color: #4f4e5c;
+    border: none;
+  }
+
+
+
+  .profileCardContainer {
+    background-color: #22212c;
+    color: white;
+    border-color: white;
+  }
+
+  .profileCardTitle {
+    color: #88b9ea;
+  }
+  .closeIcon {
+    color: white;
+  }
+  .profileLogOut {
+    background-color: #4f4e5c;
+    color: white;
+    border: none;
+
+  }
+  .friendModalContent {
+    background-color: #22212c;
+    color: white;
+  }
+  
+  .friendCard {
+    border-color: white;
+  }
+  .friendCardButton {
+    background-color: #557799;
+    color: white;
+  }
+
 
 }

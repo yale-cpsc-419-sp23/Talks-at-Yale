@@ -100,3 +100,12 @@
   
 
   }
+
+  @media screen and (prefers-color-scheme: dark) {
+    .pageBody, .pageWrapper {
+      background-color: #22212c;
+    }
+    .rectangle {
+        background-color: #4b485b;
+    }
+  }
