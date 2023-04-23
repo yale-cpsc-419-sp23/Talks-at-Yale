@@ -58,6 +58,7 @@ def after_login():
 
     net_id = username
     get_user(net_id)
+    print(net_id)
 
      # Check if a user is already in the database
     user = User.query.filter_by(netid=net_id).first()
@@ -185,7 +186,7 @@ def add_friend():
     # user.pending_friends.remove(added_friend)
     user.friends.add(added_friend)
     if user not in added_friend.friends:
-        added_friend.frends.add(user)
+        added_friend.friends.add(user)
     db.session.commit()
 
     return jsonify({"message": "Friend added!"})
@@ -279,12 +280,3 @@ def get_user(netid):
     person = api.person(filters={'netid': netid})
     print(person.raw)
     return person
-
-def get_related_users(user: User):
-    """
-    Get a list of users related to the current user based on their college, and year.
-    """
-    # Get users with the same college, and year as the current user
-    related_users = User.query.filter_by(college=user.college, year=user.year).all()
-
-    return related_users

@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import React, { useEffect, useState } from 'react';
 import { userAgent } from 'next/server';
+import { toast } from 'react-toastify';
+
 
 export default function FriendModal({ onClose }) {
 	// dropdown
@@ -33,6 +35,30 @@ export default function FriendModal({ onClose }) {
 		setFilterOption(event.target.value);
 		setOpenSort(false);
 	};
+
+	// Add friend
+	const handleAddFriend = async (email) => {
+		try {
+		  const accessToken = localStorage.getItem('access_token');
+		  const headers = new Headers();
+		  if (accessToken) {
+			headers.append('Authorization', `Bearer ${accessToken}`);
+		  }
+		  const response = await fetch(`http://localhost:8080/add_friend?email=${email}`, {
+			method: 'POST',
+			headers,
+		  });
+		  if (response.ok) {
+			toast.success('Friend added successfully');
+			// change the text of the button to Remove Friend
+		  } else {
+			toast.error('Failed to add friend');
+		  }
+		} catch (error) {
+		  console.log(error);
+		  toast.error('Failed to add friend');
+		}
+	  };
 
 
 	const handleKeyDown = (event) => {
@@ -101,7 +127,7 @@ export default function FriendModal({ onClose }) {
 					<div className={styles.friendInfo}>{user.netid}</div>
 					</div>
 					<div className={styles.friendActions}>
-					<button className={styles.friendActionButton}>Add Friend</button>
+					<button className={styles.friendActionButton}onClick={() => handleAddFriend(user.email)}>Add Friend</button>
 					</div>
 					</div>
 				))}
