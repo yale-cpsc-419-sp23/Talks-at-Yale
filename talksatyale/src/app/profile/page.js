@@ -10,7 +10,7 @@ import FriendSection from './friendSection';
 import UpcomingEvents from './upcomingEvents';
 import Landing from '../landing/page';
 
-const API_ENDPOINT = 'http://localhost:8080';  // constant url, used to fetch data from backend
+const API_ENDPOINT = 'https://586e-2601-18b-8100-ef40-bcf2-3b57-699b-ed6a.ngrok.io';  // constant url, used to fetch data from backend
 
 export default function Profile() {
     // Keeping track of user status

@@ -7,7 +7,7 @@ import Cookies from "js-cookie"
 import { FaCaretDown } from "react-icons/fa";
 import { FaTimes } from "react-icons/fa";
 
-const API_ENDPOINT = 'http://localhost:8080';  // constant url, used to fetch data from backend
+const API_ENDPOINT = 'https://586e-2601-18b-8100-ef40-bcf2-3b57-699b-ed6a.ngrok.io';  // constant url, used to fetch data from backend
 
 export default function ProfilHeader() {
 

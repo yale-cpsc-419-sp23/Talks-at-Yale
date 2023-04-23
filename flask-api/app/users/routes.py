@@ -12,6 +12,11 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 import yalies
 ###--------------Logging Users In --------------####
 ###---------------------------------------------####
+
+FRONTEND_URL = 'https://dynamic-peony-fc31a3.netlify.app/'
+
+
+
 @bp_users.route('/sign_in', methods=['GET'])
 @bp_users.route('/sign_in/', methods=['GET'])
 @jwt_required(optional=True)
@@ -21,8 +26,7 @@ def login():
     identity = get_jwt_identity()
     if identity:
         print("In session.")
-        frontend_url = 'http://localhost:3000'
-        return redirect(frontend_url)
+        return redirect(FRONTEND_URL)
 
     # url to be directed to when a user logs in using yale's cas
     service_url = url_for('users.after_login', _external=True)
@@ -81,8 +85,8 @@ def after_login():
     print(access_token)
     is_production = app.config.get('PRODUCTION', False)
     # Send cookie to the front end
-    frontend_url = 'http://localhost:3000'
-    resp = make_response(redirect(frontend_url))
+    # frontend_url = 'http://localhost:3000'
+    resp = make_response(redirect(FRONTEND_URL))
     resp.set_cookie('access_token', access_token, secure=is_production)
     return resp
 
@@ -106,8 +110,8 @@ def logout():
     """A function that Logs out the user from the system"""
     print("In logout.")
     # clear JWT token cookie
-    homepage = 'http://localhost:3000'
-    response = make_response(jsonify({"cas_logout_url": homepage}))
+    # homepage = 'http://localhost:3000'
+    response = make_response(jsonify({"cas_logout_url": FRONTEND_URL}))
     response.delete_cookie('access_token')
     return response
 
