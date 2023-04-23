@@ -12,8 +12,8 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 import yalies
 ###--------------Logging Users In --------------####
 ###---------------------------------------------####
-@bp_users.route('/login', methods=['GET'])
-@bp_users.route('/login/', methods=['GET'])
+@bp_users.route('/sign_in', methods=['GET'])
+@bp_users.route('/sign_in/', methods=['GET'])
 @jwt_required(optional=True)
 def login():
     print("GURJFJEOIRJFJERIOJo")
@@ -26,9 +26,9 @@ def login():
 
     # url to be directed to when a user logs in using yale's cas
     service_url = url_for('users.after_login', _external=True)
-    cas_login_url = "https://secure.its.yale.edu/cas/login" + '?' + urlencode({'service': service_url})
-    print(cas_login_url)
-    # cas_login_url = app.config['CAS_SERVER'] + app.config['CAS_LOGIN_ROUTE'] + '?' + urlencode({'service': service_url})
+    # cas_login_url = "https://secure.its.yale.edu/cas/login" + '?' + urlencode({'service': service_url})
+    # print(cas_login_url)
+    cas_login_url = app.config['CAS_SERVER'] + app.config['CAS_LOGIN_ROUTE'] + '?' + urlencode({'service': service_url})
     print("LOGGIN IN")
     print(app.config['CAS_SERVER'])
     print(app.config['CAS_LOGIN_ROUTE'])

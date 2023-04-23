@@ -27,7 +27,7 @@ export default function Landing() {
     Cookies.remove('access_token');
   }
 }, []);
-  
+
     return (
       <div className={styles.pageWrapper}>
         <main>
@@ -43,10 +43,9 @@ export default function Landing() {
             </div>
           </div>
           <button className={styles.logInButton} onClick={handlelogin}><h2>Log In</h2></button>
-            
+
         </main>
       </div>
-      
+
     )
   }
-  
