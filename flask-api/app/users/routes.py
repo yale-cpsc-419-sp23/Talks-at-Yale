@@ -13,7 +13,7 @@ import yalies
 ###--------------Logging Users In --------------####
 ###---------------------------------------------####
 
-FRONTEND_URL = 'https://dynamix-peony-fc31a3.netlify.app/'
+FRONTEND_URL = 'https://dynamic-peony-fc31a3.netlify.app/'
 
 
 
