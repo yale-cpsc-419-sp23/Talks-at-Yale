@@ -4,7 +4,7 @@ The api routes of the uses such as login, logout will be included in this file
 from app.users import bp_users
 from flask import request, jsonify, redirect, url_for, make_response
 from app import app, db
-from app.models import User
+from app.models import User, Event
 from urllib.parse import urlencode
 import requests
 from xml.etree import ElementTree
@@ -270,6 +270,35 @@ def search():
     users_dict = [user.profile() for user in users]
     return jsonify(users_dict), 200
 
+
+
+@bp_users.route('/user_details', methods=['GET'])
+@jwt_required(optional=True)
+def user_details():
+    """Getting users details and favorite events when clicked"""
+
+    # get net_id
+    net_id = request.args.get('net_id')
+
+    # for testing
+    net_id = 'raa66'
+    print(net_id)
+    # get user via their net id
+    user = User.query.filter_by(netid=net_id).first()
+
+    friends=profile=favorite_events={}
+    if user:
+        friends = user.friends
+        profile = user.profile()
+        favorite_events = user.favorite_events
+
+    data = {
+        'friends': [user.profile() for user in friends],
+        'profile': profile,
+        'events': [event.to_dict() for event in favorite_events]
+    }
+
+    return jsonify(data)
 
 ####----Helper Functions----##
 def get_user(netid):

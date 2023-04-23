@@ -68,6 +68,9 @@ class Event(db.Model):
         sha = sha256()
         sha.update(f'{title}{date}{time}{iso_date}'.encode('utf-8'))
         return sha.hexdigest()
+    def favorited_by_names(self):
+        """Returns a list of the names of users who favorited this event"""
+        return [user.first_name for user in self.favorited_by]
 
     def to_dict(self):
         """A function that represent an event as a dict"""

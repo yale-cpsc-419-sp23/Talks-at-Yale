@@ -18,11 +18,31 @@ export default function EventModal({ event, onClose, favoriteEventIDs, setFavori
         console.log(document.getElementById("gcal").href);
     }
 
+
+    const [favoritedBy, setFavoritedBy] = useState([]);
     useEffect(() => {
       if(setIsFavorited){
         setIsFavorited(favoriteEventIDs?.includes(event.id));
       }
       }, [favoriteEventIDs, event.id]);
+
+      useEffect(() => {
+        const fetchFavoritedBy = async () => {
+          try {
+            const url = API_ENDPOINT + '/events/favorited_by?event_id=' + event.id;
+            const response = await fetch(url);
+            if (!response.ok) {
+              throw new Error('Error fetching favorited by');
+            }
+            const data = await response.json();
+            setFavoritedBy(data);
+          } catch (error) {
+            console.error('Error fetching favorited by:', error);
+          }
+        };
+
+        fetchFavoritedBy();
+      }, [event]);
 
     const toggleFavorite = async () => {
         try {
@@ -109,9 +129,11 @@ export default function EventModal({ event, onClose, favoriteEventIDs, setFavori
                 </div>
             </div>
             <hr className={styles.hLine}></hr>
-            <h4 className={styles.modalFriends}>Inssia, Martin, Alan, and others have saved this event.</h4>
-
-
+            <h4 className={styles.modalFriends}>{
+          favoritedBy.length === 0 ? 'No one has saved this event yet.' :
+          favoritedBy.length === 1 ? `${favoritedBy[0]} has saved this event.` :
+          `${favoritedBy.slice(0, 2).join(', ')} and ${favoritedBy.length - 2} others have saved this event.`
+        }</h4>
         </div>
     </div>
     )

@@ -22,7 +22,7 @@ export default function FriendSection() {
         headers.append('Authorization', `Bearer ${accessToken}`);
       }
       const url = API_ENDPOINT + '/list_friends';
-      const response = await fetch(url,{ 
+      const response = await fetch(url,{
       credentials: 'include',
       headers: headers,
     });
@@ -30,7 +30,7 @@ export default function FriendSection() {
       setFriends(data);
       console.log("Friends: ", data);
     }
-    
+
     catch (error) {
       console.error("Error finding friends:", error);
     }
@@ -39,17 +39,17 @@ export default function FriendSection() {
 }, []);
 
     const [isShown, setIsShown] = useState(false);
-  
-  
+
+
     const openFriend = event => {
-  
+
       try {
           setIsShown(true);
           console.log("Manage friend clicked!");
         } catch (error) {
           console.error('Error when card clicked:', error);
         }
-  
+
     };
     const closeModal = () => {
         setIsShown(false);
