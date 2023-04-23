@@ -8,6 +8,7 @@ import EventCard from './eventCard'
 import Landing from './landing/page'
 import React, { useState, useEffect, use } from 'react'
 
+const API_ENDPOINT = 'https://dynamic-peony-fc31a3.netlify.app';  // constant url, used to fetch data from backend
 
 export default function Home() {
 
@@ -25,7 +26,8 @@ export default function Home() {
         headers.append('Authorization', `Bearer ${accessToken}`);
       }
 
-      const response = await fetch('http://localhost:8080/is_logged_in', {
+      const url = API_ENDPOINT + '/is_logged_in'
+      const response = await fetch(url, {
         credentials: 'include',
         headers: headers,
       });
@@ -70,7 +72,8 @@ export default function Home() {
    
        async function fetchDepts() {
          console.log('Fetching departments')
-         const response = await fetch(`http://localhost:8080/events/departments`).then(
+         const url = API_ENDPOINT + '/events/departments'
+         const response = await fetch(url).then(
            res => res.json()
          ).then(
            data => {
@@ -88,7 +91,8 @@ export default function Home() {
      useEffect(() => {
        const fetchFavoriteEventIDs = async () => {
          try {
-           const response = await fetch(`http://localhost:8080/events/events_status`, {
+           const url = API_ENDPOINT + '/events/events_status'
+           const response = await fetch(url, {
              headers: {
                Authorization: `Bearer ${localStorage.getItem('access_token')}`,
              },
@@ -113,7 +117,8 @@ export default function Home() {
          headers.append('Authorization', `Bearer ${accessToken}`);
        }
        async function fetchResults() {
-         const response = await fetch(`http://localhost:8080/events/search`,
+         const url = API_ENDPOINT + '/events/search'
+         const response = await fetch(url,
          {headers: headers,}
          ).then(
            res => res.json()
