@@ -242,7 +242,7 @@ export default function Header(props) {
 									<button onClick={handleDeptClick} value="All Departments"> All Departments</button>
 								</li>
 								{props.depts.map((dept) => (
-									<li className={styles.menuItem}>
+									<li key={dept} className={styles.menuItem}>
 										<button value={dept} onClick={handleDeptClick}>{dept}</button>
 									</li>
 								))}
