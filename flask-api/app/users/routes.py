@@ -111,7 +111,7 @@ def logout():
     """A function that Logs out the user from the system"""
     print("In logout.")
     # clear JWT token cookie
-    homepage = 'http://localhost:3000'
+    frontend_url = 'http://localhost:3000'
     response = make_response(jsonify({"cas_logout_url": frontend_url}))
     response.delete_cookie('access_token')
     return response
