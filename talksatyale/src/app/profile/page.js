@@ -10,7 +10,7 @@ import FriendSection from './friendSection';
 import UpcomingEvents from './upcomingEvents';
 import Landing from '../landing/page';
 
-const API_ENDPOINT = 'https://dynamic-peony-fc31a3.netlify.app';  // constant url, used to fetch data from backend
+const API_ENDPOINT = 'http://localhost:8080';  // constant url, used to fetch data from backend
 
 export default function Profile() {
     // Keeping track of user status

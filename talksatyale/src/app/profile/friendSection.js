@@ -5,7 +5,7 @@ import React, { useState, useEffect, use } from 'react'
 import axios from 'axios'
 import FriendModal from './friendModal';
 
-const API_ENDPOINT = 'https://dynamic-peony-fc31a3.netlify.app';  // constant url, used to fetch data from backend
+const API_ENDPOINT = 'http://localhost:8080';  // constant url, used to fetch data from backend
 
 export default function FriendSection() {
 
