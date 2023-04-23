@@ -9,24 +9,34 @@ const API_ENDPOINT = 'http://localhost:8080';  // constant url, used to fetch da
 
 export default function FriendSection() {
 
-    const [friends, setFriends] = useState([]);
+  const [friends, setFriends] = useState(null);
 
-    const getFriends = async () => {
-      try {
-        const url = API_ENDPOINT + '/list_friends';
-        const response = await fetch(url);
-        const data = await response.json();
-        setFriends(data);
-      }
-      
-      catch (error) {
-        console.error("Error during login:", error);
-      }
-    };
+  useEffect(() => { async function getFriends () {
 
-    useEffect(() => {
-      getFriends();
-    }, []);
+    try {
+      const headers = new Headers();
+      console.log("Getting friends");
+      const accessToken = localStorage.getItem('access_token');
+      console.log('Access token:', accessToken);
+      if (accessToken) {
+        headers.append('Authorization', `Bearer ${accessToken}`);
+      }
+      const url = API_ENDPOINT + '/list_friends';
+      const response = await fetch(url,{ 
+      credentials: 'include',
+      headers: headers,
+    });
+      const data = await response.json();
+      setFriends(data);
+      console.log("Friends: ", data);
+    }
+    
+    catch (error) {
+      console.error("Error finding friends:", error);
+    }
+  }
+  getFriends();
+}, []);
 
     const [isShown, setIsShown] = useState(false);
   
@@ -48,21 +58,14 @@ export default function FriendSection() {
     return (
       <div className={styles.friendSection}>
         {isShown && (
-        <FriendModal event= {event} onClose={closeModal}/>
+        <FriendModal onClose={closeModal}/>
             )}
         <div className={styles.myFriends}>
-          {friends.map(friend => (
+          {friends?.map(friend => (
             <a href={`https://example.com/profile/${friend.id}`} key={friend.id}>
-              <img className={styles.friendImages} src={friend.profile_picture}/>
+              <img className={styles.friendImages} src={friend.photo_link}/>
             </a>
           ))}
-            {/* <a href="https://google.com"><img className={styles.friendImages} src='https://yalestudentphotos.s3.amazonaws.com/9067bb5899168ad2a0f4f4c2d98abfda.jpg'/></a>
-            <a href="https://google.com"><img className={styles.friendImages} src='https://yalestudentphotos.s3.amazonaws.com/9067bb5899168ad2a0f4f4c2d98abfda.jpg'/></a>
-            <a href="https://google.com"><img className={styles.friendImages} src='https://yalestudentphotos.s3.amazonaws.com/9067bb5899168ad2a0f4f4c2d98abfda.jpg'/></a>
-            <a href="https://google.com"><img className={styles.friendImages} src='https://yalestudentphotos.s3.amazonaws.com/9067bb5899168ad2a0f4f4c2d98abfda.jpg'/></a>
-            <a href="https://google.com"><img className={styles.friendImages} src='https://yalestudentphotos.s3.amazonaws.com/9067bb5899168ad2a0f4f4c2d98abfda.jpg'/></a>
-            <a href="https://google.com"><img className={styles.friendImages} src='https://yalestudentphotos.s3.amazonaws.com/9067bb5899168ad2a0f4f4c2d98abfda.jpg'/></a>
-            <a href="https://google.com"><img className={styles.friendImages} src='https://yalestudentphotos.s3.amazonaws.com/9067bb5899168ad2a0f4f4c2d98abfda.jpg'/></a> */}
         </div>
         <button className={styles.friendButton} onClick={openFriend}>
             <h2>Manage Friends</h2>

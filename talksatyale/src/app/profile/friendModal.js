@@ -39,58 +39,7 @@ export default function FriendModal({ onClose }) {
 		setOpenSort(false);
 	};
 
-	// Add friend
-	const handleAddFriend = async (email) => {
-		try {
-		  const accessToken = localStorage.getItem('access_token');
-		  const headers = new Headers();
-		  if (accessToken) {
-			headers.append('Authorization', `Bearer ${accessToken}`);
-		  }
-		  const response = await fetch(`http://localhost:8080/add_friend?email=${email}`, {
-			method: 'POST',
-			headers,
-		  });
-		  if (response.ok) {
-			// create a copy of the friends state and add the new friend to the end
-			const newFriends = [...friends, { email }];
-			setFriends(newFriends);
-			toast.success('Friend added successfully');
-		  } else {
-			toast.error('Failed to add friend');
-		  }
-		} catch (error) {
-		  console.log(error);
-		  toast.error('Failed to add friend');
-		}
-	  };
-
-	// Remove friend
-	// Remove friend
-	const handleRemoveFriend = async (email) => {
-		try {
-		const accessToken = localStorage.getItem('access_token');
-		const headers = new Headers();
-		if (accessToken) {
-			headers.append('Authorization', `Bearer ${accessToken}`);
-		}
-		const response = await fetch(`http://localhost:8080/remove_friend?email=${email}`, {
-			method: 'POST',
-			headers,
-		});
-		if (response.ok) {
-			toast.success('Friend removed successfully');
-		// update the friends array after removing the friend
-			setFriends(prevFriends => prevFriends.filter(friend => friend.email !== email));
-		} else {
-			toast.error('Failed to remove friend');
-		}
-		} catch (error) {
-		console.log(error);
-		toast.error('Failed to remove friend');
-		}
-	};
-
+	
 
 
 	const handleKeyDown = (event) => {
@@ -168,20 +117,7 @@ export default function FriendModal({ onClose }) {
 				</div>
 				<div className={styles.friendListContainer}>
 				{searchResults.map((user) => (
-					<div key={user.id} className={styles.friendListItem}>
-					<img src={user.photo_link} alt={user.name} className={styles.friendAvatar} />
-					<div className={styles.friendDetails}>
-					<div className={styles.friendName}>{user.first_name} {user.last_name}</div>
-					<div className={styles.friendInfo}>{user.netid}</div>
-					</div>
-					<div className={styles.friendActions}>
-					{friends.some(friend => friend.email === user.email) ? (
-						<button className={`${styles.friendActionButton} ${styles.removeFriendButton}`} onClick={() => handleRemoveFriend(user.email)}>Remove Friend</button>
-					) : (
-						<button className={styles.friendActionButton} onClick={() => handleAddFriend(user.email)}>Add Friend</button>
-					)}
-					</div>
-					</div>
+						<FriendCard user={user}/>
 				))}
 				</div>
 			</div>
