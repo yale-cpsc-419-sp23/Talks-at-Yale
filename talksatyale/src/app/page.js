@@ -8,8 +8,8 @@ import EventCard from './eventCard'
 import Landing from './landing/page'
 import React, { useState, useEffect, use } from 'react'
 
-// const API_ENDPOINT = 'http://localhost:8080';  // constant url, used to fetch data from backend
-const API_ENDPOINT = 'https://586e-2601-18b-8100-ef40-bcf2-3b57-699b-ed6a.ngrok.io';  // constant url, used to fetch data from backend
+const API_ENDPOINT = 'http://localhost:8080';  // constant url, used to fetch data from backend
+// const API_ENDPOINT = 'https://586e-2601-18b-8100-ef40-bcf2-3b57-699b-ed6a.ngrok.io';  // constant url, used to fetch data from backend
 
 export default function Home() {
 

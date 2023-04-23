@@ -26,6 +26,7 @@ def login():
     identity = get_jwt_identity()
     if identity:
         print("In session.")
+        # frontend_url = 'http://localhost:3000'
         return redirect(FRONTEND_URL)
 
     # url to be directed to when a user logs in using yale's cas
