@@ -10,6 +10,7 @@ const API_ENDPOINT = 'http://localhost:8080';  // constant url, used to fetch da
 export default function FriendSection() {
 
   const [friends, setFriends] = useState(null);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => { async function getFriends () {
 
@@ -36,7 +37,7 @@ export default function FriendSection() {
     }
   }
   getFriends();
-}, []);
+}, [refresh]);
 
     const [isShown, setIsShown] = useState(false);
 
@@ -53,6 +54,7 @@ export default function FriendSection() {
     };
     const closeModal = () => {
         setIsShown(false);
+        setRefresh(!refresh);
       };
 
     return (
