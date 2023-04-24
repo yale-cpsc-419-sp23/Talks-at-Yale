@@ -6,8 +6,8 @@ This is script for getting all the events for departments starting with letter B
 import requests
 from bs4 import BeautifulSoup
 import sys
-from scraping.DateTime import getDate, getTime, getISO
-from scraping.dep_events import all_department_links, get_dep_events
+from flask_api.scraping.DateTime import getDate, getTime, getISO
+from flask_api.scraping.dep_events import all_department_links, get_dep_events
 import json
 import re
 from datetime import datetime

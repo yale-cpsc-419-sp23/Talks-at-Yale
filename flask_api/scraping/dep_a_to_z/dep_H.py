@@ -3,8 +3,8 @@ This is script for getting all the events for departments starting with letter C
 """
 import requests
 from bs4 import BeautifulSoup
-from scraping.DateTime import getDate, getTime, getISO
-from scraping.dep_events import all_department_links, get_dep_events
+from flask_api.scraping.DateTime import getDate, getTime, getISO
+from flask_api.scraping.dep_events import all_department_links, get_dep_events
 
 
 def History(main_url, calendar, dep):
