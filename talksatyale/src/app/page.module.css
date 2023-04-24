@@ -720,11 +720,13 @@
   }
 
   .nameEmail {
+    margin-top: 5%;
     margin-left: 0;
   }
 
   .iconName {
     flex-direction: row-reverse;
+    margin-top: 10%;
   }
 
   .personalSection {
@@ -1077,3 +1079,10 @@
 
 
 }
+
+
+
+
+
+
+
