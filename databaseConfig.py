@@ -1,6 +1,6 @@
 import sqlite3
 import os
-from scraping.main import all_events
+from flask.scraping.main import all_events
 
 
 def searchEventsDatabase(searchTerm=None):
