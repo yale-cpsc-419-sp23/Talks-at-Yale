@@ -62,8 +62,6 @@ def after_login():
         print("Username not found in the response")
 
     net_id = username
-    get_user(net_id)
-    print(net_id)
 
      # Check if a user is already in the database
     user = User.query.filter_by(netid=net_id).first()
@@ -83,7 +81,6 @@ def after_login():
         db.session.commit()
     # Create JWT access token
     access_token = create_access_token(identity=net_id)
-    print(access_token)
     is_production = app.config.get('PRODUCTION', False)
     # Send cookie to the front end
     frontend_url = 'http://localhost:3000'
@@ -96,14 +93,10 @@ def after_login():
 def is_logged_in():
     """A function that Checks if a user is logged in"""
     token = request.headers.get('Authorization')
-    print("Received token:", token)
     identity = get_jwt_identity()
-    print("Identity:", identity)
     if identity:
-        print("In session")
         return jsonify({'logged_in': True, 'username': identity})
     else:
-        print("Logged in is false")
         return jsonify({'logged_in': False}), 200
 
 @bp_users.route('/logout', methods=['GET'])
@@ -121,12 +114,10 @@ def logout():
 def profile():
     """Getting the profile of a user"""
     net_id = get_jwt_identity()
-    print(net_id)
     user = User.query.filter_by(netid=net_id).first()
 
     # get profile details
     profile_json = user.profile()
-    print(profile_json)
     return jsonify(profile_json)
 
 @bp_users.route('/remove_friend', methods=['GET','POST'])
@@ -189,12 +180,10 @@ def list_friends():
 
     # get user via their net id
     user = User.query.filter_by(netid=net_id).first()
-    print("USER ", user)
 
     friends = {}
     if user:
         friends = user.friends
-    # print("FRIENDS ", friends)
     # get events dict
     friends_dict = [user.profile() for user in friends]
     #print("FRIENDS DICT ", friends_dict)
