@@ -98,9 +98,9 @@ export default function EventModal({ event, onClose, favoriteEventIDs, setFavori
             </div>
             <div className={styles.modalSubHeader}>
                 <h4 className={styles.modalDept}>{event.department}</h4>
-                <h4 className={styles.addCalendar}>|</h4>
+                <h4 id ={styles.gcalBar} className={styles.addCalendar}>|</h4>
                 <h4><a id = "gcal" href="" onClick={gcalEvent} className={styles.addCalendar} target="_blank"> add to Google Calendar</a></h4>
-                <h4 className={styles.addCalendar}>|</h4>
+                <h4 id = {styles.gcalBar} className={styles.addCalendar}>|</h4>
                 <h4><a id = "gcal" href={event.link} className={styles.addCalendar} target="_blank"> original event posting</a></h4>
 
             </div>

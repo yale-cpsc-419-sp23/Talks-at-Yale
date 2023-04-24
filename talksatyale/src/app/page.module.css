@@ -627,7 +627,7 @@
   }
 
   .iconName {
-    flex-direction: row-reverse;
+    flex-direction: row;
   }
 
   .cardContainer {
@@ -672,6 +672,18 @@
 }
 
 @media screen and (max-width: 800px) {
+
+  .modalSubHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  #gcalBar {
+    display: none;
+    color: white;
+  }
 
   .friendSearchBar {
     width: 100% !important;
