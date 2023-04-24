@@ -18,7 +18,6 @@ from flask_api.scraping.dep_a_to_z.dep_R import get_all_events_R
 from flask_api.scraping.dep_a_to_z.dep_O import get_all_events_O
 from flask_api.scraping.dep_a_to_z.dep_N import get_all_events_N
 
-
 # List of functions
 functions = [get_all_events_G]
 def all_events():
