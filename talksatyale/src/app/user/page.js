@@ -134,15 +134,12 @@ async function handleLogout() {
 
           </div>
           <div>
-            {loggedIn ? (
-                  <button className={styles.profileLogOut} onClick={handleLogout}>
-                    <h2>Log Out</h2>
-                  </button>
-              ) : (
-                <button className={styles.profileLogOut} onClick={handlelogin}>
-                  <h2>Log In</h2>
-                </button>
-              )}
+            <a href="http://localhost:3000/profile">
+              <button className={styles.profileLogOut}>
+                <h2>Back to Profile</h2>
+              </button>
+            </a>
+
             </div>
         </main>
       </div>
