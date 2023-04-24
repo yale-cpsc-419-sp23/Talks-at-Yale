@@ -620,33 +620,14 @@
 
   .friendCard {
     width: 100% !important;
-    flex-direction: column;
   }
 
   .upcomingContainer {
     width: 100% !important;
   }
 
-  .friendSection {
-    display: flex;
-    width: 30% !important;
-    flex-direction: column;
-  }
-
-  .profileImage {
-    display: none;
-  }
-
-  .nameEmail {
-    margin-left: 0;
-  }
-
   .iconName {
     flex-direction: row-reverse;
-  }
-
-  .personalSection {
-    width: 57%;
   }
 
   .cardContainer {
