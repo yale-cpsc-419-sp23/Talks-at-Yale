@@ -16,6 +16,7 @@ export default function Home() {
   // Keeping track of user status
   const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
+  const [loading, setLoading] = useState(true);
 
   // checking login status
   const checkLoginStatus = async () => {
@@ -45,6 +46,9 @@ export default function Home() {
 
     } catch (error) {
       console.error('Error checking login status:', error);
+    }
+    finally {
+      setLoading(false); 
     }
   };
 
@@ -133,7 +137,9 @@ export default function Home() {
        fetchResults();
      }, []);
 
-  if(loggedIn) {
+  if (loading) {
+      return null; // don't render anything while loading
+    } else if(loggedIn) {
 
 
     return (

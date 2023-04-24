@@ -16,6 +16,7 @@ export default function Profile() {
     // Keeping track of user status
   const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
+  const [loading, setLoading] = useState(true);
 
   // checking login status
   const checkLoginStatus = async () => {
@@ -44,6 +45,9 @@ export default function Profile() {
 
     } catch (error) {
       console.error('Error checking login status:', error);
+    }
+    finally {
+      setLoading(false); 
     }
   };
 
@@ -86,7 +90,9 @@ async function handleLogout() {
     console.error('Error during logout:', error);
   }
 }
-  if(loggedIn){
+  if (loading) {
+      return null; // don't render anything while loading
+    } else if(loggedIn) {
 
     return (
       <div className={styles.pageWrapper}>
