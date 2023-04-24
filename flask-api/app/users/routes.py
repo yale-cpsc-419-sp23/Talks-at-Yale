@@ -173,19 +173,9 @@ def add_friend():
     if not user or not added_friend:
         return jsonify({"error": "User not found"}), 404
 
-    # User can only add friends from their pending friend list
-    # Pending friends list has been discontinued
-    # if added_friend not in user.pending:
-    #     return jsonify({"message": "Your friend must request to be friends first"})
-
     elif added_friend in user.friends:
         return jsonify({"message": "You're already friends with this user!"})
     # removes user from other user's friends pending list if they're on it
-    # if user in added_friend.pending:
-    #     added_friend.pending.remove(user)
-
-    # adds user to friends list, then returns
-    # user.pending_friends.remove(added_friend)
     user.friends.add(added_friend)
     db.session.commit()
 
@@ -210,35 +200,6 @@ def list_friends():
     #print("FRIENDS DICT ", friends_dict)
     return jsonify(friends_dict)
 
-# @bp_users.route('/request_friend', methods=['GET','POST'])
-# @jwt_required(optional=True)
-# def request_friend():
-#     """User requests to be friends with other person via email address"""
-#     net_id = get_jwt_identity()
-#     email = request.args.get('email', '')
-
-#     # get user
-#     user = User.query.filter_by(netid=net_id).first()
-#     # get user to request friends
-#     added_friend = User.query.filter_by(email=email).first()
-
-#     # both users should be found, If not there's an error
-#     if not user or not event:
-#         return jsonify({"error": "User not found"}), 404
-
-#     # Checks if user is alread a friend or is pending
-#     if user in added_friend.friends:
-#         return jsonify({"message": "You're already friends with this user!"})
-
-#     elif user in added_friend.pending_friends:
-#         return jsonify({"message": "Your friend request has already been sent!"})
-
-#     # adds user to pending friends list, then returns
-#     added_friend.pending_friends.add(user)
-#     db.session.commit()
-
-#     return jsonify({"message": "Friend request sent!"})
-
 @bp_users.route('/search_people', methods=['GET'])
 @jwt_required(optional=True)
 def search():
@@ -256,12 +217,14 @@ def search():
     if selected_sort == 'My Friends':
         # get user's friends
         if query:
+            query = f"%{'*'.join(query.split())}%"
             users = user.friends.filter((User.first_name.ilike(f"%{query}%")) | (User.last_name.ilike(f"%{query}%")) | (User.netid.ilike(f"%{query}%"))).all()
         else:
             users = user.friends.all()
     elif selected_sort == 'All People':
         # get all users except the current user
         if query:
+            query = f"%{'*'.join(query.split())}%"
             users = User.query.filter((User.first_name.ilike(f"%{query}%")) | (User.last_name.ilike(f"%{query}%")) | (User.netid.ilike(f"%{query}%")), User.id != user.id).all()
         else:
             users = User.query.filter(User.id != user.id).all()
@@ -307,3 +270,18 @@ def get_user(netid):
 
     person = api.person(filters={'netid': netid})
     return person
+
+####----Helper Functions----##
+
+def get_all_people():
+    """Getting all yale personnel"""
+    token = app.config['API_TOKEN']
+    api = yalies.API(token)
+
+    filters = {
+        "office_building": "A.K. Watson Hall"
+    }
+    people = api.people(filters=filters)
+
+    return people
+
