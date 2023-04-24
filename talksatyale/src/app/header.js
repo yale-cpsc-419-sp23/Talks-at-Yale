@@ -7,6 +7,8 @@ import { FaCaretDown } from 'react-icons/fa';
 import { FaTimes } from 'react-icons/fa';
 
 const API_ENDPOINT = 'https://cpsc-419-group1.herokuapp.com';  // constant url, used to fetch data from backend
+const FRONTEND_URL = 'https://dynamic-peony-fc31a3.netlify.app/'
+const FRONTEND_PROFILE = FRONTEND_URL + 'profile'
 
 
 export default function Header(props) {
@@ -210,7 +212,7 @@ export default function Header(props) {
 				<div className={styles.headerRight}>
 					{loggedIn ? (
 						<>
-							<a href="http://localhost:3000/profile">
+							<a href={FRONTEND_PROFILE}>
 								<button className={styles.profileButton}>
 									<h2>Profile</h2>
 								</button>
