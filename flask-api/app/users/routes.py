@@ -62,8 +62,6 @@ def after_login():
         print("Username not found in the response")
 
     net_id = username
-    get_user(net_id)
-    print(net_id)
 
      # Check if a user is already in the database
     user = User.query.filter_by(netid=net_id).first()
@@ -83,7 +81,6 @@ def after_login():
         db.session.commit()
     # Create JWT access token
     access_token = create_access_token(identity=net_id)
-    print(access_token)
     is_production = app.config.get('PRODUCTION', False)
     # Send cookie to the front end
     frontend_url = 'http://localhost:3000'
@@ -96,14 +93,10 @@ def after_login():
 def is_logged_in():
     """A function that Checks if a user is logged in"""
     token = request.headers.get('Authorization')
-    print("Received token:", token)
     identity = get_jwt_identity()
-    print("Identity:", identity)
     if identity:
-        print("In session")
         return jsonify({'logged_in': True, 'username': identity})
     else:
-        print("Logged in is false")
         return jsonify({'logged_in': False}), 200
 
 @bp_users.route('/logout', methods=['GET'])
@@ -121,12 +114,10 @@ def logout():
 def profile():
     """Getting the profile of a user"""
     net_id = get_jwt_identity()
-    print(net_id)
     user = User.query.filter_by(netid=net_id).first()
 
     # get profile details
     profile_json = user.profile()
-    print(profile_json)
     return jsonify(profile_json)
 
 @bp_users.route('/remove_friend', methods=['GET','POST'])
@@ -173,19 +164,9 @@ def add_friend():
     if not user or not added_friend:
         return jsonify({"error": "User not found"}), 404
 
-    # User can only add friends from their pending friend list
-    # Pending friends list has been discontinued
-    # if added_friend not in user.pending:
-    #     return jsonify({"message": "Your friend must request to be friends first"})
-
     elif added_friend in user.friends:
         return jsonify({"message": "You're already friends with this user!"})
     # removes user from other user's friends pending list if they're on it
-    # if user in added_friend.pending:
-    #     added_friend.pending.remove(user)
-
-    # adds user to friends list, then returns
-    # user.pending_friends.remove(added_friend)
     user.friends.add(added_friend)
     db.session.commit()
 
@@ -199,45 +180,14 @@ def list_friends():
 
     # get user via their net id
     user = User.query.filter_by(netid=net_id).first()
-    print("USER ", user)
 
     friends = {}
     if user:
         friends = user.friends
-    # print("FRIENDS ", friends)
     # get events dict
     friends_dict = [user.profile() for user in friends]
     #print("FRIENDS DICT ", friends_dict)
     return jsonify(friends_dict)
-
-# @bp_users.route('/request_friend', methods=['GET','POST'])
-# @jwt_required(optional=True)
-# def request_friend():
-#     """User requests to be friends with other person via email address"""
-#     net_id = get_jwt_identity()
-#     email = request.args.get('email', '')
-
-#     # get user
-#     user = User.query.filter_by(netid=net_id).first()
-#     # get user to request friends
-#     added_friend = User.query.filter_by(email=email).first()
-
-#     # both users should be found, If not there's an error
-#     if not user or not event:
-#         return jsonify({"error": "User not found"}), 404
-
-#     # Checks if user is alread a friend or is pending
-#     if user in added_friend.friends:
-#         return jsonify({"message": "You're already friends with this user!"})
-
-#     elif user in added_friend.pending_friends:
-#         return jsonify({"message": "Your friend request has already been sent!"})
-
-#     # adds user to pending friends list, then returns
-#     added_friend.pending_friends.add(user)
-#     db.session.commit()
-
-#     return jsonify({"message": "Friend request sent!"})
 
 @bp_users.route('/search_people', methods=['GET'])
 @jwt_required(optional=True)
@@ -256,12 +206,14 @@ def search():
     if selected_sort == 'My Friends':
         # get user's friends
         if query:
+            query = f"%{'*'.join(query.split())}%"
             users = user.friends.filter((User.first_name.ilike(f"%{query}%")) | (User.last_name.ilike(f"%{query}%")) | (User.netid.ilike(f"%{query}%"))).all()
         else:
             users = user.friends.all()
     elif selected_sort == 'All People':
         # get all users except the current user
         if query:
+            query = f"%{'*'.join(query.split())}%"
             users = User.query.filter((User.first_name.ilike(f"%{query}%")) | (User.last_name.ilike(f"%{query}%")) | (User.netid.ilike(f"%{query}%")), User.id != user.id).all()
         else:
             users = User.query.filter(User.id != user.id).all()
@@ -307,3 +259,18 @@ def get_user(netid):
 
     person = api.person(filters={'netid': netid})
     return person
+
+####----Helper Functions----##
+
+def get_all_people():
+    """Getting all yale personnel"""
+    token = app.config['API_TOKEN']
+    api = yalies.API(token)
+
+    filters = {
+        "office_building": "A.K. Watson Hall"
+    }
+    people = api.people(filters=filters)
+
+    return people
+
