@@ -12,6 +12,16 @@ import React, { useState, useEffect, use } from 'react';
 // Handles card clicked
 
 export default function FriendCard({ user, friends, setFriends }) {
+
+	const [imgSrc, setImgSrc] = useState(user.photo_link);
+
+	useEffect(() => {
+		const img = new window.Image();
+		img.src = user.photo_link;
+		img.onload = () => setImgSrc(user.photo_link);
+		img.onerror = () => setImgSrc("https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small/profile-icon-design-free-vector.jpg");
+	  }, [user.photo_link]);
+
 	// Add friend
 	const handleAddFriend = async (email) => {
 		try {
@@ -67,7 +77,11 @@ export default function FriendCard({ user, friends, setFriends }) {
 
   return (
     <div className={styles.friendCard}>
-        <img className={styles.friendCardImage} alt={user.first_name} src={user.photo_link}/>
+        <img
+				className={styles.friendCardImage}
+				alt={user.first_name}
+				src={imgSrc}
+				/>
         <h2 className={styles.friendCardName}>{user.first_name} {user.last_name}</h2>
         <div className={styles.friendButtonContainer}>
             {friends.some(friend => friend.email === user.email) ? (

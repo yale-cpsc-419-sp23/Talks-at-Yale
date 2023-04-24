@@ -113,7 +113,7 @@ export default function FriendModal({ onClose }) {
 					</div>
 				</div>
 				<div className={styles.friendListContainer}>
-				{searchResults.map((user) => (
+				{searchResults?.map((user) => (
 						<FriendCard user={user} friends={friends} setFriends={setFriends}/>
 				))}
 				</div>

@@ -57,6 +57,19 @@ export default function FriendSection() {
         setRefresh(!refresh);
       };
 
+      function FriendImage({ src, alt }) {
+        const [imgSrc, setImgSrc] = useState(src);
+
+        useEffect(() => {
+          const img = new window.Image();
+          img.src = src;
+          img.onload = () => setImgSrc(src);
+          img.onerror = () => setImgSrc("https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small/profile-icon-design-free-vector.jpg");
+        }, [src]);
+
+        return <img className={styles.friendImages} src={imgSrc} alt={alt} />;
+      }
+
     return (
       <div className={styles.friendSection}>
         {isShown && (
@@ -65,7 +78,7 @@ export default function FriendSection() {
         <div className={styles.myFriends}>
           {friends?.map(friend => (
             <a href={`http://localhost:3000/user?net_id=${friend.netid}`} key={friend.netid}>
-              <img className={styles.friendImages} src={friend.photo_link}/>
+              <FriendImage src={friend.photo_link} alt={friend.netid} />
             </a>
           ))}
         </div>
