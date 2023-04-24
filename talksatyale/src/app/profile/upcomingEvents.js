@@ -5,7 +5,7 @@ import React, { useState, useEffect, use } from 'react'
 import axios from 'axios'
 import ProfileEventCard from './profileEventCard';
 
-const API_ENDPOINT = 'https://cpsc-419-group1.herokuapp.com';  // constant url, used to fetch data from backend
+const API_ENDPOINT = 'http://localhost:8080';  // constant url, used to fetch data from backend
 
 export default function UpcomingEvents({props}) {
   console.log("Component but just page!");
